@@ -125,6 +125,7 @@
     <string name="power">Power</string>
     <string name="menu">Menu</string>
     <string name="closed_captions">Sous-titres</string>
+    <string name="tv">TV</string>
     <!-- Mouse -->
     <string name="mouse">Souris</string>
     <string name="mouse_click_left">Clique gauche</string>

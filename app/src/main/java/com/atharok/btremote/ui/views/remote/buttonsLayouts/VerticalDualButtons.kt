@@ -21,22 +21,26 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.Dp
 import com.atharok.btremote.R
 import com.atharok.btremote.domain.entity.remoteInput.RemoteInput
-import com.atharok.btremote.ui.components.DefaultElevatedCard
 import com.atharok.btremote.ui.views.remoteButtons.RemoteButtonContentTemplate
+import com.atharok.btremote.ui.views.remoteButtons.RemoteButtonSkin
 
 @Composable
 private fun VerticalLayout(
     contentUp: @Composable () -> Unit,
     contentDown: @Composable () -> Unit,
     modifier: Modifier = Modifier,
-    shape: Shape = RectangleShape
+    shape: Shape = RectangleShape,
+    elevation: Dp = dimensionResource(id = R.dimen.elevation_1)
 ) {
-    DefaultElevatedCard(
+    RemoteButtonSkin(
         modifier = modifier,
-        shape = shape
+        shape = shape,
+        elevation = elevation
     ) {
         Column(
             modifier = Modifier.fillMaxHeight(),
@@ -119,7 +123,7 @@ fun VolumeVerticalButtons(
 }
 
 @Composable
-fun ChannelVerticalButtons(
+fun TVChannelVerticalButtons(
     sendReport: (ByteArray) -> Unit,
     modifier: Modifier = Modifier,
     shape: Shape = RectangleShape

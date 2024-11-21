@@ -18,11 +18,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.Dp
 import com.atharok.btremote.R
 import com.atharok.btremote.domain.entity.remoteInput.RemoteInput
-import com.atharok.btremote.ui.components.DefaultElevatedCard
 import com.atharok.btremote.ui.views.remoteButtons.RemoteButtonContentTemplate
+import com.atharok.btremote.ui.views.remoteButtons.RemoteButtonSkin
 
 @Composable
 private fun MultimediaLayout(
@@ -30,11 +32,13 @@ private fun MultimediaLayout(
     playPause: @Composable () -> Unit,
     next: @Composable () -> Unit,
     modifier: Modifier = Modifier,
-    shape: Shape = RectangleShape
+    shape: Shape = RectangleShape,
+    elevation: Dp = dimensionResource(id = R.dimen.elevation_1)
 ) {
-    DefaultElevatedCard(
+    RemoteButtonSkin(
         modifier = modifier,
-        shape = shape
+        shape = shape,
+        elevation = elevation
     ) {
         Row(
             modifier = Modifier.fillMaxWidth(),
@@ -60,7 +64,8 @@ private fun MultimediaLayout(
 fun MultimediaLayout(
     sendReport: (ByteArray) -> Unit,
     modifier: Modifier = Modifier,
-    shape: Shape = RectangleShape
+    shape: Shape = RectangleShape,
+    elevation: Dp = dimensionResource(id = R.dimen.elevation_1)
 ) {
     MultimediaLayout(
         previous = {
@@ -73,7 +78,8 @@ fun MultimediaLayout(
             MultimediaNextButtonContent(sendReport = sendReport, shape = shape)
         },
         modifier = modifier,
-        shape = shape
+        shape = shape,
+        elevation = elevation
     )
 }
 

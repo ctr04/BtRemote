@@ -63,6 +63,7 @@ import com.atharok.btremote.ui.views.keyboard.VirtualKeyboardView
 import com.atharok.btremote.ui.views.mouse.MousePadLayout
 import com.atharok.btremote.ui.views.remote.MinimalistRemoteView
 import com.atharok.btremote.ui.views.remote.RemoteView
+import com.atharok.btremote.ui.views.remote.buttonsLayouts.TVChannelDialog
 import com.atharok.btremote.ui.views.remoteButtons.DirectionalButtons
 
 private enum class NavigationToggle {
@@ -87,99 +88,16 @@ fun RemoteScreen(
     sendTextReport: (String, VirtualKeyboardLayout) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    StatefulRemoteScreen(
-        isBluetoothServiceStarted = isBluetoothServiceStarted,
-        bluetoothDeviceHidConnectionState = bluetoothDeviceHidConnectionState,
-        navigateUp = navigateUp,
-        closeApp = closeApp
-    ) {
+    val configuration = LocalConfiguration.current
 
-        var navigationToggle by rememberSaveable {
-            mutableStateOf(NavigationToggle.DIRECTION)
-        }
+    var navigationToggle by rememberSaveable { mutableStateOf(NavigationToggle.DIRECTION) }
 
-        var showKeyboard: Boolean by remember { mutableStateOf(false) }
+    var showKeyboard: Boolean by remember { mutableStateOf(false) }
 
-        var showHelpBottomSheet: Boolean by remember { mutableStateOf(false) }
+    var showHelpBottomSheet: Boolean by remember { mutableStateOf(false) }
 
-        val useMinimalistRemote: Boolean by settingsViewModel.useMinimalistRemote
-            .collectAsStateWithLifecycle(initialValue = false)
-
-        StatelessRemoteScreen(
-            deviceName = deviceName,
-            topBarActions = {
-                TopBarActions(
-                    openSettings = openSettings,
-                    disconnectDevice = disconnectDevice,
-                    navigationToggle = navigationToggle,
-                    onNavigationToggleChanged = { navigationToggle = it },
-                    showKeyboard = showKeyboard,
-                    onShowKeyboardChanged = { showKeyboard = it },
-                    showHelpBottomSheet = showHelpBottomSheet,
-                    onShowHelpBottomSheetChanged = { showHelpBottomSheet = it },
-                    sendRemoteKeyReport = sendRemoteKeyReport,
-                    showBrightnessButtons = !useMinimalistRemote
-                )
-            },
-            remoteLayout = {
-                if(useMinimalistRemote) {
-                    MinimalistRemoteView(
-                        sendRemoteKeyReport = sendRemoteKeyReport,
-                        modifier = Modifier.padding(dimensionResource(id = R.dimen.remote_button_padding))
-                    )
-                } else {
-                    RemoteView(
-                        sendRemoteKeyReport = sendRemoteKeyReport,
-                        sendNumberKeyReport = sendKeyboardKeyReport,
-                        modifier = Modifier.padding(dimensionResource(id = R.dimen.remote_button_padding))
-                    )
-                }
-            },
-            navigationLayout = {
-                NavigationLayout(
-                    settingsViewModel = settingsViewModel,
-                    sendRemoteKeyReport = sendRemoteKeyReport,
-                    sendMouseKeyReport = sendMouseKeyReport,
-                    navigationToggle = navigationToggle
-                )
-            },
-            keyboardView = {
-                KeyboardModalSheet(
-                    settingsViewModel = settingsViewModel,
-                    sendKeyboardKeyReport = sendKeyboardKeyReport,
-                    sendTextReport = sendTextReport,
-                    showKeyboard = showKeyboard,
-                    onShowKeyboardChanged = { showKeyboard = it }
-                )
-            },
-            helpModalBottomSheet = {
-                HelpBottomSheet(
-                    showHelpBottomSheet = showHelpBottomSheet,
-                    onShowHelpBottomSheetChanged = { showHelpBottomSheet = it }
-                )
-            },
-            modifier = modifier
-        )
-
-        if(bluetoothDeviceHidConnectionState.state == BluetoothHidDevice.STATE_DISCONNECTING) {
-            LoadingDialog(
-                title = stringResource(id = R.string.connection),
-                message = stringResource(id = R.string.bluetooth_device_disconnecting_message, bluetoothDeviceHidConnectionState.deviceName),
-                buttonText = stringResource(id = R.string.disconnect),
-                onButtonClick = forceDisconnectDevice
-            )
-        }
-    }
-}
-
-@Composable
-private fun StatefulRemoteScreen(
-    isBluetoothServiceStarted: Boolean,
-    bluetoothDeviceHidConnectionState: DeviceHidConnectionState,
-    navigateUp: () -> Unit,
-    closeApp: () -> Unit,
-    content: @Composable () -> Unit
-) {
+    val useMinimalistRemote: Boolean by settingsViewModel.useMinimalistRemote
+        .collectAsStateWithLifecycle(initialValue = false)
 
     BackHandler(enabled = true, onBack = closeApp)
 
@@ -197,18 +115,90 @@ private fun StatefulRemoteScreen(
         onDispose {}
     }
 
-    content()
+    StatelessRemoteScreen(
+        deviceName = deviceName,
+        bluetoothDeviceHidConnectionState = bluetoothDeviceHidConnectionState,
+        forceDisconnectDevice = forceDisconnectDevice,
+        showHelpBottomSheet = showHelpBottomSheet,
+        onShowHelpBottomSheetChanged = { showHelpBottomSheet = it },
+        isLandscapeMode = configuration.orientation == Configuration.ORIENTATION_LANDSCAPE,
+        topBarActions = {
+            TopBarActions(
+                openSettings = openSettings,
+                disconnectDevice = disconnectDevice,
+                navigationToggle = navigationToggle,
+                onNavigationToggleChanged = { navigationToggle = it },
+                showKeyboard = showKeyboard,
+                onShowKeyboardChanged = { showKeyboard = it },
+                showHelpBottomSheet = showHelpBottomSheet,
+                onShowHelpBottomSheetChanged = { showHelpBottomSheet = it },
+                sendRemoteKeyReport = sendRemoteKeyReport,
+                showBrightnessButtons = !useMinimalistRemote
+            )
+        },
+        remoteLayout = {
+            if(useMinimalistRemote) {
+                var showTVChannelButtons: Boolean by remember { mutableStateOf(false) }
+
+                MinimalistRemoteView(
+                    sendRemoteKeyReport = sendRemoteKeyReport,
+                    showTVChannelButtons = {
+                        showTVChannelButtons = !showTVChannelButtons
+                    },
+                    modifier = Modifier.padding(dimensionResource(id = R.dimen.remote_button_padding))
+                )
+
+                if(showTVChannelButtons) {
+                    TVChannelDialog(
+                        sendRemoteKeyReport = sendRemoteKeyReport,
+                        sendNumberKeyReport = sendKeyboardKeyReport,
+                        onDismissRequest = {
+                            showTVChannelButtons = false
+                        }
+                    )
+                }
+            } else {
+                RemoteView(
+                    sendRemoteKeyReport = sendRemoteKeyReport,
+                    sendNumberKeyReport = sendKeyboardKeyReport,
+                    modifier = Modifier.padding(dimensionResource(id = R.dimen.remote_button_padding))
+                )
+            }
+        },
+        navigationLayout = {
+            NavigationLayout(
+                settingsViewModel = settingsViewModel,
+                sendRemoteKeyReport = sendRemoteKeyReport,
+                sendMouseKeyReport = sendMouseKeyReport,
+                navigationToggle = navigationToggle
+            )
+        },
+        keyboardView = {
+            KeyboardModalSheet(
+                settingsViewModel = settingsViewModel,
+                sendKeyboardKeyReport = sendKeyboardKeyReport,
+                sendTextReport = sendTextReport,
+                showKeyboard = showKeyboard,
+                onShowKeyboardChanged = { showKeyboard = it }
+            )
+        },
+        modifier = modifier
+    )
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun StatelessRemoteScreen(
     deviceName: String,
+    bluetoothDeviceHidConnectionState: DeviceHidConnectionState,
+    forceDisconnectDevice: () -> Unit,
+    showHelpBottomSheet: Boolean,
+    onShowHelpBottomSheetChanged: (Boolean) -> Unit,
+    isLandscapeMode: Boolean,
     topBarActions: @Composable (RowScope.() -> Unit),
     remoteLayout: @Composable () -> Unit,
     navigationLayout: @Composable () -> Unit,
     keyboardView: @Composable () -> Unit,
-    helpModalBottomSheet: @Composable () -> Unit,
     modifier: Modifier = Modifier
 ) {
     AppScaffold(
@@ -218,10 +208,7 @@ private fun StatelessRemoteScreen(
         topBarActions = topBarActions
     ) { innerPadding ->
 
-        val configuration = LocalConfiguration.current
-        val isLandscape = configuration.orientation == Configuration.ORIENTATION_LANDSCAPE
-
-        if(isLandscape) {
+        if(isLandscapeMode) {
             RemoteLandscapeView(
                 remoteLayout = remoteLayout,
                 navigationLayout = navigationLayout,
@@ -239,11 +226,26 @@ private fun StatelessRemoteScreen(
             )
         }
 
-        // ---- ModalBottomSheet ----
-
-        keyboardView()
-
-        helpModalBottomSheet()
+        // Dialog / ModalBottomSheet
+        when {
+            bluetoothDeviceHidConnectionState.state == BluetoothHidDevice.STATE_CONNECTING -> {
+                LoadingDialog(
+                    title = stringResource(id = R.string.connection),
+                    message = stringResource(id = R.string.bluetooth_device_disconnecting_message, bluetoothDeviceHidConnectionState.deviceName),
+                    buttonText = stringResource(id = R.string.disconnect),
+                    onButtonClick = forceDisconnectDevice
+                )
+            }
+            showHelpBottomSheet -> {
+                RemoteScreenHelpModalBottomSheet(
+                    onDismissRequest = { onShowHelpBottomSheetChanged(false) },
+                    modifier = modifier
+                )
+            }
+            else -> {
+                keyboardView()
+            }
+        }
     }
 }
 
@@ -383,7 +385,6 @@ private fun KeyboardModalSheet(
             onShowKeyboardLayoutBottomSheetChanged = onShowKeyboardChanged
         )
     } else {
-
         val mustClearInputField: Boolean by settingsViewModel.mustClearInputField
             .collectAsStateWithLifecycle(initialValue = false)
 
@@ -401,20 +402,6 @@ private fun KeyboardModalSheet(
             sendTextReport = { sendTextReport(it, virtualKeyboardLayout) },
             showKeyboardBottomSheet = showKeyboard,
             onShowKeyboardBottomSheetChanged = onShowKeyboardChanged
-        )
-    }
-}
-
-@Composable
-private fun HelpBottomSheet(
-    showHelpBottomSheet: Boolean,
-    onShowHelpBottomSheetChanged: (Boolean) -> Unit,
-    modifier: Modifier = Modifier
-) {
-    if(showHelpBottomSheet) {
-        RemoteScreenHelpModalBottomSheet(
-            onDismissRequest = { onShowHelpBottomSheetChanged(false) },
-            modifier = modifier
         )
     }
 }

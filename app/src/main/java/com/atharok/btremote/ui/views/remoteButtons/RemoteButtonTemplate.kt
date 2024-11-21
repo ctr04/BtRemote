@@ -6,6 +6,7 @@ import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.PressInteraction
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
@@ -13,9 +14,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.clipToBounds
+import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalHapticFeedback
+import androidx.compose.ui.res.dimensionResource
+import androidx.compose.ui.unit.Dp
+import com.atharok.btremote.R
 import com.atharok.btremote.common.utils.REMOTE_INPUT_NONE
 
 @Composable
@@ -84,4 +89,21 @@ fun RemoteButtonContentTemplate(
         shape = shape,
         content = content
     )
+}
+
+@Composable
+fun RemoteButtonSkin(
+    modifier: Modifier = Modifier,
+    shape: Shape = RectangleShape,
+    elevation: Dp = dimensionResource(id = R.dimen.elevation_1),
+    content: @Composable () -> Unit
+) {
+    Surface(
+        modifier = modifier,
+        shape = shape,
+        tonalElevation = elevation,
+        shadowElevation = dimensionResource(id = R.dimen.elevation_1)
+    ) {
+        content()
+    }
 }

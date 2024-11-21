@@ -23,31 +23,52 @@ import androidx.compose.ui.res.dimensionResource
 import com.atharok.btremote.R
 
 @Composable
-fun SimpleDialog(
-    confirmButtonText: String?,
-    dismissButtonText: String?,
-    onConfirmation: () -> Unit,
-    onDismissRequest: () -> Unit,
-    dialogTitle: String,
-    dialogText: String
+fun TemplateDialog(
+    title: @Composable () -> Unit,
+    content: @Composable () -> Unit,
+    confirmButtonText: String? = null,
+    onConfirmation: () -> Unit = {},
+    dismissButtonText: String? = null,
+    onDismissRequest: () -> Unit = {},
+    modifier: Modifier = Modifier
 ) {
     AlertDialog(
-        title = {
-            TextLarge(text = dialogTitle)
-        },
-        text = {
-            TextNormal(text = dialogText)
-        },
-        onDismissRequest = {
-            onDismissRequest()
-        },
+        title = title,
+        text = content,
+        onDismissRequest = onDismissRequest,
         confirmButton = {
             DialogButton(text = confirmButtonText, action = onConfirmation)
         },
         dismissButton = {
             DialogButton(text = dismissButtonText, action = onDismissRequest)
         },
-        containerColor = MaterialTheme.colorScheme.surfaceColorAtElevation(dimensionResource(id = R.dimen.elevation_2))
+        containerColor = MaterialTheme.colorScheme.surfaceColorAtElevation(dimensionResource(id = R.dimen.elevation_1)),
+        modifier = modifier
+    )
+}
+
+@Composable
+fun SimpleDialog(
+    confirmButtonText: String?,
+    dismissButtonText: String?,
+    onConfirmation: () -> Unit,
+    onDismissRequest: () -> Unit,
+    dialogTitle: String,
+    dialogText: String,
+    modifier: Modifier = Modifier
+) {
+    TemplateDialog(
+        title = {
+            TextLarge(text = dialogTitle)
+        },
+        content = {
+            TextNormal(text = dialogText)
+        },
+        confirmButtonText = confirmButtonText,
+        onConfirmation = onConfirmation,
+        dismissButtonText = dismissButtonText,
+        onDismissRequest = onDismissRequest,
+        modifier = modifier
     )
 }
 
@@ -63,8 +84,7 @@ fun ListDialog(
     defaultItemIndex: Int = 0
 ) {
     val selected = remember { mutableIntStateOf(defaultItemIndex) }
-
-    AlertDialog(
+    TemplateDialog(
         title = {
             Column(modifier = Modifier.fillMaxWidth()) {
                 TextLarge(text = dialogTitle)
@@ -76,7 +96,7 @@ fun ListDialog(
                 }
             }
         },
-        text = {
+        content = {
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -101,19 +121,12 @@ fun ListDialog(
                 }
             }
         },
-        onDismissRequest = onDismissRequest,
-        confirmButton = {
-            DialogButton(
-                text = confirmButtonText,
-                action = {
-                    onConfirmation(selected.intValue)
-                }
-            )
+        confirmButtonText = confirmButtonText,
+        onConfirmation = {
+            onConfirmation(selected.intValue)
         },
-        dismissButton = {
-            DialogButton(text = dismissButtonText, action = onDismissRequest)
-        },
-        containerColor = MaterialTheme.colorScheme.surfaceColorAtElevation(dimensionResource(id = R.dimen.elevation_2))
+        dismissButtonText = dismissButtonText,
+        onDismissRequest = onDismissRequest
     )
 }
 
@@ -124,21 +137,19 @@ fun LoadingDialog(
     buttonText: String,
     onButtonClick: () -> Unit
 ) {
-    AlertDialog(
+    TemplateDialog(
         title = {
             TextLarge(text = title)
         },
-        text = {
+        content = {
             LoadingView(
                 message = message,
                 modifier = Modifier.padding(top = dimensionResource(id = R.dimen.padding_large))
             )
         },
-        onDismissRequest = onButtonClick,
-        confirmButton = {
-            DialogButton(text = buttonText, action = onButtonClick)
-        },
-        containerColor = MaterialTheme.colorScheme.surfaceColorAtElevation(dimensionResource(id = R.dimen.elevation_2))
+        confirmButtonText = buttonText,
+        onConfirmation = onButtonClick,
+        onDismissRequest = onButtonClick
     )
 }
 

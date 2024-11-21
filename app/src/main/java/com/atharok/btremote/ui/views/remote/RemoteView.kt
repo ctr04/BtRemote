@@ -14,22 +14,23 @@ import androidx.compose.ui.unit.Dp
 import com.atharok.btremote.R
 import com.atharok.btremote.ui.views.remote.buttonsLayouts.BackButton
 import com.atharok.btremote.ui.views.remote.buttonsLayouts.BrightnessVerticalButtons
-import com.atharok.btremote.ui.views.remote.buttonsLayouts.ChannelButton0
-import com.atharok.btremote.ui.views.remote.buttonsLayouts.ChannelButton1
-import com.atharok.btremote.ui.views.remote.buttonsLayouts.ChannelButton2
-import com.atharok.btremote.ui.views.remote.buttonsLayouts.ChannelButton3
-import com.atharok.btremote.ui.views.remote.buttonsLayouts.ChannelButton4
-import com.atharok.btremote.ui.views.remote.buttonsLayouts.ChannelButton5
-import com.atharok.btremote.ui.views.remote.buttonsLayouts.ChannelButton6
-import com.atharok.btremote.ui.views.remote.buttonsLayouts.ChannelButton7
-import com.atharok.btremote.ui.views.remote.buttonsLayouts.ChannelButton8
-import com.atharok.btremote.ui.views.remote.buttonsLayouts.ChannelButton9
-import com.atharok.btremote.ui.views.remote.buttonsLayouts.ChannelVerticalButtons
 import com.atharok.btremote.ui.views.remote.buttonsLayouts.ClosedCaptionsButton
 import com.atharok.btremote.ui.views.remote.buttonsLayouts.HomeButton
 import com.atharok.btremote.ui.views.remote.buttonsLayouts.MenuButton
 import com.atharok.btremote.ui.views.remote.buttonsLayouts.MultimediaLayout
 import com.atharok.btremote.ui.views.remote.buttonsLayouts.PowerButton
+import com.atharok.btremote.ui.views.remote.buttonsLayouts.TVChannelButton
+import com.atharok.btremote.ui.views.remote.buttonsLayouts.TVChannelButton0
+import com.atharok.btremote.ui.views.remote.buttonsLayouts.TVChannelButton1
+import com.atharok.btremote.ui.views.remote.buttonsLayouts.TVChannelButton2
+import com.atharok.btremote.ui.views.remote.buttonsLayouts.TVChannelButton3
+import com.atharok.btremote.ui.views.remote.buttonsLayouts.TVChannelButton4
+import com.atharok.btremote.ui.views.remote.buttonsLayouts.TVChannelButton5
+import com.atharok.btremote.ui.views.remote.buttonsLayouts.TVChannelButton6
+import com.atharok.btremote.ui.views.remote.buttonsLayouts.TVChannelButton7
+import com.atharok.btremote.ui.views.remote.buttonsLayouts.TVChannelButton8
+import com.atharok.btremote.ui.views.remote.buttonsLayouts.TVChannelButton9
+import com.atharok.btremote.ui.views.remote.buttonsLayouts.TVChannelVerticalButtons
 import com.atharok.btremote.ui.views.remote.buttonsLayouts.VolumeMuteButton
 import com.atharok.btremote.ui.views.remote.buttonsLayouts.VolumeVerticalButtons
 
@@ -91,7 +92,7 @@ fun RemoteView(
             Column(
                 modifier = Modifier.weight(1f)
             ) {
-                ChannelButton1(
+                TVChannelButton1(
                     sendReport = sendNumberKeyReport,
                     modifier = Modifier
                         .weight(1f)
@@ -99,7 +100,7 @@ fun RemoteView(
                     shape = shape
                 )
 
-                ChannelButton4(
+                TVChannelButton4(
                     sendReport = sendNumberKeyReport,
                     modifier = Modifier
                         .weight(1f)
@@ -107,7 +108,7 @@ fun RemoteView(
                     shape = shape
                 )
 
-                ChannelButton7(
+                TVChannelButton7(
                     sendReport = sendNumberKeyReport,
                     modifier = Modifier
                         .weight(1f)
@@ -127,7 +128,7 @@ fun RemoteView(
             Column(
                 modifier = Modifier.weight(1f)
             ) {
-                ChannelButton2(
+                TVChannelButton2(
                     sendReport = sendNumberKeyReport,
                     modifier = Modifier
                         .weight(1f)
@@ -135,7 +136,7 @@ fun RemoteView(
                     shape = shape
                 )
 
-                ChannelButton5(
+                TVChannelButton5(
                     sendReport = sendNumberKeyReport,
                     modifier = Modifier
                         .weight(1f)
@@ -143,7 +144,7 @@ fun RemoteView(
                     shape = shape
                 )
 
-                ChannelButton8(
+                TVChannelButton8(
                     sendReport = sendNumberKeyReport,
                     modifier = Modifier
                         .weight(1f)
@@ -151,7 +152,7 @@ fun RemoteView(
                     shape = shape
                 )
 
-                ChannelButton0(
+                TVChannelButton0(
                     sendReport = sendNumberKeyReport,
                     modifier = Modifier
                         .weight(1f)
@@ -163,7 +164,7 @@ fun RemoteView(
             Column(
                 modifier = Modifier.weight(1f)
             ) {
-                ChannelButton3(
+                TVChannelButton3(
                     sendReport = sendNumberKeyReport,
                     modifier = Modifier
                         .weight(1f)
@@ -171,7 +172,7 @@ fun RemoteView(
                     shape = shape
                 )
 
-                ChannelButton6(
+                TVChannelButton6(
                     sendReport = sendNumberKeyReport,
                     modifier = Modifier
                         .weight(1f)
@@ -179,7 +180,7 @@ fun RemoteView(
                     shape = shape
                 )
 
-                ChannelButton9(
+                TVChannelButton9(
                     sendReport = sendNumberKeyReport,
                     modifier = Modifier
                         .weight(1f)
@@ -199,7 +200,7 @@ fun RemoteView(
             Column(
                 modifier = Modifier.weight(1f)
             ) {
-                ChannelVerticalButtons(
+                TVChannelVerticalButtons(
                     sendReport = sendRemoteKeyReport,
                     modifier = Modifier
                         .weight(2f)
@@ -231,6 +232,7 @@ fun RemoteView(
 @Composable
 fun MinimalistRemoteView(
     sendRemoteKeyReport: (bytes: ByteArray) -> Unit,
+    showTVChannelButtons: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     val shape = CircleShape
@@ -263,7 +265,6 @@ fun MinimalistRemoteView(
             Column(
                 modifier = Modifier.weight(2f)
             ) {
-
                 Row(
                     modifier = Modifier.weight(1f)
                 ) {
@@ -283,15 +284,14 @@ fun MinimalistRemoteView(
                         shape = shape
                     )
                 }
-
-                HomeButton(
-                    sendReport = sendRemoteKeyReport,
+                TVChannelButton(
+                    touchDown = {},
+                    touchUp = showTVChannelButtons,
                     modifier = Modifier
                         .weight(1f)
                         .padding(padding),
                     shape = shape
                 )
-
             }
 
             Column(modifier = Modifier.weight(1f).padding(padding)) {
@@ -312,7 +312,14 @@ fun MinimalistRemoteView(
             BackButton(
                 sendReport = sendRemoteKeyReport,
                 modifier = Modifier
-                    .weight(2f)
+                    .weight(1f)
+                    .padding(padding),
+                shape = shape
+            )
+            HomeButton(
+                sendReport = sendRemoteKeyReport,
+                modifier = Modifier
+                    .weight(1f)
                     .padding(padding),
                 shape = shape
             )
