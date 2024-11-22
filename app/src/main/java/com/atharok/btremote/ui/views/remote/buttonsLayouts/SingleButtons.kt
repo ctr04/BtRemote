@@ -19,7 +19,7 @@ import com.atharok.btremote.domain.entity.remoteInput.RemoteInput
 import com.atharok.btremote.ui.components.AdaptiveText
 import com.atharok.btremote.ui.views.remoteButtons.ButtonContentTemplate
 import com.atharok.btremote.ui.views.remoteButtons.RemoteButtonContentTemplate
-import com.atharok.btremote.ui.views.remoteButtons.RemoteButtonSkin
+import com.atharok.btremote.ui.views.remoteButtons.RemoteButtonSurface
 
 @Composable
 private fun SingleRemoteButton(
@@ -30,7 +30,7 @@ private fun SingleRemoteButton(
     elevation: Dp = dimensionResource(id = R.dimen.elevation_1),
     content: @Composable () -> Unit
 ) {
-    RemoteButtonSkin(
+    RemoteButtonSurface(
         modifier = modifier,
         shape = shape,
         elevation = elevation
@@ -200,7 +200,7 @@ fun TVChannelButton(
     modifier: Modifier = Modifier,
     shape: Shape = RectangleShape
 ) {
-    RemoteButtonSkin(
+    RemoteButtonSurface(
         modifier = modifier,
         shape = shape
     ) {

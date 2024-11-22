@@ -16,7 +16,6 @@ import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -48,37 +47,29 @@ fun VirtualKeyboardView(
         windowInsets = WindowInsets.ime,
         modifier = modifier
     ) {
-        StatefulKeyboardView { focusRequester, textState ->
-            StatelessKeyboardView(
-                mustClearInputField = mustClearInputField,
-                focusRequester = focusRequester,
-                text = textState.value,
-                onTextChange = {
-                    textState.value = it
-                },
-                sendKeyboardKeyReport = sendKeyboardKeyReport,
-                sendTextReport = sendTextReport,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(dimensionResource(id = R.dimen.padding_standard))
-                    .padding(bottom = dimensionResource(id = R.dimen.padding_large))
-            )
+
+        val focusRequester = remember { FocusRequester() }
+        val textState = remember { mutableStateOf("") }
+
+        LaunchedEffect(Unit) {
+            focusRequester.requestFocus()
         }
+
+        StatelessKeyboardView(
+            mustClearInputField = mustClearInputField,
+            focusRequester = focusRequester,
+            text = textState.value,
+            onTextChange = {
+                textState.value = it
+            },
+            sendKeyboardKeyReport = sendKeyboardKeyReport,
+            sendTextReport = sendTextReport,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(dimensionResource(id = R.dimen.padding_standard))
+                .padding(bottom = dimensionResource(id = R.dimen.padding_large))
+        )
     }
-}
-
-@Composable
-private fun StatefulKeyboardView(
-    content: @Composable (FocusRequester, textState: MutableState<String>) -> Unit
-) {
-    val focusRequester = remember { FocusRequester() }
-    val textState = remember { mutableStateOf("") }
-
-    LaunchedEffect(Unit) {
-        focusRequester.requestFocus()
-    }
-
-    content(focusRequester, textState)
 }
 
 @Composable

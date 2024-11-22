@@ -381,8 +381,8 @@ private fun KeyboardModalSheet(
         AdvancedKeyboardLayoutView(
             keyboardLanguage = keyboardLanguage,
             sendKeyboardKeyReport = sendKeyboardKeyReport,
-            showKeyboardLayoutBottomSheet = showKeyboard,
-            onShowKeyboardLayoutBottomSheetChanged = onShowKeyboardChanged
+            showKeyboardBottomSheet = showKeyboard,
+            onShowKeyboardBottomSheetChanged = onShowKeyboardChanged
         )
     } else {
         val mustClearInputField: Boolean by settingsViewModel.mustClearInputField

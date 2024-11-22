@@ -46,7 +46,7 @@ private fun TVChannelLayout(
     modifier: Modifier = Modifier
 ) {
     val shape = CircleShape
-    val elevation = dimensionResource(id = R.dimen.elevation_2)
+    val elevation = dimensionResource(id = R.dimen.elevation_3)
     val padding: Dp = dimensionResource(id = R.dimen.remote_button_padding)
 
     Column(

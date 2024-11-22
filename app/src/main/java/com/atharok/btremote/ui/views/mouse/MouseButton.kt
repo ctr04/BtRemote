@@ -6,12 +6,12 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.vector.ImageVector
-import com.atharok.btremote.ui.components.DefaultElevatedCard
+import com.atharok.btremote.ui.views.remoteButtons.ButtonContentTemplate
+import com.atharok.btremote.ui.views.remoteButtons.RemoteButtonSurface
 import com.atharok.btremote.ui.views.remoteButtons.StatefulRemoteButton
 
 @Composable
@@ -21,7 +21,7 @@ fun MouseButton(
     shape: Shape,
     modifier: Modifier = Modifier
 ) {
-    DefaultElevatedCard(
+    RemoteButtonSurface(
         modifier = modifier,
         shape = shape
     ) {
@@ -52,30 +52,20 @@ fun ScrollMouseButton(
     shape: Shape,
     modifier: Modifier = Modifier
 ) {
-    DefaultElevatedCard(
+    RemoteButtonSurface(
         modifier = modifier,
         shape = shape
     ) {
-        StatefulRemoteButton(
+        ButtonContentTemplate(
             touchDown = touchDown,
-            touchUp = touchUp
+            touchUp = touchUp,
+            shape = shape
         ) {
-            Box(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .clickable(
-                        interactionSource = it,
-                        indication = LocalIndication.current,
-                        onClick = {}
-                    ),
-                contentAlignment = Alignment.Center
-            ) {
-                Icon(
-                    imageVector = image,
-                    contentDescription = contentDescription,
-                    modifier = Modifier.fillMaxSize(0.50f)
-                )
-            }
+            Icon(
+                imageVector = image,
+                contentDescription = contentDescription,
+                modifier = Modifier.fillMaxSize(0.50f)
+            )
         }
     }
 }

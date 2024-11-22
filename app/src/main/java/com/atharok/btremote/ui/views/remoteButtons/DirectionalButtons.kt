@@ -14,7 +14,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Icon
-import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -53,46 +52,46 @@ fun DirectionalButtons(
         ) {
 
             // ---- Top ----
-            Surface(
+            RemoteButtonSurface(
                 modifier = Modifier.fillMaxSize(),
                 shape = TopArcShape,
-                tonalElevation = elevation
+                elevation = elevation
             ) {
                 DirectionalButton(sendReport = sendRemoteKeyReport, bytes = RemoteInput.REMOTE_INPUT_MENU_UP)
             }
 
             // ---- Bottom ----
-            Surface(
+            RemoteButtonSurface(
                 modifier = Modifier.fillMaxSize(),
                 shape = BottomArcShape,
-                tonalElevation = elevation
+                elevation = elevation
             ) {
                 DirectionalButton(sendReport = sendRemoteKeyReport, bytes = RemoteInput.REMOTE_INPUT_MENU_DOWN)
             }
 
             // ---- Left ----
-            Surface(
+            RemoteButtonSurface(
                 modifier = Modifier.fillMaxSize(),
                 shape = LeftArcShape,
-                tonalElevation = elevation
+                elevation = elevation
             ) {
                 DirectionalButton(sendReport = sendRemoteKeyReport, bytes = RemoteInput.REMOTE_INPUT_MENU_LEFT)
             }
 
             // ---- Right ----
-            Surface(
+            RemoteButtonSurface(
                 modifier = Modifier.fillMaxSize(),
                 shape = RightArcShape,
-                tonalElevation = elevation
+                elevation = elevation
             ) {
                 DirectionalButton(sendReport = sendRemoteKeyReport, bytes = RemoteInput.REMOTE_INPUT_MENU_RIGHT)
             }
 
             // ---- Center ----
-            Surface(
+            RemoteButtonSurface(
                 modifier = Modifier.fillMaxSize(0.3333f),
                 shape = CircleShape,
-                tonalElevation = elevation
+                elevation = elevation
             ) {
                 DirectionalButton(sendReport = sendRemoteKeyReport, bytes = RemoteInput.REMOTE_INPUT_MENU_PICK)
             }

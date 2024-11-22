@@ -20,7 +20,7 @@ import com.atharok.btremote.R
 import com.atharok.btremote.common.utils.AppIcons
 import com.atharok.btremote.domain.entity.remoteInput.RemoteInput
 import com.atharok.btremote.ui.views.remoteButtons.RemoteButtonContentTemplate
-import com.atharok.btremote.ui.views.remoteButtons.RemoteButtonSkin
+import com.atharok.btremote.ui.views.remoteButtons.RemoteButtonSurface
 
 @Composable
 private fun MultimediaLayout(
@@ -31,7 +31,7 @@ private fun MultimediaLayout(
     shape: Shape = RectangleShape,
     elevation: Dp = dimensionResource(id = R.dimen.elevation_1)
 ) {
-    RemoteButtonSkin(
+    RemoteButtonSurface(
         modifier = modifier,
         shape = shape,
         elevation = elevation

@@ -87,7 +87,7 @@ fun MousePadLayout(
                     bottomStart = 0.dp
                 ),
                 modifier = Modifier
-                    .weight(0.87f)
+                    .weight(0.85f)
                     .padding(end = dimensionResource(id = R.dimen.padding_thin))
             )
 
@@ -97,7 +97,7 @@ fun MousePadLayout(
                     mouseScrolling.value = it
                 },
                 modifier = Modifier
-                    .weight(0.13f)
+                    .weight(0.15f)
                     .padding(start = dimensionResource(id = R.dimen.padding_thin))
             )
         }

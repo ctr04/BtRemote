@@ -8,10 +8,12 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.text.style.TextAlign
 import com.atharok.btremote.R
@@ -19,6 +21,31 @@ import com.atharok.btremote.domain.entity.remoteInput.keyboard.advancedKeyboard.
 import com.atharok.btremote.domain.entity.remoteInput.keyboard.advancedKeyboard.TextAdvancedKeyboardKey
 import com.atharok.btremote.domain.entity.remoteInput.keyboard.advancedKeyboard.TextAdvancedKeyboardModifierKey
 import com.atharok.btremote.ui.components.AdaptiveText
+import com.atharok.btremote.ui.views.remoteButtons.ButtonContentTemplate
+import com.atharok.btremote.ui.views.remoteButtons.RemoteButtonSurface
+
+@Composable
+fun KeyboardKeyView(
+    touchDown: () -> Unit,
+    touchUp: () -> Unit,
+    modifier: Modifier = Modifier,
+    shape: Shape = RoundedCornerShape(dimensionResource(id = R.dimen.keyboard_key_corner_radius)),
+    content: @Composable () -> Unit
+) {
+    RemoteButtonSurface(
+        modifier = modifier,
+        shape = shape,
+        elevation = dimensionResource(id = R.dimen.elevation_3)
+    ) {
+        ButtonContentTemplate(
+            touchDown = touchDown,
+            touchUp = touchUp,
+            shape = shape
+        ) {
+            content()
+        }
+    }
+}
 
 @Composable
 fun TextAdvancedKeyboardKeyView(

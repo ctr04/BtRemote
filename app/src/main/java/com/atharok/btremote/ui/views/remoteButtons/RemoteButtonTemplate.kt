@@ -92,7 +92,7 @@ fun RemoteButtonContentTemplate(
 }
 
 @Composable
-fun RemoteButtonSkin(
+fun RemoteButtonSurface(
     modifier: Modifier = Modifier,
     shape: Shape = RectangleShape,
     elevation: Dp = dimensionResource(id = R.dimen.elevation_1),
