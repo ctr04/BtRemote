@@ -243,3 +243,16 @@ fun BluetoothPairingFromARemoteDeviceDropdownMenuItem(
         modifier = modifier
     )
 }
+
+@Composable
+fun EnterBluetoothAddressManuallyDropdownMenuItem(
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+    DropdownMenuItemTemplate(
+        onClick = onClick,
+        image = AppIcons.Keyboard,
+        title = stringResource(id = R.string.enter_bluetooth_address_manually),
+        modifier = modifier
+    )
+}

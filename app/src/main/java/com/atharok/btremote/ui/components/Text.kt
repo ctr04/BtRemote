@@ -144,7 +144,7 @@ fun TextNormalSecondary(
 }
 
 @Composable
-fun TextNormalLink(
+fun TextNormalError(
     text: String,
     modifier: Modifier = Modifier,
     textAlign: TextAlign? = null
@@ -152,8 +152,7 @@ fun TextNormalLink(
     TextNormal(
         text = text,
         modifier = modifier,
-        color = MaterialTheme.colorScheme.primary,
-        textDecoration = TextDecoration.Underline,
+        color = MaterialTheme.colorScheme.error,
         textAlign = textAlign
     )
 }

@@ -71,6 +71,12 @@
     <string name="done">Done</string>
     <string name="unknown">unknown</string>
 
+    <!-- Enter Bluetooth address manually -->
+    <string name="enter_bluetooth_address_manually">Enter Bluetooth address manually</string>
+    <string name="bluetooth_address">Bluetooth address</string>
+    <string name="bluetooth_address_prompt">Please enter the Bluetooth address of the remote device:</string>
+    <string name="bluetooth_address_wrong_format">The entered address is in the wrong format. It must contain 6 pairs of hexadecimal characters.\nExample: 00:1A:2B:3C:4D:5E.</string>
+
     <!-- Bluetooth Connecting -->
     <string name="connection">Connection</string>
     <string name="bluetooth_device_connecting_message">Attempt to connect to \"%1$s\" device…</string>

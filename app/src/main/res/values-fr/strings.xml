@@ -64,6 +64,11 @@
     <string name="pairing_from_a_remote_device_step_4_content">Si vous avez bien suivi toutes les étapes précédentes, que l\'appairage a été effectué avec succès, et que vous avez bien déconnecté les deux appareils, vous pouvez sélectionner le bouton \"%1$s\". L\'appareil distant devrait apparaître dans la liste des appareils appairés. Sélectionnez-le pour établir la connexion via le protocole HID.</string>
     <string name="done">Terminé</string>
     <string name="unknown">inconnu</string>
+    <!-- Enter Bluetooth address manually -->
+    <string name="enter_bluetooth_address_manually">Saisir manuellement l\'adresse Bluetooth</string>
+    <string name="bluetooth_address">Adresse Bluetooth</string>
+    <string name="bluetooth_address_prompt">Veuillez saisir l\'adresse Bluetooth de l\'appareil distant :</string>
+    <string name="bluetooth_address_wrong_format">L\'adresse saisie n\'est pas au bon format. Elle doit contenir 6 paires de caractères hexadécimaux.\nExemple : 00:1A:2B:3C:4D:5E.</string>
     <!-- Bluetooth Connecting -->
     <string name="connection">Connexion</string>
     <string name="bluetooth_device_connecting_message">Tentative de connexion au périphérique \"%1$s\"…</string>

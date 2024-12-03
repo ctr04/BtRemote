@@ -12,9 +12,14 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Icon
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
+import androidx.compose.material3.TextField
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
@@ -25,13 +30,18 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.atharok.btremote.R
 import com.atharok.btremote.common.utils.AppIcons
+import com.atharok.btremote.common.utils.isMacAddress
 import com.atharok.btremote.domain.entity.DeviceEntity
 import com.atharok.btremote.domain.entity.DeviceHidConnectionState
 import com.atharok.btremote.ui.components.AppScaffold
@@ -39,11 +49,16 @@ import com.atharok.btremote.ui.components.BluetoothPairingFromARemoteDeviceDropd
 import com.atharok.btremote.ui.components.BluetoothPairingFromAScannedDeviceDropdownMenuItem
 import com.atharok.btremote.ui.components.BluetoothPairingOverflowMenu
 import com.atharok.btremote.ui.components.DefaultElevatedCard
+import com.atharok.btremote.ui.components.EnterBluetoothAddressManuallyDropdownMenuItem
 import com.atharok.btremote.ui.components.HelpAction
 import com.atharok.btremote.ui.components.LoadingDialog
 import com.atharok.btremote.ui.components.SettingsAction
 import com.atharok.btremote.ui.components.SimpleDialog
+import com.atharok.btremote.ui.components.TemplateDialog
+import com.atharok.btremote.ui.components.TextLarge
 import com.atharok.btremote.ui.components.TextMedium
+import com.atharok.btremote.ui.components.TextNormal
+import com.atharok.btremote.ui.components.TextNormalError
 import com.atharok.btremote.ui.components.TextNormalSecondary
 import com.atharok.btremote.ui.views.DeviceItemView
 import com.atharok.btremote.ui.views.DevicesSelectionScreenHelpModalBottomSheet
@@ -83,6 +98,7 @@ fun DevicesSelectionScreen(
     val devices by devicesFlow.collectAsStateWithLifecycle()
     val autoConnectionDeviceAddress: String by autoConnectionDeviceAddressFlow.collectAsStateWithLifecycle("")
 
+    var showBluetoothAddressDialog: Boolean by remember { mutableStateOf(false) }
     var showHelpBottomSheet: Boolean by remember { mutableStateOf(false) }
     var deviceToAutoConnect: InternalDevice by remember { mutableStateOf(InternalDevice()) }
     var deviceToUnpair: InternalDevice by remember { mutableStateOf(InternalDevice()) }
@@ -128,12 +144,6 @@ fun DevicesSelectionScreen(
         openPairingFromARemoteDeviceScreen = openPairingFromARemoteDeviceScreen,
         openSettings = openSettings,
 
-        helpBottomSheet = {
-            DevicesSelectionScreenHelpModalBottomSheet(
-                onDismissRequest = { showHelpBottomSheet = false },
-                modifier = modifier
-            )
-        },
         failureHidConnectionDialog = {
             SimpleDialog(
                 confirmButtonText = stringResource(id = R.string.retry),
@@ -153,6 +163,23 @@ fun DevicesSelectionScreen(
                 message = stringResource(id = R.string.bluetooth_device_connecting_message, bluetoothDeviceHidConnectionState.deviceName),
                 buttonText = stringResource(id = android.R.string.cancel),
                 onButtonClick = disconnectDevice
+            )
+        },
+        bluetoothAddressDialog = {
+            BluetoothAddressDialog(
+                connectDevice = {
+                    showBluetoothAddressDialog = false
+                    connectDevice(it)
+                },
+                close = {
+                    showBluetoothAddressDialog = false
+                }
+            )
+        },
+        helpBottomSheet = {
+            DevicesSelectionScreenHelpModalBottomSheet(
+                onDismissRequest = { showHelpBottomSheet = false },
+                //modifier = modifier
             )
         },
         unpairDeviceDialog = {
@@ -209,6 +236,8 @@ fun DevicesSelectionScreen(
             }
         },
 
+        showBluetoothAddressDialog = showBluetoothAddressDialog,
+        onShowBluetoothAddressDialogChanged = { showBluetoothAddressDialog = it },
         showHelpBottomSheet = showHelpBottomSheet,
         onShowHelpBottomSheetChanged = { showHelpBottomSheet = it },
         deviceToUnpair = deviceToUnpair,
@@ -233,12 +262,15 @@ private fun StatelessDevicesSelectionScreen(
     openPairingFromARemoteDeviceScreen: () -> Unit,
     openSettings: () -> Unit,
 
-    helpBottomSheet: @Composable () -> Unit,
     failureHidConnectionDialog: @Composable () -> Unit,
     connectingDialog: @Composable () -> Unit,
+    helpBottomSheet: @Composable () -> Unit,
+    bluetoothAddressDialog: @Composable () -> Unit,
     unpairDeviceDialog: @Composable () -> Unit,
     autoConnectDeviceDialog: @Composable () -> Unit,
 
+    showBluetoothAddressDialog: Boolean,
+    onShowBluetoothAddressDialogChanged: (Boolean) -> Unit,
     showHelpBottomSheet: Boolean,
     onShowHelpBottomSheetChanged: (Boolean) -> Unit,
     deviceToUnpair: InternalDevice,
@@ -262,6 +294,12 @@ private fun StatelessDevicesSelectionScreen(
                 BluetoothPairingFromARemoteDeviceDropdownMenuItem(
                     openBluetoothPairingScreen = {
                         openPairingFromARemoteDeviceScreen()
+                        closeDropdownMenu()
+                    }
+                )
+                EnterBluetoothAddressManuallyDropdownMenuItem(
+                    onClick = {
+                        onShowBluetoothAddressDialogChanged(true)
                         closeDropdownMenu()
                     }
                 )
@@ -290,6 +328,7 @@ private fun StatelessDevicesSelectionScreen(
             isBluetoothServiceStarted && !isBluetoothHidProfileRegistered -> failureHidConnectionDialog()
             bluetoothDeviceHidConnectionState.state == BluetoothHidDevice.STATE_CONNECTING -> connectingDialog()
             showHelpBottomSheet -> helpBottomSheet()
+            showBluetoothAddressDialog -> bluetoothAddressDialog()
             deviceToUnpair.macAddress != "" -> unpairDeviceDialog()
             deviceToAutoConnect.macAddress != "" -> autoConnectDeviceDialog()
         }
@@ -374,4 +413,68 @@ private fun InfoView(
             TextNormalSecondary(text = stringResource(R.string.help_info_message))
         }
     }
+}
+
+@Composable
+private fun BluetoothAddressDialog(
+    connectDevice: (String) -> Unit,
+    close: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+
+    val focusRequester = remember { FocusRequester() }
+    val textState = remember { mutableStateOf("") }
+    val showError = remember { mutableStateOf(false) }
+
+    LaunchedEffect(Unit) {
+        focusRequester.requestFocus()
+    }
+
+    TemplateDialog(
+        title = {
+            TextLarge(text = stringResource(id = R.string.bluetooth_address))
+        },
+        content = {
+            Column {
+                TextNormal(text = stringResource(id = R.string.bluetooth_address_prompt))
+                TextField(
+                    value = textState.value,
+                    onValueChange = { textState.value = it },
+                    modifier = Modifier
+                        .padding(vertical = dimensionResource(id = R.dimen.padding_standard))
+                        .focusRequester(focusRequester),
+                    keyboardOptions = KeyboardOptions.Default.copy(
+                        imeAction = ImeAction.Done
+                    ),
+                    keyboardActions = KeyboardActions(
+                        onDone = {
+                            if(isMacAddress(textState.value)) {
+                                connectDevice(textState.value)
+                            } else {
+                                showError.value = true
+                            }
+                        }
+                    ),
+                    shape = RoundedCornerShape(dimensionResource(id = R.dimen.keyboard_key_corner_radius)),
+                    colors = TextFieldDefaults.colors(
+                        focusedIndicatorColor = Color.Transparent
+                    )
+                )
+                if(showError.value) {
+                    TextNormalError(text = stringResource(id = R.string.bluetooth_address_wrong_format))
+                }
+            }
+        },
+        confirmButtonText = stringResource(id = R.string.connection),
+        onConfirmation = {
+            if(isMacAddress(textState.value)) {
+                connectDevice(textState.value)
+            } else {
+                showError.value = true
+            }
+        },
+        dismissButtonText = stringResource(id = R.string.close),
+        onDismissRequest = close,
+        modifier = modifier
+    )
 }

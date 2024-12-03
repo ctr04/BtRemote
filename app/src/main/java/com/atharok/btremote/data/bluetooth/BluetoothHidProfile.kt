@@ -25,6 +25,7 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.runBlocking
 import java.io.IOException
+import java.util.Locale
 
 class BluetoothHidProfile(
     private val context: Context,
@@ -134,7 +135,7 @@ class BluetoothHidProfile(
     @RequiresPermission(value = "android.permission.BLUETOOTH_CONNECT")
     private fun connectDevice(hidDevice: BluetoothHidDevice, deviceAddress: String): Boolean {
         var isConnected = false
-        bluetoothDevice = adapter?.getRemoteDevice(deviceAddress)
+        bluetoothDevice = adapter?.getRemoteDevice(deviceAddress.uppercase(Locale.getDefault()))
         bluetoothDevice?.let {
             isConnected = hidDevice.connect(it)
         }

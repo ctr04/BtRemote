@@ -83,3 +83,8 @@ fun getAdvancedKeyboardLayout(language: KeyboardLanguage): AdvancedKeyboardLayou
         KeyboardLanguage.HEBREW -> getKoin().get<HEAdvancedKeyboardLayout>()
     }
 }
+
+fun isMacAddress(macAddress: String): Boolean {
+    val regex = "^([0-9A-Fa-f]{2}:){5}[0-9A-Fa-f]{2}$".toRegex()
+    return macAddress.matches(regex)
+}
