@@ -16,7 +16,6 @@ import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import com.atharok.btremote.R
 import com.atharok.btremote.common.utils.AppIcons
-import com.atharok.btremote.ui.views.remoteButtons.StatefulRemoteButton
 
 @Composable
 private fun OverflowMenu(

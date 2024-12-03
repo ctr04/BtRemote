@@ -88,7 +88,7 @@ private fun ButtonContent(
 ) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.spacedBy(dimensionResource(id = R.dimen.padding_standard))
+        horizontalArrangement = Arrangement.spacedBy(dimensionResource(id = R.dimen.padding_medium))
     ) {
         icon?.let {
             Icon(

@@ -65,7 +65,7 @@ fun MousePadLayout(
         Row(
             modifier = Modifier
                 .weight(0.8f)
-                .padding(bottom = dimensionResource(id = R.dimen.padding_thin))
+                .padding(bottom = dimensionResource(id = R.dimen.padding_min))
         ) {
             MousePad(
                 mouseSpeed = mouseSpeedRef,
@@ -88,7 +88,7 @@ fun MousePadLayout(
                 ),
                 modifier = Modifier
                     .weight(0.85f)
-                    .padding(end = dimensionResource(id = R.dimen.padding_thin))
+                    .padding(end = dimensionResource(id = R.dimen.padding_min))
             )
 
             ScrollMouseButtonsLayout(
@@ -98,7 +98,7 @@ fun MousePadLayout(
                 },
                 modifier = Modifier
                     .weight(0.15f)
-                    .padding(start = dimensionResource(id = R.dimen.padding_thin))
+                    .padding(start = dimensionResource(id = R.dimen.padding_min))
             )
         }
 
@@ -109,7 +109,7 @@ fun MousePadLayout(
             modifier = Modifier
                 .fillMaxWidth()
                 .weight(0.2f)
-                .padding(top = dimensionResource(id = R.dimen.padding_thin))
+                .padding(top = dimensionResource(id = R.dimen.padding_min))
         )
     }
 }
@@ -136,7 +136,7 @@ private fun MouseButtonsLayout(
             modifier = Modifier
                 .weight(0.38f)
                 .fillMaxHeight()
-                .padding(end = dimensionResource(id = R.dimen.padding_thin))
+                .padding(end = dimensionResource(id = R.dimen.padding_min))
         )
 
         // Center
@@ -148,8 +148,8 @@ private fun MouseButtonsLayout(
                 .weight(0.24f)
                 .fillMaxHeight()
                 .padding(
-                    start = dimensionResource(id = R.dimen.padding_thin),
-                    end = dimensionResource(id = R.dimen.padding_thin)
+                    start = dimensionResource(id = R.dimen.padding_min),
+                    end = dimensionResource(id = R.dimen.padding_min)
                 )
         )
 
@@ -166,7 +166,7 @@ private fun MouseButtonsLayout(
             modifier = Modifier
                 .weight(0.38f)
                 .fillMaxHeight()
-                .padding(start = dimensionResource(id = R.dimen.padding_thin))
+                .padding(start = dimensionResource(id = R.dimen.padding_min))
         )
     }
 }
@@ -205,7 +205,7 @@ private fun ScrollMouseButtonsLayout(
             modifier = Modifier
                 .fillMaxWidth()
                 .weight(0.5f)
-                .padding(bottom = dimensionResource(id = R.dimen.padding_thin))
+                .padding(bottom = dimensionResource(id = R.dimen.padding_min))
         )
 
         ScrollMouseButton(
@@ -233,7 +233,7 @@ private fun ScrollMouseButtonsLayout(
             modifier = Modifier
                 .fillMaxWidth()
                 .weight(0.5f)
-                .padding(top = dimensionResource(id = R.dimen.padding_thin))
+                .padding(top = dimensionResource(id = R.dimen.padding_min))
         )
     }
 }

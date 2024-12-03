@@ -21,8 +21,8 @@ import com.atharok.btremote.domain.entity.remoteInput.keyboard.advancedKeyboard.
 import com.atharok.btremote.domain.entity.remoteInput.keyboard.advancedKeyboard.TextAdvancedKeyboardKey
 import com.atharok.btremote.domain.entity.remoteInput.keyboard.advancedKeyboard.TextAdvancedKeyboardModifierKey
 import com.atharok.btremote.ui.components.AdaptiveText
-import com.atharok.btremote.ui.views.remoteButtons.ButtonContentTemplate
-import com.atharok.btremote.ui.views.remoteButtons.RemoteButtonSurface
+import com.atharok.btremote.ui.components.ButtonContentTemplate
+import com.atharok.btremote.ui.components.RemoteButtonSurface
 
 @Composable
 fun KeyboardKeyView(
@@ -137,7 +137,7 @@ fun TextAdvancedKeyboardModifierKeyView(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(
-                    horizontal = dimensionResource(id = R.dimen.padding_standard),
+                    horizontal = dimensionResource(id = R.dimen.padding_medium),
                     vertical = dimensionResource(id = R.dimen.padding_small)
                 ),
             contentAlignment = Alignment.Center

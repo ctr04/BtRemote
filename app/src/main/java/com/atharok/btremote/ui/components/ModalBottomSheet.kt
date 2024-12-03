@@ -43,13 +43,13 @@ fun TemplateModalBottomSheet(
             modifier = Modifier
                 .verticalScroll(rememberScrollState())
                 .padding(
-                    start = dimensionResource(id = R.dimen.padding_large),
-                    end = dimensionResource(id = R.dimen.padding_large),
-                    bottom = dimensionResource(id = R.dimen.padding_large)
+                    start = dimensionResource(id = R.dimen.padding_max),
+                    end = dimensionResource(id = R.dimen.padding_max),
+                    bottom = dimensionResource(id = R.dimen.padding_max)
                 )
         ) {
             Row(
-                modifier = Modifier.padding(bottom = dimensionResource(id = R.dimen.padding_large)),
+                modifier = Modifier.padding(bottom = dimensionResource(id = R.dimen.padding_max)),
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Image(
@@ -60,7 +60,7 @@ fun TemplateModalBottomSheet(
                 )
                 TextLarge(
                     text = title,
-                    modifier = Modifier.padding(start = dimensionResource(id = R.dimen.padding_standard))
+                    modifier = Modifier.padding(start = dimensionResource(id = R.dimen.padding_medium))
                 )
             }
             content()

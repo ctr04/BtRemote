@@ -44,7 +44,7 @@ fun DevicesSelectionScreenHelpModalBottomSheet(
         Section(
             title = stringResource(id = R.string.connection),
             message = stringResource(id = R.string.help_select_device_from_list),
-            modifier = Modifier.padding(top = dimensionResource(id = R.dimen.padding_standard))
+            modifier = Modifier.padding(top = dimensionResource(id = R.dimen.padding_medium))
         )
 
         // Missing device
@@ -91,7 +91,7 @@ fun DevicesSelectionScreenHelpModalBottomSheet(
                 append("\n")
                 append(stringResource(id = R.string.help_device_failed_connection_check_6))
             },
-            modifier = Modifier.padding(top = dimensionResource(id = R.dimen.padding_standard))
+            modifier = Modifier.padding(top = dimensionResource(id = R.dimen.padding_medium))
         )
 
         // Keyboard
@@ -116,7 +116,7 @@ fun BluetoothScanningScreenHelpModalBottomSheet(
         Section(
             title = stringResource(id = R.string.pairing_a_device),
             message = stringResource(id = R.string.help_paring_select_device_from_list),
-            modifier = Modifier.padding(top = dimensionResource(id = R.dimen.padding_standard))
+            modifier = Modifier.padding(top = dimensionResource(id = R.dimen.padding_medium))
         )
 
         // Missing device
@@ -179,7 +179,7 @@ fun RemoteScreenHelpModalBottomSheet(
                 append("\n")
                 append(stringResource(id = R.string.help_remote_control_buttons_are_not_working_check_4))
             },
-            modifier = Modifier.padding(top = dimensionResource(id = R.dimen.padding_standard))
+            modifier = Modifier.padding(top = dimensionResource(id = R.dimen.padding_medium))
         )
 
         // Keyboard
@@ -202,7 +202,7 @@ private fun Section(
         )
         TextNormalSecondary(
             text = message,
-            modifier = Modifier.padding(vertical = dimensionResource(id = R.dimen.padding_large))
+            modifier = Modifier.padding(vertical = dimensionResource(id = R.dimen.padding_max))
         )
     }
 }

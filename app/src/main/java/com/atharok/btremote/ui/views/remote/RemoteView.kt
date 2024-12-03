@@ -41,7 +41,7 @@ fun RemoteView(
     modifier: Modifier = Modifier
 ) {
     val shape = CircleShape
-    val padding: Dp = dimensionResource(id = R.dimen.remote_button_padding)
+    val padding: Dp = dimensionResource(id = R.dimen.padding_normal)
 
     Column(modifier = modifier) {
         MultimediaLayout(
@@ -236,7 +236,7 @@ fun MinimalistRemoteView(
     modifier: Modifier = Modifier
 ) {
     val shape = CircleShape
-    val padding: Dp = dimensionResource(id = R.dimen.remote_button_padding)
+    val padding: Dp = dimensionResource(id = R.dimen.padding_normal)
 
     Column(modifier = modifier) {
         MultimediaLayout(

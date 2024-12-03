@@ -35,7 +35,7 @@ fun DeviceItemView(
     Row(
         modifier = modifier,
         verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.spacedBy(dimensionResource(id = R.dimen.padding_medium))
+        horizontalArrangement = Arrangement.spacedBy(dimensionResource(id = R.dimen.padding_large))
     ) {
         Image(
             imageVector = icon,
@@ -43,7 +43,7 @@ fun DeviceItemView(
             modifier = Modifier
                 .clip(CircleShape)
                 .background(MaterialTheme.colorScheme.primary)
-                .padding(dimensionResource(id = R.dimen.padding_standard)),
+                .padding(dimensionResource(id = R.dimen.padding_medium)),
             colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onPrimary)
         )
 
@@ -87,7 +87,7 @@ fun DeviceItemView(
                 TextNormalSecondary(
                     text = stringResource(id = R.string.automatic_shorten),
                     modifier = Modifier.padding(
-                        horizontal = dimensionResource(id = R.dimen.padding_large),
+                        horizontal = dimensionResource(id = R.dimen.padding_max),
                         vertical = dimensionResource(id = R.dimen.padding_small)
                     )
                 )

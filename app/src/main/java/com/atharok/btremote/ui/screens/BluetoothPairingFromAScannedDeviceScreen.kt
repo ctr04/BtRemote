@@ -252,8 +252,8 @@ private fun DiscoveredDevicesListView(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(
-                        horizontal = dimensionResource(id = R.dimen.padding_large),
-                        vertical = dimensionResource(id = R.dimen.remote_button_padding)
+                        horizontal = dimensionResource(id = R.dimen.padding_max),
+                        vertical = dimensionResource(id = R.dimen.padding_normal)
                     )
             ) {
                 if(isDiscovering || devices.isNotEmpty()) {
@@ -288,7 +288,7 @@ private fun DiscoveredDevicesListView(
                 modifier = Modifier
                     .fillMaxWidth()
                     .clickable { connectToDevice(device.macAddress) }
-                    .padding(dimensionResource(id = R.dimen.padding_large))
+                    .padding(dimensionResource(id = R.dimen.padding_max))
             )
         }
     }

@@ -58,7 +58,7 @@ fun ActivationView(
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(
-                        horizontal = dimensionResource(id = R.dimen.padding_large),
+                        horizontal = dimensionResource(id = R.dimen.padding_max),
                         vertical = dimensionResource(id = R.dimen.padding_small)
                     ),
                 verticalArrangement = Arrangement.SpaceBetween,
@@ -112,7 +112,7 @@ private fun Content(
 
         TextMedium(
             text = title,
-            Modifier.padding(vertical = dimensionResource(id = R.dimen.padding_standard)),
+            Modifier.padding(vertical = dimensionResource(id = R.dimen.padding_medium)),
             textAlign = TextAlign.Center
         )
 

@@ -150,7 +150,7 @@ fun RemoteScreen(
                     showTVChannelButtons = {
                         showTVChannelButtons = !showTVChannelButtons
                     },
-                    modifier = Modifier.padding(dimensionResource(id = R.dimen.remote_button_padding))
+                    modifier = Modifier.padding(dimensionResource(id = R.dimen.padding_normal))
                 )
 
                 if(showTVChannelButtons) {
@@ -166,7 +166,7 @@ fun RemoteScreen(
                 RemoteView(
                     sendRemoteKeyReport = sendRemoteKeyReport,
                     sendNumberKeyReport = sendKeyboardKeyReport,
-                    modifier = Modifier.padding(dimensionResource(id = R.dimen.remote_button_padding))
+                    modifier = Modifier.padding(dimensionResource(id = R.dimen.padding_normal))
                 )
             }
         },
@@ -273,9 +273,9 @@ private fun RemoteLandscapeView(
                 .widthIn(max = with(LocalDensity.current) { (0.5f * rowSize.width).toDp() })
                 .align(Alignment.CenterVertically)
                 .padding(
-                    start = dimensionResource(id = R.dimen.padding_medium),
-                    top = dimensionResource(id = R.dimen.padding_medium),
-                    bottom = dimensionResource(id = R.dimen.padding_medium)
+                    start = dimensionResource(id = R.dimen.padding_large),
+                    top = dimensionResource(id = R.dimen.padding_large),
+                    bottom = dimensionResource(id = R.dimen.padding_large)
                 ),
         ) {
             navigationLayout()
@@ -320,9 +320,9 @@ private fun RemotePortraitView(
             modifier = Modifier
                 .align(Alignment.CenterHorizontally)
                 .padding(
-                    start = dimensionResource(id = R.dimen.padding_medium),
-                    end = dimensionResource(id = R.dimen.padding_medium),
-                    bottom = dimensionResource(id = R.dimen.padding_medium)
+                    start = dimensionResource(id = R.dimen.padding_large),
+                    end = dimensionResource(id = R.dimen.padding_large),
+                    bottom = dimensionResource(id = R.dimen.padding_large)
                 ),
             contentAlignment = Alignment.Center
         ) {
@@ -487,7 +487,7 @@ private fun TopBarActions(
         HorizontalDivider(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(dimensionResource(id = R.dimen.padding_standard))
+                .padding(dimensionResource(id = R.dimen.padding_medium))
         )
         HelpDropdownMenuItem(
             showHelp = {

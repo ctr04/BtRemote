@@ -53,8 +53,8 @@ fun AdvancedKeyboardLayoutView(
             sendKeyboardKeyReport = sendKeyboardKeyReport,
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(dimensionResource(id = R.dimen.padding_standard))
-                .padding(bottom = dimensionResource(id = R.dimen.padding_large))
+                .padding(dimensionResource(id = R.dimen.padding_medium))
+                .padding(bottom = dimensionResource(id = R.dimen.padding_max))
         )
     }
 }
@@ -117,7 +117,7 @@ private fun AdvancedKeyboardLayoutView(
                                     }
                                 }
                             },
-                            Modifier.weight(keyboardKey.weight).padding(dimensionResource(id = R.dimen.padding_thin))
+                            Modifier.weight(keyboardKey.weight).padding(dimensionResource(id = R.dimen.padding_min))
                         )
                     }
                 }

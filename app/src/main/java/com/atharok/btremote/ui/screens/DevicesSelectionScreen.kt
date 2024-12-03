@@ -352,8 +352,8 @@ private fun DevicesListView(
         item {
             InfoView(
                 modifier = Modifier.padding(
-                    horizontal = dimensionResource(R.dimen.padding_large),
-                    vertical = dimensionResource(R.dimen.padding_medium)
+                    horizontal = dimensionResource(R.dimen.padding_max),
+                    vertical = dimensionResource(R.dimen.padding_large)
                 )
             )
         }
@@ -363,8 +363,8 @@ private fun DevicesListView(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(
-                        horizontal = dimensionResource(id = R.dimen.padding_large),
-                        vertical = dimensionResource(id = R.dimen.remote_button_padding)
+                        horizontal = dimensionResource(id = R.dimen.padding_max),
+                        vertical = dimensionResource(id = R.dimen.padding_normal)
                     )
             )
         }
@@ -379,7 +379,7 @@ private fun DevicesListView(
                 modifier = Modifier
                     .fillMaxWidth()
                     .clickable { connectDevice(device.macAddress) }
-                    .padding(dimensionResource(id = R.dimen.padding_large))
+                    .padding(dimensionResource(id = R.dimen.padding_max))
             )
         }
     }
@@ -393,16 +393,16 @@ private fun InfoView(
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(dimensionResource(id = R.dimen.padding_large)),
+                .padding(dimensionResource(id = R.dimen.padding_max)),
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.Start
         ) {
             Row(
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(bottom = dimensionResource(id = R.dimen.padding_standard)),
+                    .padding(bottom = dimensionResource(id = R.dimen.padding_medium)),
                 verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.spacedBy(dimensionResource(id = R.dimen.remote_button_padding))
+                horizontalArrangement = Arrangement.spacedBy(dimensionResource(id = R.dimen.padding_normal))
             ) {
                 Icon(
                     imageVector = AppIcons.Info,
@@ -441,7 +441,7 @@ private fun BluetoothAddressDialog(
                     value = textState.value,
                     onValueChange = { textState.value = it },
                     modifier = Modifier
-                        .padding(vertical = dimensionResource(id = R.dimen.padding_standard))
+                        .padding(vertical = dimensionResource(id = R.dimen.padding_medium))
                         .focusRequester(focusRequester),
                     keyboardOptions = KeyboardOptions.Default.copy(
                         imeAction = ImeAction.Done

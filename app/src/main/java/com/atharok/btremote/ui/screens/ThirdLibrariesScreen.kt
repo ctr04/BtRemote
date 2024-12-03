@@ -61,7 +61,7 @@ fun StatelessThirdLibrariesScreen(
                     library = item,
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(dimensionResource(id = R.dimen.padding_large))
+                        .padding(dimensionResource(id = R.dimen.padding_max))
                 )
 
                 if (index < libraries.lastIndex) {
@@ -87,7 +87,7 @@ private fun ThirdLibraryItem(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(top = dimensionResource(id = R.dimen.padding_small)),
-            horizontalArrangement = Arrangement.spacedBy(dimensionResource(id = R.dimen.padding_standard)),
+            horizontalArrangement = Arrangement.spacedBy(dimensionResource(id = R.dimen.padding_medium)),
             verticalAlignment = Alignment.CenterVertically
         ) {
             ButtonOpenInBrowser(

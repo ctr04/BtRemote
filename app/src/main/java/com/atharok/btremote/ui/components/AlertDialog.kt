@@ -91,7 +91,7 @@ fun ListDialog(
                 dialogMessage?.let {
                     TextNormalSecondary(
                         text = it,
-                        modifier = Modifier.padding(top = dimensionResource(id = R.dimen.padding_large))
+                        modifier = Modifier.padding(top = dimensionResource(id = R.dimen.padding_max))
                     )
                 }
             }
@@ -144,7 +144,7 @@ fun LoadingDialog(
         content = {
             LoadingView(
                 message = message,
-                modifier = Modifier.padding(top = dimensionResource(id = R.dimen.padding_large))
+                modifier = Modifier.padding(top = dimensionResource(id = R.dimen.padding_max))
             )
         },
         confirmButtonText = buttonText,
@@ -177,7 +177,7 @@ private fun LoadingView(
     Row(
         modifier = modifier,
         verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.spacedBy(dimensionResource(id = R.dimen.padding_large))
+        horizontalArrangement = Arrangement.spacedBy(dimensionResource(id = R.dimen.padding_max))
     ) {
         CircularProgressIndicator()
         TextNormal(text = message)

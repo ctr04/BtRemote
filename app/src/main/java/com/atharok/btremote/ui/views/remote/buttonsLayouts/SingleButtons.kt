@@ -17,9 +17,9 @@ import com.atharok.btremote.common.utils.AppIcons
 import com.atharok.btremote.domain.entity.remoteInput.ChannelInput
 import com.atharok.btremote.domain.entity.remoteInput.RemoteInput
 import com.atharok.btremote.ui.components.AdaptiveText
-import com.atharok.btremote.ui.views.remoteButtons.ButtonContentTemplate
-import com.atharok.btremote.ui.views.remoteButtons.RemoteButtonContentTemplate
-import com.atharok.btremote.ui.views.remoteButtons.RemoteButtonSurface
+import com.atharok.btremote.ui.components.ButtonContentTemplate
+import com.atharok.btremote.ui.components.RemoteButtonContentTemplate
+import com.atharok.btremote.ui.components.RemoteButtonSurface
 
 @Composable
 private fun SingleRemoteButton(

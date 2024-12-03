@@ -79,8 +79,8 @@ fun SettingsScreen(
 
             val context = LocalContext.current
             val uriHandler = LocalUriHandler.current
-            val horizontalPadding = dimensionResource(id = R.dimen.padding_large)
-            val verticalPadding = dimensionResource(id = R.dimen.padding_medium)
+            val horizontalPadding = dimensionResource(id = R.dimen.padding_max)
+            val verticalPadding = dimensionResource(id = R.dimen.padding_large)
 
             // ---- Appearance ----
 
@@ -639,7 +639,7 @@ private fun TitleItem(
         )
         TextNormal(
             text = text,
-            modifier = Modifier.padding(start = dimensionResource(id = R.dimen.padding_standard)),
+            modifier = Modifier.padding(start = dimensionResource(id = R.dimen.padding_medium)),
             color = MaterialTheme.colorScheme.secondary
         )
     }

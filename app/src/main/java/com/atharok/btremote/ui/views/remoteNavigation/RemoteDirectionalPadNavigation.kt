@@ -28,8 +28,8 @@ import com.atharok.btremote.common.utils.AppIcons
 import com.atharok.btremote.common.utils.ArcShape
 import com.atharok.btremote.common.utils.REMOTE_INPUT_NONE
 import com.atharok.btremote.domain.entity.remoteInput.RemoteInput
-import com.atharok.btremote.ui.views.remoteButtons.RemoteButtonSurface
-import com.atharok.btremote.ui.views.remoteButtons.StatefulRemoteButton
+import com.atharok.btremote.ui.components.RemoteButtonSurface
+import com.atharok.btremote.ui.components.StatefulRemoteButton
 
 private val TopArcShape = ArcShape(-45f, -90f)
 private val BottomArcShape = ArcShape(45f, 90f)

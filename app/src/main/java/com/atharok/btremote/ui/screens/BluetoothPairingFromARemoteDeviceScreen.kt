@@ -58,7 +58,7 @@ fun BluetoothPairingFromARemoteDeviceScreen(
         createPages(
             context = context,
             localDeviceName = localDeviceName,
-            verticalPadding = context.getDimensionDp(R.dimen.padding_medium)
+            verticalPadding = context.getDimensionDp(R.dimen.padding_large)
         )
     }
 
@@ -111,7 +111,7 @@ private fun StatelessPairingFromARemoteDeviceScreen(
         Column(
             modifier = Modifier.fillMaxSize()
                 .padding(innerPadding)
-                .padding(horizontal = dimensionResource(id = R.dimen.padding_medium)),
+                .padding(horizontal = dimensionResource(id = R.dimen.padding_large)),
             verticalArrangement = Arrangement.SpaceBetween
         ) {
             HorizontalPager(
@@ -144,7 +144,7 @@ private fun StatelessPairingFromARemoteDeviceScreen(
                     }
                 },
                 modifier = Modifier
-                    .padding(bottom = dimensionResource(id = R.dimen.padding_medium))
+                    .padding(bottom = dimensionResource(id = R.dimen.padding_large))
                     .fillMaxWidth()
             )
         }
@@ -158,7 +158,7 @@ private fun PairingFromARemoteDeviceIntroScreen(
 ) {
     Column(
         modifier = modifier,
-        verticalArrangement = Arrangement.spacedBy(space = dimensionResource(id = R.dimen.padding_medium))
+        verticalArrangement = Arrangement.spacedBy(space = dimensionResource(id = R.dimen.padding_large))
     ) {
         TextMedium(text = stringResource(id = R.string.pairing_from_a_remote_device_intro_title))
         TextNormalSecondary(text = stringResource(id = R.string.pairing_from_a_remote_device_intro_content))
@@ -174,7 +174,7 @@ private fun PairingFromARemoteDevicePart1Screen(
 ) {
     Column(
         modifier = modifier,
-        verticalArrangement = Arrangement.spacedBy(space = dimensionResource(id = R.dimen.padding_medium))
+        verticalArrangement = Arrangement.spacedBy(space = dimensionResource(id = R.dimen.padding_large))
     ) {
         TextMedium(text = stringResource(id = R.string.pairing_from_a_remote_device_step_1_title))
         TextNormalSecondary(text = stringResource(id = R.string.pairing_from_a_remote_device_step_1_content_1))
@@ -200,7 +200,7 @@ private fun PairingFromARemoteDevicePart2Screen(
 ) {
     Column(
         modifier = modifier,
-        verticalArrangement = Arrangement.spacedBy(space = dimensionResource(id = R.dimen.padding_medium))
+        verticalArrangement = Arrangement.spacedBy(space = dimensionResource(id = R.dimen.padding_large))
     ) {
         TextMedium(text = stringResource(id = R.string.pairing_from_a_remote_device_step_2_title))
         TextNormalSecondary(text = stringResource(id = R.string.pairing_from_a_remote_device_step_2_content_1))
@@ -217,7 +217,7 @@ private fun PairingFromARemoteDevicePart3Screen(
 ) {
     Column(
         modifier = modifier,
-        verticalArrangement = Arrangement.spacedBy(space = dimensionResource(id = R.dimen.padding_medium))
+        verticalArrangement = Arrangement.spacedBy(space = dimensionResource(id = R.dimen.padding_large))
     ) {
         TextMedium(text = stringResource(id = R.string.pairing_from_a_remote_device_step_3_title))
         TextNormalSecondary(text = stringResource(id = R.string.pairing_from_a_remote_device_step_3_content_1))
@@ -240,7 +240,7 @@ private fun PairingFromARemoteDevicePart4Screen(
 ) {
     Column(
         modifier = modifier,
-        verticalArrangement = Arrangement.spacedBy(space = dimensionResource(id = R.dimen.padding_medium))
+        verticalArrangement = Arrangement.spacedBy(space = dimensionResource(id = R.dimen.padding_large))
     ) {
         TextMedium(text = stringResource(id = R.string.pairing_from_a_remote_device_step_4_title))
         TextNormalSecondary(text = stringResource(id = R.string.pairing_from_a_remote_device_step_4_content, context.getString(R.string.done)))
@@ -261,16 +261,16 @@ private fun PairingFromARemoteDeviceBottomView(
         if(pageIndex > 0) {
             MaterialOutlinedButton(
                 onClick = previous,
-                modifier = Modifier.padding(end = dimensionResource(id = R.dimen.remote_button_padding)).weight(0.5f),
+                modifier = Modifier.padding(end = dimensionResource(id = R.dimen.padding_normal)).weight(0.5f),
                 text = stringResource(id = R.string.previous)
             )
         } else {
-            Spacer(modifier = Modifier.padding(end = dimensionResource(id = R.dimen.remote_button_padding)).weight(0.5f))
+            Spacer(modifier = Modifier.padding(end = dimensionResource(id = R.dimen.padding_normal)).weight(0.5f))
         }
 
         MaterialButton(
             onClick = next,
-            modifier = Modifier.padding(start = dimensionResource(id = R.dimen.remote_button_padding)).weight(0.5f),
+            modifier = Modifier.padding(start = dimensionResource(id = R.dimen.padding_normal)).weight(0.5f),
             text = if(pageIndex < MAX_PAGES - 1) stringResource(id = R.string.next) else stringResource(id = R.string.done)
         )
     }

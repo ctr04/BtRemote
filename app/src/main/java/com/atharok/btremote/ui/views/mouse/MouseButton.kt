@@ -10,9 +10,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.vector.ImageVector
-import com.atharok.btremote.ui.views.remoteButtons.ButtonContentTemplate
-import com.atharok.btremote.ui.views.remoteButtons.RemoteButtonSurface
-import com.atharok.btremote.ui.views.remoteButtons.StatefulRemoteButton
+import com.atharok.btremote.ui.components.ButtonContentTemplate
+import com.atharok.btremote.ui.components.RemoteButtonSurface
+import com.atharok.btremote.ui.components.StatefulRemoteButton
 
 @Composable
 fun MouseButton(
