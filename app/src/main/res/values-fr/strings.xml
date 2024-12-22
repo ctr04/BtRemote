@@ -150,10 +150,10 @@
     <string name="pause">Pause</string>
     <string name="previous">Précédent</string>
     <string name="next">Suivant</string>
-    <string name="volume_increase">Augmentation du volume</string>
-    <string name="volume_decrease">Diminution du volume</string>
-    <string name="brightness_increase">Augmentation de la luminosité</string>
-    <string name="brightness_decrease">Diminution de la luminosité</string>
+    <string name="volume_increase">Augmenter le volume</string>
+    <string name="volume_decrease">Diminuer le volume</string>
+    <string name="brightness_increase">Augmenter la luminosité</string>
+    <string name="brightness_decrease">Diminuer la luminosité</string>
     <string name="mute">Sourdine</string>
     <string name="home">Accueil</string>
     <string name="back">Retour</string>
