@@ -24,7 +24,7 @@ val bluetoothHidDescriptor = byteArrayOf(
     0x85.toByte(), REMOTE_REPORT_ID.toByte(),        //   Report ID (2)
     0x19.toByte(), 0x00.toByte(),                    //   Usage Minimum (Unassigned)
     0x2A.toByte(), 0xFF.toByte(), 0x03.toByte(),     //   Usage Maximum (1023)
-    0x75.toByte(), 0x0A.toByte(),                    //   Report Size (10)
+    0x75.toByte(), 0x10.toByte(),                    //   Report Size (16)
     0x95.toByte(), 0x01.toByte(),                    //   Report Count (1)
     0x15.toByte(), 0x00.toByte(),                    //   Logical Minimum (0)
     0x26.toByte(), 0xFF.toByte(), 0x03.toByte(),     //   Logical Maximum (1023)
