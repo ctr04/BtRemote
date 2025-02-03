@@ -13,7 +13,7 @@
     <string name="paired_devices">Dispositivos emparejados</string>
     <string name="unpair_device">Desemparejar dispositivo</string>
     <string name="unpair">Desvincular</string>
-    <string name="unpair_device_warning_message">Este dispositivo se desvinculará por completo del tuyo. ¿Estás seguro de que deseas continuar?</string>
+    <string name="unpair_device_warning_message">Este dispositivo se desvinculará completamente de su dispositivo. ¿Está seguro de que desea continuar?</string>
     <string name="pairing_a_device">Emparejar un dispositivo</string>
     <string name="available_devices">Dispositivos disponibles</string>
     <string name="refresh">Actualizar</string>
@@ -65,7 +65,7 @@
     <string name="keyboard_language_info">Asegúrate de que el idioma del teclado seleccionado coincida con el idioma configurado en el dispositivo remoto.</string>
     <string name="bluetooth_disabled_message">El Bluetooth de tu dispositivo debe estar activado para conectar con el dispositivo remoto.</string>
     <string name="bluetooth_pairing_device_not_found">No se ha detectado ningún dispositivo.</string>
-    <string name="app_name">Control remoto BT</string>
+    <string name="app_name">BT Remoto</string>
     <string name="theme_black">El tema oscuro usa negro puro</string>
     <string name="volume_increase">Subir volumen</string>
     <string name="volume_decrease">Bajar volumen</string>
@@ -164,7 +164,7 @@
     <string name="user_interface">Interfaz</string>
     <string name="d_pad_description">Navegación mediante los controle direccionales</string>
     <string name="keyboard_he">Hebreo</string>
-    <string name="open">Abierto</string>
+    <string name="open">Abrir</string>
     <string name="minimalist_interface_info">No mostrar los botones del canal de TV</string>
     <string name="connected_off">Ningún dispositivo conectado</string>
     <string name="use_minimalist_interface">Usar la interfaz minimalística</string>
