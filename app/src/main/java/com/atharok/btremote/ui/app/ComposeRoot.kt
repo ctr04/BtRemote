@@ -116,7 +116,7 @@ fun ComposeRoot(
                                 isBluetoothServiceStarted = isBluetoothServiceStarted,
                                 isBluetoothHidProfileRegistered = isBluetoothHidProfileRegistered,
                                 bluetoothDeviceHidConnectionState = bluetoothDeviceHidConnectionState,
-                                closeApp = { context.getActivity()?.finish() },
+                                closeApp = { context.getActivity()?.moveTaskToBack(true) },
                                 navigateUp = { navController.navigateUp() },
                                 startHidService = { hidViewModel.startService(context) },
                                 stopHidService = { hidViewModel.stopService(context) },
@@ -194,7 +194,7 @@ fun ComposeRoot(
                                 isBluetoothServiceStarted = isBluetoothServiceStarted,
                                 bluetoothDeviceHidConnectionState = bluetoothDeviceHidConnectionState,
                                 navigateUp = { navController.navigateUp() },
-                                closeApp = { context.getActivity()?.finish() },
+                                closeApp = { context.getActivity()?.moveTaskToBack(true) },
                                 openSettings = openSettings,
                                 settingsViewModel = settingsViewModel,
                                 disconnectDevice = {

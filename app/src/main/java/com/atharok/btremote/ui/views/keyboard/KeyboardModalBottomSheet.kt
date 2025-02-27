@@ -15,23 +15,20 @@ import com.atharok.btremote.R
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun KeyboardModalBottomSheet(
-    showKeyboardBottomSheet: Boolean,
     onShowKeyboardBottomSheetChanged: (Boolean) -> Unit,
     windowInsets: WindowInsets,
     modifier: Modifier = Modifier,
     content: @Composable (ColumnScope.() -> Unit)
 ) {
-    if(showKeyboardBottomSheet) {
-        ModalBottomSheet(
-            onDismissRequest = { onShowKeyboardBottomSheetChanged(false) },
-            modifier = modifier,
-            sheetState = rememberModalBottomSheetState(true),
-            containerColor = MaterialTheme.colorScheme.surfaceColorAtElevation(dimensionResource(id = R.dimen.elevation_1)),
-            contentWindowInsets = {
-                windowInsets
-            }
-        ) {
-            content()
+    ModalBottomSheet(
+        onDismissRequest = { onShowKeyboardBottomSheetChanged(false) },
+        modifier = modifier,
+        sheetState = rememberModalBottomSheetState(true),
+        containerColor = MaterialTheme.colorScheme.surfaceColorAtElevation(dimensionResource(id = R.dimen.elevation_1)),
+        contentWindowInsets = {
+            windowInsets
         }
+    ) {
+        content()
     }
 }

@@ -33,7 +33,6 @@ import com.atharok.btremote.domain.entity.remoteInput.keyboard.advancedKeyboard.
 fun AdvancedKeyboardLayoutView(
     keyboardLanguage: KeyboardLanguage,
     sendKeyboardKeyReport: (bytes: ByteArray) -> Unit,
-    showKeyboardBottomSheet: Boolean,
     onShowKeyboardBottomSheetChanged: (Boolean) -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -46,7 +45,6 @@ fun AdvancedKeyboardLayoutView(
     }
 
     KeyboardModalBottomSheet(
-        showKeyboardBottomSheet = showKeyboardBottomSheet,
         onShowKeyboardBottomSheetChanged = onShowKeyboardBottomSheetChanged,
         windowInsets = WindowInsets(0, 0, 0, 0),
         modifier = modifier

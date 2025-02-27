@@ -40,17 +40,14 @@ fun VirtualKeyboardView(
     mustClearInputField: Boolean,
     sendKeyboardKeyReport: (ByteArray) -> Unit,
     sendTextReport: (String) -> Unit,
-    showKeyboardBottomSheet: Boolean,
     onShowKeyboardBottomSheetChanged: (Boolean) -> Unit,
     modifier: Modifier = Modifier
 ) {
     KeyboardModalBottomSheet(
-        showKeyboardBottomSheet = showKeyboardBottomSheet,
         onShowKeyboardBottomSheetChanged = onShowKeyboardBottomSheetChanged,
         windowInsets = WindowInsets.ime,
         modifier = modifier
     ) {
-
         val focusRequester = remember { FocusRequester() }
         val textState = remember { mutableStateOf("") }
 
