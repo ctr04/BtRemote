@@ -60,7 +60,7 @@
     <string name="close">Cerrar</string>
     <string name="retry">Reintentar</string>
     <string name="bluetooth_permission_message">Debes autorizar el acceso al Bluetooth.</string>
-    <string name="bluetooth_failed_to_register_app_message">Fallo al registrar la aplicación. Asegúrate de que no hay ningún otro servicio Bluetooth ejecutándose en segundo plano. Si el error persiste, es posible que el proceso de Bluetooth se haya interrumpido inesperadamente. Para solucionar este problema, desactiva el Bluetooth de tu dispositivo y vuelve a activarlo.</string>
+    <string name="bluetooth_failed_to_register_app_message">Error al registrar la aplicación. Asegúrese de que no hay otro servicio Bluetooth ejecutándose en segundo plano. Si el error persiste, es posible que el proceso de Bluetooth se haya interrumpido inesperadamente. Para solucionar este error, por favor, desactive el Bluetooth de su dispositivo y vuelva a activarlo.</string>
     <string name="invert_mouse_scrolling_direction">Invertir la dirección de desplazamiento</string>
     <string name="keyboard_language_info">Asegúrate de que el idioma del teclado seleccionado coincida con el idioma configurado en el dispositivo remoto.</string>
     <string name="bluetooth_disabled_message">El Bluetooth de tu dispositivo debe estar activado para conectar con el dispositivo remoto.</string>
