@@ -29,8 +29,8 @@ fun KeyboardKeyView(
     touchDown: () -> Unit,
     touchUp: () -> Unit,
     modifier: Modifier = Modifier,
-    shape: Shape/* = RoundedCornerShape(dimensionResource(id = R.dimen.keyboard_key_corner_radius))*/,
-    elevation: Dp /*= dimensionResource(id = R.dimen.elevation_3),*/,
+    shape: Shape,
+    elevation: Dp,
     content: @Composable () -> Unit
 ) {
     RemoteButtonSurface(
@@ -54,8 +54,8 @@ fun TextAdvancedKeyboardKeyView(
     touchDown: () -> Unit,
     touchUp: () -> Unit,
     modifier: Modifier = Modifier,
-    shape: Shape/* = RoundedCornerShape(dimensionResource(id = R.dimen.keyboard_key_corner_radius))*/,
-    elevation: Dp /*= dimensionResource(id = R.dimen.elevation_3),*/
+    shape: Shape,
+    elevation: Dp
 ) {
     KeyboardKeyView(
         touchDown = touchDown,
@@ -112,8 +112,8 @@ fun IconAdvancedKeyboardKeyView(
     touchDown: () -> Unit,
     touchUp: () -> Unit,
     modifier: Modifier = Modifier,
-    shape: Shape/* = RoundedCornerShape(dimensionResource(id = R.dimen.keyboard_key_corner_radius))*/,
-    elevation: Dp /*= dimensionResource(id = R.dimen.elevation_3),*/
+    shape: Shape,
+    elevation: Dp
 ) {
     KeyboardKeyView(
         touchDown = touchDown,
@@ -136,8 +136,8 @@ fun TextAdvancedKeyboardModifierKeyView(
     touchDown: () -> Unit,
     touchUp: () -> Unit,
     modifier: Modifier = Modifier,
-    shape: Shape/* = RoundedCornerShape(dimensionResource(id = R.dimen.keyboard_key_corner_radius))*/,
-    elevation: Dp /*= dimensionResource(id = R.dimen.elevation_3),*/
+    shape: Shape,
+    elevation: Dp
 ) {
     KeyboardKeyView(
         touchDown = touchDown,

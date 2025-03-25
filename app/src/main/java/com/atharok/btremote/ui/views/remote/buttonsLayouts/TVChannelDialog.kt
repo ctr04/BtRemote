@@ -15,6 +15,7 @@ import androidx.compose.ui.unit.Dp
 import com.atharok.btremote.R
 import com.atharok.btremote.ui.components.TemplateDialog
 import com.atharok.btremote.ui.components.TextLarge
+import com.atharok.btremote.ui.theme.dimensionElevation3
 
 @Composable
 fun TVChannelDialog(
@@ -47,7 +48,7 @@ private fun TVChannelLayout(
     modifier: Modifier = Modifier
 ) {
     val shape = CircleShape
-    val elevation = dimensionResource(id = R.dimen.elevation_3)
+    val elevation = dimensionElevation3()
     val padding: Dp = dimensionResource(id = R.dimen.padding_normal)
 
     Column(

@@ -19,7 +19,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.draw.shadow
-import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
@@ -30,6 +29,7 @@ import com.atharok.btremote.common.utils.REMOTE_INPUT_NONE
 import com.atharok.btremote.domain.entity.remoteInput.RemoteInput
 import com.atharok.btremote.ui.components.RemoteButtonSurface
 import com.atharok.btremote.ui.components.StatefulRemoteButton
+import com.atharok.btremote.ui.theme.dimensionElevation1
 
 private val TopArcShape = ArcShape(-45f, -90f)
 private val BottomArcShape = ArcShape(45f, 90f)
@@ -40,7 +40,7 @@ private val RightArcShape = ArcShape(-45f, 90f)
 fun RemoteDirectionalPadNavigation(
     sendRemoteKeyReport: (bytes: ByteArray) -> Unit,
     modifier: Modifier = Modifier,
-    elevation: Dp = dimensionResource(id = R.dimen.elevation_1)
+    elevation: Dp = dimensionElevation1()
 ) {
     Box(
         modifier = modifier.shadow(

@@ -12,11 +12,11 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import com.atharok.btremote.R
 import com.atharok.btremote.common.utils.AppIcons
 import com.atharok.btremote.common.utils.AppIcons.getIconModifier
+import com.atharok.btremote.ui.theme.dimensionElevation2
 
 @Composable
 private fun OverflowMenu(
@@ -30,7 +30,7 @@ private fun OverflowMenu(
     DropdownMenu(
         expanded = showMenu,
         onDismissRequest = { showMenu = false },
-        containerColor = MaterialTheme.colorScheme.surfaceColorAtElevation(dimensionResource(id = R.dimen.elevation_2))
+        containerColor = MaterialTheme.colorScheme.surfaceColorAtElevation(dimensionElevation2())
     ) {
         content { showMenu = false }
     }

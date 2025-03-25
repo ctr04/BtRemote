@@ -21,6 +21,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.dimensionResource
 import com.atharok.btremote.R
 import com.atharok.btremote.common.utils.AppIcons.getIconModifier
+import com.atharok.btremote.ui.theme.dimensionElevation1
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -35,7 +36,7 @@ fun TemplateModalBottomSheet(
     ModalBottomSheet(
         onDismissRequest = onDismissRequest,
         modifier = modifier,
-        containerColor = MaterialTheme.colorScheme.surfaceColorAtElevation(dimensionResource(id = R.dimen.elevation_1)),
+        containerColor = MaterialTheme.colorScheme.surfaceColorAtElevation(dimensionElevation1()),
         contentWindowInsets = {
             WindowInsets(0, 0, 0, 0)
         }

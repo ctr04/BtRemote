@@ -14,7 +14,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.Dp
 import com.atharok.btremote.R
@@ -23,6 +22,7 @@ import com.atharok.btremote.common.utils.AppIcons.getIconModifier
 import com.atharok.btremote.domain.entity.remoteInput.RemoteInput
 import com.atharok.btremote.ui.components.RemoteButtonContentTemplate
 import com.atharok.btremote.ui.components.RemoteButtonSurface
+import com.atharok.btremote.ui.theme.dimensionElevation1
 
 @Composable
 private fun VerticalLayout(
@@ -30,7 +30,7 @@ private fun VerticalLayout(
     contentDown: @Composable () -> Unit,
     modifier: Modifier = Modifier,
     shape: Shape = RectangleShape,
-    elevation: Dp = dimensionResource(id = R.dimen.elevation_1)
+    elevation: Dp = dimensionElevation1()
 ) {
     RemoteButtonSurface(
         modifier = modifier,

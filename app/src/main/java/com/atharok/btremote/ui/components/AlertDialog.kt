@@ -21,6 +21,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
 import com.atharok.btremote.R
+import com.atharok.btremote.ui.theme.dimensionElevation1
 
 @Composable
 fun TemplateDialog(
@@ -42,7 +43,7 @@ fun TemplateDialog(
         dismissButton = {
             DialogButton(text = dismissButtonText, action = onDismissRequest)
         },
-        containerColor = MaterialTheme.colorScheme.surfaceColorAtElevation(dimensionResource(id = R.dimen.elevation_1)),
+        containerColor = MaterialTheme.colorScheme.surfaceColorAtElevation(dimensionElevation1()),
         modifier = modifier
     )
 }
