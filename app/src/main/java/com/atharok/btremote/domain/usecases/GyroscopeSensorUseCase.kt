@@ -1,7 +1,7 @@
 package com.atharok.btremote.domain.usecases
 
-import androidx.compose.runtime.State
 import com.atharok.btremote.domain.repositories.GyroscopeSensorRepository
+import kotlinx.coroutines.flow.StateFlow
 
 class GyroscopeSensorUseCase(private val repository: GyroscopeSensorRepository) {
 
@@ -15,5 +15,5 @@ class GyroscopeSensorUseCase(private val repository: GyroscopeSensorRepository) 
 
     fun getDisplayRotation(): Int = repository.getDisplayRotation()
 
-    fun getPositions(): State<Triple<Float, Float, Float>> = repository.getPositions()
+    fun getPositions(): StateFlow<Triple<Float, Float, Float>> = repository.getPositions()
 }

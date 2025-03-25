@@ -1,8 +1,8 @@
 package com.atharok.btremote.data.repositories
 
-import androidx.compose.runtime.State
 import com.atharok.btremote.data.sensor.GyroscopeSensor
 import com.atharok.btremote.domain.repositories.GyroscopeSensorRepository
+import kotlinx.coroutines.flow.StateFlow
 
 class GyroscopeSensorRepositoryImpl(private val sensor: GyroscopeSensor): GyroscopeSensorRepository {
 
@@ -16,5 +16,5 @@ class GyroscopeSensorRepositoryImpl(private val sensor: GyroscopeSensor): Gyrosc
 
     override fun getDisplayRotation(): Int = sensor.getDisplayRotation()
 
-    override fun getPositions(): State<Triple<Float, Float, Float>> = sensor.gyroscopePositionsState
+    override fun getPositions(): StateFlow<Triple<Float, Float, Float>> = sensor.gyroscopePositionsState
 }

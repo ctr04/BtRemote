@@ -1,8 +1,8 @@
 package com.atharok.btremote.presentation.viewmodel
 
-import androidx.compose.runtime.State
 import androidx.lifecycle.ViewModel
 import com.atharok.btremote.domain.usecases.GyroscopeSensorUseCase
+import kotlinx.coroutines.flow.StateFlow
 
 class GyroscopeSensorViewModel(
     private val useCase: GyroscopeSensorUseCase
@@ -18,5 +18,5 @@ class GyroscopeSensorViewModel(
 
     fun getDisplayRotation(): Int = useCase.getDisplayRotation()
 
-    val positions: State<Triple<Float, Float, Float>> get() = useCase.getPositions()
+    val positions: StateFlow<Triple<Float, Float, Float>> get() = useCase.getPositions()
 }

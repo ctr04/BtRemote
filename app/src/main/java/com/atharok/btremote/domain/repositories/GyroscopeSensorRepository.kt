@@ -1,6 +1,6 @@
 package com.atharok.btremote.domain.repositories
 
-import androidx.compose.runtime.State
+import kotlinx.coroutines.flow.StateFlow
 
 interface GyroscopeSensorRepository {
 
@@ -10,5 +10,5 @@ interface GyroscopeSensorRepository {
 
     fun getDisplayRotation(): Int
 
-    fun getPositions(): State<Triple<Float, Float, Float>>
+    fun getPositions(): StateFlow<Triple<Float, Float, Float>>
 }

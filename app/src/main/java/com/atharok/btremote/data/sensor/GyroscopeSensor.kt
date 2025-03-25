@@ -7,9 +7,9 @@ import android.hardware.SensorManager
 import android.hardware.display.DisplayManager
 import android.view.Display
 import android.view.Surface
-import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.State
-import androidx.compose.runtime.mutableStateOf
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 
 class GyroscopeSensor(
     private val sensorManager: SensorManager,
@@ -19,8 +19,8 @@ class GyroscopeSensor(
     private val gyroscope: Sensor? = sensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE)
     private val display: Display? = displayManager.getDisplay(Display.DEFAULT_DISPLAY)
 
-    private val _gyroscopePositionsState: MutableState<Triple<Float, Float, Float>> = mutableStateOf(Triple(0f, 0f, 0f))
-    val gyroscopePositionsState: State<Triple<Float, Float, Float>> = _gyroscopePositionsState
+    private val _gyroscopePositionsState: MutableStateFlow<Triple<Float, Float, Float>> = MutableStateFlow(Triple(0f, 0f, 0f))
+    val gyroscopePositionsState: StateFlow<Triple<Float, Float, Float>> = _gyroscopePositionsState.asStateFlow()
 
     fun startListening() {
         gyroscope?.also {

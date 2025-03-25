@@ -4,6 +4,7 @@ import android.view.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.atharok.btremote.presentation.viewmodel.GyroscopeSensorViewModel
 import org.koin.androidx.compose.koinViewModel
 
@@ -15,48 +16,37 @@ fun MouseGyroscope(
     onMousePositionChange: (Float, Float) -> Unit,
     gyroscopeSensorViewModel: GyroscopeSensorViewModel = koinViewModel()
 ) {
-
-    LaunchedEffect(Unit) {
-        gyroscopeSensorViewModel.startListening()
-    }
-
     DisposableEffect(Unit) {
+        gyroscopeSensorViewModel.startListening()
         onDispose {
             gyroscopeSensorViewModel.stopListening()
         }
     }
 
-    LaunchedEffect(gyroscopeSensorViewModel.positions.value) {
-        val positions: Triple<Float, Float, Float> = gyroscopeSensorViewModel.positions.value
-        when(gyroscopeSensorViewModel.getDisplayRotation()) {
+    val positions: Triple<Float, Float, Float> = gyroscopeSensorViewModel.positions.collectAsStateWithLifecycle().value
 
-            Surface.ROTATION_0 -> {
-                onMousePositionChange(
-                    positions.third * OFFSET * mouseSpeed * (-1),
-                    positions.first * OFFSET * mouseSpeed * (-1)
-                )
-            }
+    LaunchedEffect(positions) {
+        val (x, y, z) = positions
+        val (dx, dy) = calculateMouseDirection(
+            x, y, z,
+            gyroscopeSensorViewModel.getDisplayRotation(),
+            mouseSpeed
+        )
+        onMousePositionChange(dx, dy)
+    }
+}
 
-            Surface.ROTATION_180 -> {
-                onMousePositionChange(
-                    positions.third * OFFSET * mouseSpeed * (-1),
-                    positions.first * OFFSET * mouseSpeed
-                )
-            }
-
-            Surface.ROTATION_270 -> {
-                onMousePositionChange(
-                    positions.third * OFFSET * mouseSpeed * (-1),
-                    positions.second * OFFSET * mouseSpeed * (-1),
-                )
-            }
-
-            Surface.ROTATION_90 -> {
-                onMousePositionChange(
-                    positions.third * OFFSET * mouseSpeed * (-1),
-                    positions.second * OFFSET * mouseSpeed,
-                )
-            }
-        }
+private fun calculateMouseDirection(
+    x: Float, y: Float, z: Float,
+    rotation: Int,
+    speed: Float
+): Pair<Float, Float> {
+    val factor: Float = OFFSET * speed * -1
+    return when (rotation) {
+        Surface.ROTATION_0 -> z * factor to x * factor
+        Surface.ROTATION_180 -> z * factor to x * factor * -1
+        Surface.ROTATION_270 -> z * factor to y * factor
+        Surface.ROTATION_90 -> z * factor to y * factor * -1
+        else -> 0f to 0f
     }
 }
