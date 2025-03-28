@@ -194,4 +194,5 @@
     <string name="connected_off">未连接设备</string>
     <string name="open">打开</string>
     <string name="integrate_advanced_keyboard_into_the_view">将高级键盘集成到视图中</string>
+    <string name="keyboard_ukrainian">乌克兰语</string>
 </resources>
