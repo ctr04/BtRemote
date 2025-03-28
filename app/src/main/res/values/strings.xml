@@ -142,6 +142,7 @@
     <string name="keyboard_turkish">Turkish</string>
     <string name="keyboard_hebrew">Hebrew</string>
     <string name="keyboard_bulgarian">Bulgarian</string>
+    <string name="keyboard_ukrainian">Ukrainian</string>
     <string name="send">Send</string>
     <string name="enter">Enter</string>
     <string name="escape">Esc</string>
