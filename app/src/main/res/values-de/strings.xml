@@ -186,4 +186,5 @@
     <string name="open">Öffnen</string>
     <string name="connected_off">Keine Geräte verbunden</string>
     <string name="integrate_advanced_keyboard_into_the_view">Die erweiterte Tastatur in die Ansicht integrieren</string>
+    <string name="keyboard_ukrainian">Ukrainisch</string>
 </resources>
