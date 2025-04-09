@@ -329,11 +329,6 @@ fun BtRemoteTheme(
             view.context.getActivity()?.let { activity ->
                 val window = activity.window
                 WindowCompat.setDecorFitsSystemWindows(window, false)
-                @Suppress("DEPRECATION")
-                if(Build.VERSION.SDK_INT < Build.VERSION_CODES.VANILLA_ICE_CREAM) {
-                    window.statusBarColor = Color.Transparent.toArgb()
-                    window.navigationBarColor = Color.Transparent.toArgb()
-                }
                 WindowCompat.getInsetsController(window, window.decorView).isAppearanceLightStatusBars = !useDarkTheme
                 WindowCompat.getInsetsController(window, window.decorView).isAppearanceLightNavigationBars = !useDarkTheme
             }
