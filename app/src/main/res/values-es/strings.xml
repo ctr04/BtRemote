@@ -74,7 +74,7 @@
     <string name="mute">Silenciar</string>
     <string name="home">Inicio</string>
     <string name="back">Atrás</string>
-    <string name="standby">Standby</string>
+    <string name="standby">En espera</string>
     <string name="next_channel">Siguiente canal</string>
     <string name="previous_channel">Canal anterior</string>
     <string name="mouse">Mouse</string>
@@ -185,4 +185,6 @@
     <string name="pairing_from_a_remote_device_step_4_content">Si ha seguido todos los pasos anteriores, el emparejamiento fue exitoso, y tiene desconectado ambos dispositivos, puede seleccionar el botón %1$s. El dispositivo remoto debería de aparecer en la lista de dispositivos emparejados. Selecciónelo para establecer la conexión usando el protocolo HID.</string>
     <string name="touchpad">Panel táctil</string>
     <string name="integrate_advanced_keyboard_into_the_view">Integrar el teclado avanzado en la vista</string>
+    <string name="tv">TV</string>
+    <string name="keyboard_ukrainian">Ucraniano</string>
 </resources>
