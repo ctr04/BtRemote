@@ -200,4 +200,6 @@
     <string name="help_hid_service_not_initialized_message_3">• 如果此选项不可用，则设备可能不支持 HID 配置文件。在这种情况下，很遗憾，您将无法在本设备上使用此应用程序。</string>
     <string name="keyboard_persian">波斯语</string>
     <string name="help_hid_service_not_initialized_title">HID 服务未初始化</string>
+    <string name="use_enter_for_selection_summary">仅在选择按钮不起作用时启用此选项</string>
+    <string name="use_enter_for_selection_title">使用 Enter 键进行选择</string>
 </resources>
