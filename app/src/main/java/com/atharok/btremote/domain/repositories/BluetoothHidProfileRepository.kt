@@ -25,7 +25,7 @@ interface BluetoothHidProfileRepository {
 
     fun sendReport(id: Int, bytes: ByteArray): Boolean
 
-    fun sendTextReport(text: String, virtualKeyboardLayout: VirtualKeyboardLayout): Boolean
+    suspend fun sendTextReport(text: String, virtualKeyboardLayout: VirtualKeyboardLayout): Boolean
 
     fun getAutoConnectDeviceAddressFlow(): Flow<String>
 

@@ -43,7 +43,7 @@ class BluetoothHidProfileRepositoryImpl(private val hidProfile: BluetoothHidProf
         return hidProfile.sendReport(id, bytes)
     }
 
-    override fun sendTextReport(text: String, virtualKeyboardLayout: VirtualKeyboardLayout): Boolean {
+    override suspend fun sendTextReport(text: String, virtualKeyboardLayout: VirtualKeyboardLayout): Boolean {
         return hidProfile.sendTextReport(text, virtualKeyboardLayout)
     }
 

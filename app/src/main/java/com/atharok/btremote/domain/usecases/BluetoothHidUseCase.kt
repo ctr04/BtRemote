@@ -34,7 +34,7 @@ class BluetoothHidUseCase(private val repository: BluetoothHidProfileRepository)
         return repository.sendReport(id, bytes)
     }
 
-    fun sendTextReport(text: String, virtualKeyboardLayout: VirtualKeyboardLayout): Boolean {
+    suspend fun sendTextReport(text: String, virtualKeyboardLayout: VirtualKeyboardLayout): Boolean {
         return repository.sendTextReport(text, virtualKeyboardLayout)
     }
 
