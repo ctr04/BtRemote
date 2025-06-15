@@ -192,4 +192,6 @@
     <string name="help_hid_service_not_initialized_message_1">Ако съобщение показва, че услугата HID не е инициализирана, моля, отидете в опциите за разработчици на вашето устройство и потърсете опцията „Деактивиране на профила на Bluetooth HID устройство“:</string>
     <string name="help_hid_service_not_initialized_message_3">• Ако тази опция не е налична, е възможно устройството ви да не поддържа HID профила. В този случай, за съжаление, няма да можете да използвате това приложение на това устройство.</string>
     <string name="help_info_hid_service_not_initialized_message">Услугата HID не е инициализирана. Моля, вижте раздела за помощ.</string>
+    <string name="use_enter_for_selection_summary">Активирайте тази опция само ако бутонът за избор не работи</string>
+    <string name="use_enter_for_selection_title">Използвайте клавиша Enter за избор</string>
 </resources>
