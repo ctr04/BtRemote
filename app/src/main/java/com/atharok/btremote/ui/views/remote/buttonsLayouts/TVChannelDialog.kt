@@ -19,8 +19,20 @@ import com.atharok.btremote.ui.theme.dimensionElevation3
 
 @Composable
 fun TVChannelDialog(
-    sendRemoteKeyReport: (bytes: ByteArray) -> Unit,
-    sendNumberKeyReport: (bytes: ByteArray) -> Unit,
+    tvChannelIncTouchDown: () -> Unit,
+    tvChannelDecTouchDown: () -> Unit,
+    tvChannel1TouchDown: () -> Unit,
+    tvChannel2TouchDown: () -> Unit,
+    tvChannel3TouchDown: () -> Unit,
+    tvChannel4TouchDown: () -> Unit,
+    tvChannel5TouchDown: () -> Unit,
+    tvChannel6TouchDown: () -> Unit,
+    tvChannel7TouchDown: () -> Unit,
+    tvChannel8TouchDown: () -> Unit,
+    tvChannel9TouchDown: () -> Unit,
+    tvChannel0TouchDown: () -> Unit,
+    remoteTouchUp: () -> Unit,
+    keyboardTouchUp: () -> Unit,
     onDismissRequest: () -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -30,8 +42,20 @@ fun TVChannelDialog(
         },
         content = {
             TVChannelLayout(
-                sendRemoteKeyReport = sendRemoteKeyReport,
-                sendNumberKeyReport = sendNumberKeyReport,
+                tvChannelIncTouchDown = tvChannelIncTouchDown,
+                tvChannelDecTouchDown = tvChannelDecTouchDown,
+                tvChannel1TouchDown = tvChannel1TouchDown,
+                tvChannel2TouchDown = tvChannel2TouchDown,
+                tvChannel3TouchDown = tvChannel3TouchDown,
+                tvChannel4TouchDown = tvChannel4TouchDown,
+                tvChannel5TouchDown = tvChannel5TouchDown,
+                tvChannel6TouchDown = tvChannel6TouchDown,
+                tvChannel7TouchDown = tvChannel7TouchDown,
+                tvChannel8TouchDown = tvChannel8TouchDown,
+                tvChannel9TouchDown = tvChannel9TouchDown,
+                tvChannel0TouchDown = tvChannel0TouchDown,
+                remoteTouchUp = remoteTouchUp,
+                keyboardTouchUp = keyboardTouchUp,
                 modifier = Modifier.aspectRatio(3f / 4f)
             )
         },
@@ -43,8 +67,20 @@ fun TVChannelDialog(
 
 @Composable
 private fun TVChannelLayout(
-    sendRemoteKeyReport: (bytes: ByteArray) -> Unit,
-    sendNumberKeyReport: (bytes: ByteArray) -> Unit,
+    tvChannelIncTouchDown: () -> Unit,
+    tvChannelDecTouchDown: () -> Unit,
+    tvChannel1TouchDown: () -> Unit,
+    tvChannel2TouchDown: () -> Unit,
+    tvChannel3TouchDown: () -> Unit,
+    tvChannel4TouchDown: () -> Unit,
+    tvChannel5TouchDown: () -> Unit,
+    tvChannel6TouchDown: () -> Unit,
+    tvChannel7TouchDown: () -> Unit,
+    tvChannel8TouchDown: () -> Unit,
+    tvChannel9TouchDown: () -> Unit,
+    tvChannel0TouchDown: () -> Unit,
+    remoteTouchUp: () -> Unit,
+    keyboardTouchUp: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     val shape = CircleShape
@@ -59,7 +95,8 @@ private fun TVChannelLayout(
             horizontalArrangement = Arrangement.Absolute.Left
         ) {
             TVChannelButton1(
-                sendReport = sendNumberKeyReport,
+                touchDown = tvChannel1TouchDown,
+                touchUp = keyboardTouchUp,
                 modifier = Modifier
                     .weight(1f)
                     .padding(padding),
@@ -67,7 +104,8 @@ private fun TVChannelLayout(
                 elevation = elevation
             )
             TVChannelButton2(
-                sendReport = sendNumberKeyReport,
+                touchDown = tvChannel2TouchDown,
+                touchUp = keyboardTouchUp,
                 modifier = Modifier
                     .weight(1f)
                     .padding(padding),
@@ -75,7 +113,8 @@ private fun TVChannelLayout(
                 elevation = elevation
             )
             TVChannelButton3(
-                sendReport = sendNumberKeyReport,
+                touchDown = tvChannel3TouchDown,
+                touchUp = keyboardTouchUp,
                 modifier = Modifier
                     .weight(1f)
                     .padding(padding),
@@ -88,7 +127,8 @@ private fun TVChannelLayout(
             horizontalArrangement = Arrangement.Absolute.Left
         ) {
             TVChannelButton4(
-                sendReport = sendNumberKeyReport,
+                touchDown = tvChannel4TouchDown,
+                touchUp = keyboardTouchUp,
                 modifier = Modifier
                     .weight(1f)
                     .padding(padding),
@@ -96,7 +136,8 @@ private fun TVChannelLayout(
                 elevation = elevation
             )
             TVChannelButton5(
-                sendReport = sendNumberKeyReport,
+                touchDown = tvChannel5TouchDown,
+                touchUp = keyboardTouchUp,
                 modifier = Modifier
                     .weight(1f)
                     .padding(padding),
@@ -104,7 +145,8 @@ private fun TVChannelLayout(
                 elevation = elevation
             )
             TVChannelButton6(
-                sendReport = sendNumberKeyReport,
+                touchDown = tvChannel6TouchDown,
+                touchUp = keyboardTouchUp,
                 modifier = Modifier
                     .weight(1f)
                     .padding(padding),
@@ -117,7 +159,8 @@ private fun TVChannelLayout(
             horizontalArrangement = Arrangement.Absolute.Left
         ) {
             TVChannelButton7(
-                sendReport = sendNumberKeyReport,
+                touchDown = tvChannel7TouchDown,
+                touchUp = keyboardTouchUp,
                 modifier = Modifier
                     .weight(1f)
                     .padding(padding),
@@ -125,7 +168,8 @@ private fun TVChannelLayout(
                 elevation = elevation
             )
             TVChannelButton8(
-                sendReport = sendNumberKeyReport,
+                touchDown = tvChannel8TouchDown,
+                touchUp = keyboardTouchUp,
                 modifier = Modifier
                     .weight(1f)
                     .padding(padding),
@@ -133,7 +177,8 @@ private fun TVChannelLayout(
                 elevation = elevation
             )
             TVChannelButton9(
-                sendReport = sendNumberKeyReport,
+                touchDown = tvChannel9TouchDown,
+                touchUp = keyboardTouchUp,
                 modifier = Modifier
                     .weight(1f)
                     .padding(padding),
@@ -145,7 +190,8 @@ private fun TVChannelLayout(
             modifier = Modifier.fillMaxWidth().weight(1f)
         ) {
             TVChannelPreviousButton(
-                sendReport = sendRemoteKeyReport,
+                touchDown = tvChannelDecTouchDown,
+                touchUp = remoteTouchUp,
                 modifier = Modifier
                     .weight(1f)
                     .padding(padding),
@@ -153,7 +199,8 @@ private fun TVChannelLayout(
                 elevation = elevation
             )
             TVChannelButton0(
-                sendReport = sendNumberKeyReport,
+                touchDown = tvChannel0TouchDown,
+                touchUp = keyboardTouchUp,
                 modifier = Modifier
                     .weight(1f)
                     .padding(padding),
@@ -161,7 +208,8 @@ private fun TVChannelLayout(
                 elevation = elevation
             )
             TVChannelNextButton(
-                sendReport = sendRemoteKeyReport,
+                touchDown = tvChannelIncTouchDown,
+                touchUp = remoteTouchUp,
                 modifier = Modifier
                     .weight(1f)
                     .padding(padding),

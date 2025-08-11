@@ -19,7 +19,6 @@ import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.unit.Dp
-import com.atharok.btremote.common.utils.REMOTE_INPUT_NONE
 import com.atharok.btremote.ui.theme.dimensionElevation1
 
 @Composable
@@ -73,21 +72,6 @@ fun ButtonContentTemplate(
             content()
         }
     }
-}
-
-@Composable
-fun RemoteButtonContentTemplate(
-    bytes: ByteArray,
-    sendReport: (ByteArray) -> Unit,
-    shape: Shape,
-    content: @Composable () -> Unit
-) {
-    ButtonContentTemplate(
-        touchDown = { sendReport(bytes) },
-        touchUp = { sendReport(REMOTE_INPUT_NONE) },
-        shape = shape,
-        content = content
-    )
 }
 
 @Composable

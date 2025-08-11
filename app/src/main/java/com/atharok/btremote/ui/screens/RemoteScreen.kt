@@ -41,6 +41,7 @@ import com.atharok.btremote.common.utils.REMOTE_INPUT_NONE
 import com.atharok.btremote.common.utils.getKeyboardLayout
 import com.atharok.btremote.domain.entities.DeviceHidConnectionState
 import com.atharok.btremote.domain.entities.RemoteNavigationEntity
+import com.atharok.btremote.domain.entities.remoteInput.ChannelInput
 import com.atharok.btremote.domain.entities.remoteInput.MouseAction
 import com.atharok.btremote.domain.entities.remoteInput.RemoteInput
 import com.atharok.btremote.domain.entities.remoteInput.keyboard.KeyboardKey
@@ -341,34 +342,145 @@ private fun RemoteLayout(
                 elevation = dimensionElevation1()
             )
         } else {
-            if (useMinimalistRemote) {
-                var showTVChannelButtons: Boolean by remember { mutableStateOf(false) }
-
-                MinimalistRemoteView(
-                    sendRemoteKeyReport = sendRemoteKeyReport,
-                    showTVChannelButtons = {
-                        showTVChannelButtons = !showTVChannelButtons
-                    },
-                    modifier = Modifier.padding(dimensionResource(id = R.dimen.padding_normal))
-                )
-
-                if (showTVChannelButtons) {
-                    TVChannelDialog(
-                        sendRemoteKeyReport = sendRemoteKeyReport,
-                        sendNumberKeyReport = sendKeyboardKeyReport,
-                        onDismissRequest = {
-                            showTVChannelButtons = false
-                        }
-                    )
-                }
-            } else {
-                RemoteView(
-                    sendRemoteKeyReport = sendRemoteKeyReport,
-                    sendNumberKeyReport = sendKeyboardKeyReport,
-                    modifier = Modifier.padding(dimensionResource(id = R.dimen.padding_normal))
-                )
-            }
+            RemoteButtonsLayouts(
+                useMinimalistRemote = useMinimalistRemote,
+                multimediaPlayPauseTouchDown = { sendRemoteKeyReport(RemoteInput.REMOTE_INPUT_PLAY_PAUSE) },
+                multimediaPreviousTouchDown = { sendRemoteKeyReport(RemoteInput.REMOTE_INPUT_PREVIOUS) },
+                multimediaNextTouchDown = { sendRemoteKeyReport(RemoteInput.REMOTE_INPUT_NEXT) },
+                volumeIncTouchDown = { sendRemoteKeyReport(RemoteInput.REMOTE_INPUT_VOLUME_INC) },
+                volumeDecTouchDown = { sendRemoteKeyReport(RemoteInput.REMOTE_INPUT_VOLUME_DEC) },
+                volumeMuteTouchDown = { sendRemoteKeyReport(RemoteInput.REMOTE_INPUT_VOLUME_MUTE) },
+                closedCaptionsTouchDown = { sendRemoteKeyReport(RemoteInput.REMOTE_INPUT_CLOSED_CAPTIONS) },
+                backTouchDown = { sendRemoteKeyReport(RemoteInput.REMOTE_INPUT_BACK) },
+                homeTouchDown = { sendRemoteKeyReport(RemoteInput.REMOTE_INPUT_HOME) },
+                menuTouchDown = { sendRemoteKeyReport(RemoteInput.REMOTE_INPUT_MENU) },
+                powerTouchDown = { sendRemoteKeyReport(RemoteInput.REMOTE_INPUT_POWER) },
+                brightnessIncTouchDown = { sendRemoteKeyReport(RemoteInput.REMOTE_INPUT_BRIGHTNESS_INC) },
+                brightnessDecTouchDown = { sendRemoteKeyReport(RemoteInput.REMOTE_INPUT_BRIGHTNESS_DEC) },
+                tvChannelIncTouchDown = { sendRemoteKeyReport(RemoteInput.REMOTE_INPUT_CHANNEL_INC) },
+                tvChannelDecTouchDown = { sendRemoteKeyReport(RemoteInput.REMOTE_INPUT_CHANNEL_DEC) },
+                tvChannel1TouchDown = { sendKeyboardKeyReport(ChannelInput.CHANNEL_INPUT_1) },
+                tvChannel2TouchDown = { sendKeyboardKeyReport(ChannelInput.CHANNEL_INPUT_2) },
+                tvChannel3TouchDown = { sendKeyboardKeyReport(ChannelInput.CHANNEL_INPUT_3) },
+                tvChannel4TouchDown = { sendKeyboardKeyReport(ChannelInput.CHANNEL_INPUT_4) },
+                tvChannel5TouchDown = { sendKeyboardKeyReport(ChannelInput.CHANNEL_INPUT_5) },
+                tvChannel6TouchDown = { sendKeyboardKeyReport(ChannelInput.CHANNEL_INPUT_6) },
+                tvChannel7TouchDown = { sendKeyboardKeyReport(ChannelInput.CHANNEL_INPUT_7) },
+                tvChannel8TouchDown = { sendKeyboardKeyReport(ChannelInput.CHANNEL_INPUT_8) },
+                tvChannel9TouchDown = { sendKeyboardKeyReport(ChannelInput.CHANNEL_INPUT_9) },
+                tvChannel0TouchDown = { sendKeyboardKeyReport(ChannelInput.CHANNEL_INPUT_0) },
+                remoteTouchUp = { sendRemoteKeyReport(REMOTE_INPUT_NONE) },
+                keyboardTouchUp = { sendKeyboardKeyReport(REMOTE_INPUT_NONE) },
+            )
         }
+    }
+}
+
+@Composable
+private fun RemoteButtonsLayouts(
+    useMinimalistRemote: Boolean,
+    multimediaPlayPauseTouchDown: () -> Unit,
+    multimediaPreviousTouchDown: () -> Unit,
+    multimediaNextTouchDown: () -> Unit,
+    volumeIncTouchDown: () -> Unit,
+    volumeDecTouchDown: () -> Unit,
+    volumeMuteTouchDown: () -> Unit,
+    closedCaptionsTouchDown: () -> Unit,
+    backTouchDown: () -> Unit,
+    homeTouchDown: () -> Unit,
+    menuTouchDown: () -> Unit,
+    powerTouchDown: () -> Unit,
+    brightnessIncTouchDown: () -> Unit,
+    brightnessDecTouchDown: () -> Unit,
+    tvChannelIncTouchDown: () -> Unit,
+    tvChannelDecTouchDown: () -> Unit,
+    tvChannel1TouchDown: () -> Unit,
+    tvChannel2TouchDown: () -> Unit,
+    tvChannel3TouchDown: () -> Unit,
+    tvChannel4TouchDown: () -> Unit,
+    tvChannel5TouchDown: () -> Unit,
+    tvChannel6TouchDown: () -> Unit,
+    tvChannel7TouchDown: () -> Unit,
+    tvChannel8TouchDown: () -> Unit,
+    tvChannel9TouchDown: () -> Unit,
+    tvChannel0TouchDown: () -> Unit,
+    remoteTouchUp: () -> Unit,
+    keyboardTouchUp: () -> Unit,
+) {
+    if (useMinimalistRemote) {
+        var showTVChannelButtons: Boolean by remember { mutableStateOf(false) }
+
+        MinimalistRemoteView(
+            multimediaPlayPauseTouchDown = multimediaPlayPauseTouchDown,
+            multimediaPreviousTouchDown = multimediaPreviousTouchDown,
+            multimediaNextTouchDown = multimediaNextTouchDown,
+            volumeIncTouchDown = volumeIncTouchDown,
+            volumeDecTouchDown = volumeDecTouchDown,
+            volumeMuteTouchDown = volumeMuteTouchDown,
+            closedCaptionsTouchDown = closedCaptionsTouchDown,
+            backTouchDown = backTouchDown,
+            homeTouchDown = homeTouchDown,
+            menuTouchDown = menuTouchDown,
+            powerTouchDown = powerTouchDown,
+            brightnessIncTouchDown = brightnessIncTouchDown,
+            brightnessDecTouchDown = brightnessDecTouchDown,
+            remoteTouchUp = remoteTouchUp,
+            showTVChannelButtons = {
+                showTVChannelButtons = !showTVChannelButtons
+            },
+            modifier = Modifier.padding(dimensionResource(id = R.dimen.padding_normal))
+        )
+
+        if (showTVChannelButtons) {
+            TVChannelDialog(
+                tvChannelIncTouchDown = tvChannelIncTouchDown,
+                tvChannelDecTouchDown = tvChannelDecTouchDown,
+                tvChannel1TouchDown = tvChannel1TouchDown,
+                tvChannel2TouchDown = tvChannel2TouchDown,
+                tvChannel3TouchDown = tvChannel3TouchDown,
+                tvChannel4TouchDown = tvChannel4TouchDown,
+                tvChannel5TouchDown = tvChannel5TouchDown,
+                tvChannel6TouchDown = tvChannel6TouchDown,
+                tvChannel7TouchDown = tvChannel7TouchDown,
+                tvChannel8TouchDown = tvChannel8TouchDown,
+                tvChannel9TouchDown = tvChannel9TouchDown,
+                tvChannel0TouchDown = tvChannel0TouchDown,
+                remoteTouchUp = remoteTouchUp,
+                keyboardTouchUp = keyboardTouchUp,
+                onDismissRequest = {
+                    showTVChannelButtons = false
+                }
+            )
+        }
+    } else {
+        RemoteView(
+            multimediaPlayPauseTouchDown = multimediaPlayPauseTouchDown,
+            multimediaPreviousTouchDown = multimediaPreviousTouchDown,
+            multimediaNextTouchDown = multimediaNextTouchDown,
+            volumeIncTouchDown = volumeIncTouchDown,
+            volumeDecTouchDown = volumeDecTouchDown,
+            volumeMuteTouchDown = volumeMuteTouchDown,
+            closedCaptionsTouchDown = closedCaptionsTouchDown,
+            backTouchDown = backTouchDown,
+            homeTouchDown = homeTouchDown,
+            menuTouchDown = menuTouchDown,
+            powerTouchDown = powerTouchDown,
+            tvChannelIncTouchDown = tvChannelIncTouchDown,
+            tvChannelDecTouchDown = tvChannelDecTouchDown,
+            tvChannel1TouchDown = tvChannel1TouchDown,
+            tvChannel2TouchDown = tvChannel2TouchDown,
+            tvChannel3TouchDown = tvChannel3TouchDown,
+            tvChannel4TouchDown = tvChannel4TouchDown,
+            tvChannel5TouchDown = tvChannel5TouchDown,
+            tvChannel6TouchDown = tvChannel6TouchDown,
+            tvChannel7TouchDown = tvChannel7TouchDown,
+            tvChannel8TouchDown = tvChannel8TouchDown,
+            tvChannel9TouchDown = tvChannel9TouchDown,
+            tvChannel0TouchDown = tvChannel0TouchDown,
+            remoteTouchUp = remoteTouchUp,
+            keyboardTouchUp = keyboardTouchUp,
+            modifier = Modifier.padding(dimensionResource(id = R.dimen.padding_normal))
+        )
     }
 }
 

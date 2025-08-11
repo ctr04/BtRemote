@@ -19,8 +19,7 @@ import androidx.compose.ui.unit.Dp
 import com.atharok.btremote.R
 import com.atharok.btremote.common.utils.AppIcons
 import com.atharok.btremote.common.utils.AppIcons.getIconModifier
-import com.atharok.btremote.domain.entities.remoteInput.RemoteInput
-import com.atharok.btremote.ui.components.RemoteButtonContentTemplate
+import com.atharok.btremote.ui.components.ButtonContentTemplate
 import com.atharok.btremote.ui.components.RemoteButtonSurface
 import com.atharok.btremote.ui.theme.dimensionElevation1
 
@@ -54,40 +53,40 @@ private fun VerticalLayout(
 
 @Composable
 private fun VerticalLayout(
-    upBytes: ByteArray,
-    upIcon: ImageVector,
-    @StringRes upIconDescription: Int,
-    downBytes: ByteArray,
-    downIcon: ImageVector,
-    @StringRes downIconDescription: Int,
-    sendReport: (ByteArray) -> Unit,
+    topButtonTouchDown: () -> Unit,
+    topIcon: ImageVector,
+    @StringRes topIconDescription: Int,
+    bottomButtonTouchDown: () -> Unit,
+    bottomIcon: ImageVector,
+    @StringRes bottomIconDescription: Int,
+    buttonTouchUp: () -> Unit,
     modifier: Modifier = Modifier,
     shape: Shape = RectangleShape
 ) {
     VerticalLayout(
         contentUp = {
-            RemoteButtonContentTemplate(
-                bytes = upBytes,
-                sendReport = sendReport,
+            ButtonContentTemplate(
+                touchDown = topButtonTouchDown,
+                touchUp = buttonTouchUp,
                 shape = shape
             ) {
                 Icon(
-                    imageVector = upIcon,
-                    contentDescription = stringResource(id = upIconDescription),
-                    modifier = getIconModifier(upIcon).fillMaxSize(0.5f)
+                    imageVector = topIcon,
+                    contentDescription = stringResource(id = topIconDescription),
+                    modifier = getIconModifier(topIcon).fillMaxSize(0.5f)
                 )
             }
         },
         contentDown = {
-            RemoteButtonContentTemplate(
-                bytes = downBytes,
-                sendReport = sendReport,
+            ButtonContentTemplate(
+                touchDown = bottomButtonTouchDown,
+                touchUp = buttonTouchUp,
                 shape = shape
             ) {
                 Icon(
-                    imageVector = downIcon,
-                    contentDescription = stringResource(id = downIconDescription),
-                    modifier = getIconModifier(downIcon).fillMaxSize(0.5f)
+                    imageVector = bottomIcon,
+                    contentDescription = stringResource(id = bottomIconDescription),
+                    modifier = getIconModifier(bottomIcon).fillMaxSize(0.5f)
                 )
             }
         },
@@ -100,18 +99,20 @@ private fun VerticalLayout(
 
 @Composable
 fun VolumeVerticalButtons(
-    sendReport: (ByteArray) -> Unit,
+    volumeUpButtonTouchDown: () -> Unit,
+    volumeDownButtonTouchDown: () -> Unit,
+    buttonTouchUp: () -> Unit,
     modifier: Modifier = Modifier,
     shape: Shape = RectangleShape
 ) {
     VerticalLayout(
-        upBytes = RemoteInput.REMOTE_INPUT_VOLUME_INC,
-        upIcon = AppIcons.VolumeIncrease,
-        upIconDescription = R.string.volume_increase,
-        downBytes = RemoteInput.REMOTE_INPUT_VOLUME_DEC,
-        downIcon = AppIcons.VolumeDecrease,
-        downIconDescription = R.string.volume_decrease,
-        sendReport = sendReport,
+        topButtonTouchDown = volumeUpButtonTouchDown,
+        topIcon = AppIcons.VolumeIncrease,
+        topIconDescription = R.string.volume_increase,
+        bottomButtonTouchDown = volumeDownButtonTouchDown,
+        bottomIcon = AppIcons.VolumeDecrease,
+        bottomIconDescription = R.string.volume_decrease,
+        buttonTouchUp = buttonTouchUp,
         modifier = modifier,
         shape = shape
     )
@@ -119,18 +120,20 @@ fun VolumeVerticalButtons(
 
 @Composable
 fun TVChannelVerticalButtons(
-    sendReport: (ByteArray) -> Unit,
+    tvChannelUpButtonTouchDown: () -> Unit,
+    tvChannelDownButtonTouchDown: () -> Unit,
+    buttonTouchUp: () -> Unit,
     modifier: Modifier = Modifier,
     shape: Shape = RectangleShape
 ) {
     VerticalLayout(
-        upBytes = RemoteInput.REMOTE_INPUT_CHANNEL_INC,
-        upIcon = AppIcons.TVChannelIncrease,
-        upIconDescription = R.string.next_channel,
-        downBytes = RemoteInput.REMOTE_INPUT_CHANNEL_DEC,
-        downIcon = AppIcons.TVChannelDecrease,
-        downIconDescription = R.string.previous_channel,
-        sendReport = sendReport,
+        topButtonTouchDown = tvChannelUpButtonTouchDown,
+        topIcon = AppIcons.TVChannelIncrease,
+        topIconDescription = R.string.next_channel,
+        bottomButtonTouchDown = tvChannelDownButtonTouchDown,
+        bottomIcon = AppIcons.TVChannelDecrease,
+        bottomIconDescription = R.string.previous_channel,
+        buttonTouchUp = buttonTouchUp,
         modifier = modifier,
         shape = shape
     )
@@ -138,18 +141,20 @@ fun TVChannelVerticalButtons(
 
 @Composable
 fun BrightnessVerticalButtons(
-    sendReport: (ByteArray) -> Unit,
+    brightnessUpButtonTouchDown: () -> Unit,
+    brightnessDownButtonTouchDown: () -> Unit,
+    buttonTouchUp: () -> Unit,
     modifier: Modifier = Modifier,
     shape: Shape = RectangleShape
 ) {
     VerticalLayout(
-        upBytes = RemoteInput.REMOTE_INPUT_BRIGHTNESS_INC,
-        upIcon = AppIcons.BrightnessIncrease,
-        upIconDescription = R.string.brightness_increase,
-        downBytes = RemoteInput.REMOTE_INPUT_BRIGHTNESS_DEC,
-        downIcon = AppIcons.BrightnessDecrease,
-        downIconDescription = R.string.brightness_decrease,
-        sendReport = sendReport,
+        topButtonTouchDown = brightnessUpButtonTouchDown,
+        topIcon = AppIcons.BrightnessIncrease,
+        topIconDescription = R.string.brightness_increase,
+        bottomButtonTouchDown = brightnessDownButtonTouchDown,
+        bottomIcon = AppIcons.BrightnessDecrease,
+        bottomIconDescription = R.string.brightness_decrease,
+        buttonTouchUp = buttonTouchUp,
         modifier = modifier,
         shape = shape
     )

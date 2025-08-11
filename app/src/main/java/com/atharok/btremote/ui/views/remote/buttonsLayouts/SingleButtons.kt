@@ -14,18 +14,15 @@ import androidx.compose.ui.unit.Dp
 import com.atharok.btremote.R
 import com.atharok.btremote.common.utils.AppIcons
 import com.atharok.btremote.common.utils.AppIcons.getIconModifier
-import com.atharok.btremote.domain.entities.remoteInput.ChannelInput
-import com.atharok.btremote.domain.entities.remoteInput.RemoteInput
 import com.atharok.btremote.ui.components.AdaptiveText
 import com.atharok.btremote.ui.components.ButtonContentTemplate
-import com.atharok.btremote.ui.components.RemoteButtonContentTemplate
 import com.atharok.btremote.ui.components.RemoteButtonSurface
 import com.atharok.btremote.ui.theme.dimensionElevation1
 
 @Composable
 private fun SingleRemoteButton(
-    bytes: ByteArray,
-    sendReport: (ByteArray) -> Unit,
+    touchDown: () -> Unit,
+    touchUp: () -> Unit,
     modifier: Modifier = Modifier,
     shape: Shape = RectangleShape,
     elevation: Dp = dimensionElevation1(),
@@ -36,9 +33,9 @@ private fun SingleRemoteButton(
         shape = shape,
         elevation = elevation
     ) {
-        RemoteButtonContentTemplate(
-            bytes = bytes,
-            sendReport = sendReport,
+        ButtonContentTemplate(
+            touchDown = touchDown,
+            touchUp = touchUp,
             shape = shape,
             content = content
         )
@@ -47,8 +44,8 @@ private fun SingleRemoteButton(
 
 @Composable
 private fun IconRemoteButton(
-    bytes: ByteArray,
-    sendReport: (ByteArray) -> Unit,
+    touchDown: () -> Unit,
+    touchUp: () -> Unit,
     image: ImageVector,
     contentDescription: String,
     modifier: Modifier = Modifier,
@@ -56,8 +53,8 @@ private fun IconRemoteButton(
     elevation: Dp = dimensionElevation1()
 ) {
     SingleRemoteButton(
-        bytes = bytes,
-        sendReport = sendReport,
+        touchDown = touchDown,
+        touchUp = touchUp,
         modifier = modifier,
         shape = shape,
         elevation = elevation
@@ -73,15 +70,15 @@ private fun IconRemoteButton(
 @Composable
 private fun TextRemoteButton(
     text: String,
-    bytes: ByteArray,
-    sendReport: (ByteArray) -> Unit,
+    touchDown: () -> Unit,
+    touchUp: () -> Unit,
     modifier: Modifier = Modifier,
     shape: Shape = RectangleShape,
     elevation: Dp = dimensionElevation1()
 ) {
     SingleRemoteButton(
-        bytes = bytes,
-        sendReport = sendReport,
+        touchDown = touchDown,
+        touchUp = touchUp,
         modifier = modifier,
         shape = shape,
         elevation = elevation
@@ -100,13 +97,14 @@ private fun TextRemoteButton(
 
 @Composable
 fun BackButton(
-    sendReport: (ByteArray) -> Unit,
+    touchDown: () -> Unit,
+    touchUp: () -> Unit,
     modifier: Modifier = Modifier,
     shape: Shape = RectangleShape
 ) {
     IconRemoteButton(
-        bytes = RemoteInput.REMOTE_INPUT_BACK,
-        sendReport = sendReport,
+        touchDown = touchDown,
+        touchUp = touchUp,
         image = AppIcons.Back,
         contentDescription = stringResource(id = R.string.back),
         modifier = modifier,
@@ -116,13 +114,14 @@ fun BackButton(
 
 @Composable
 fun HomeButton(
-    sendReport: (ByteArray) -> Unit,
+    touchDown: () -> Unit,
+    touchUp: () -> Unit,
     modifier: Modifier = Modifier,
     shape: Shape = RectangleShape
 ) {
     IconRemoteButton(
-        bytes = RemoteInput.REMOTE_INPUT_HOME,
-        sendReport = sendReport,
+        touchDown = touchDown,
+        touchUp = touchUp,
         image = AppIcons.Home,
         contentDescription = stringResource(id = R.string.home),
         modifier = modifier,
@@ -132,13 +131,14 @@ fun HomeButton(
 
 @Composable
 fun MenuButton(
-    sendReport: (ByteArray) -> Unit,
+    touchDown: () -> Unit,
+    touchUp: () -> Unit,
     modifier: Modifier = Modifier,
     shape: Shape = RectangleShape
 ) {
     IconRemoteButton(
-        bytes = RemoteInput.REMOTE_INPUT_MENU,
-        sendReport = sendReport,
+        touchDown = touchDown,
+        touchUp = touchUp,
         image = AppIcons.Menu,
         contentDescription = stringResource(id = R.string.menu),
         modifier = modifier,
@@ -148,13 +148,14 @@ fun MenuButton(
 
 @Composable
 fun PowerButton(
-    sendReport: (ByteArray) -> Unit,
+    touchDown: () -> Unit,
+    touchUp: () -> Unit,
     modifier: Modifier = Modifier,
     shape: Shape = RectangleShape
 ) {
     IconRemoteButton(
-        bytes = RemoteInput.REMOTE_INPUT_POWER,
-        sendReport = sendReport,
+        touchDown = touchDown,
+        touchUp = touchUp,
         image = AppIcons.Power,
         contentDescription = stringResource(id = R.string.power),
         modifier = modifier,
@@ -164,13 +165,14 @@ fun PowerButton(
 
 @Composable
 fun VolumeMuteButton(
-    sendReport: (ByteArray) -> Unit,
+    touchDown: () -> Unit,
+    touchUp: () -> Unit,
     modifier: Modifier = Modifier,
     shape: Shape = RectangleShape
 ) {
     IconRemoteButton(
-        bytes = RemoteInput.REMOTE_INPUT_VOLUME_MUTE,
-        sendReport = sendReport,
+        touchDown = touchDown,
+        touchUp = touchUp,
         image = AppIcons.Mute,
         contentDescription = stringResource(id = R.string.mute),
         modifier = modifier,
@@ -180,13 +182,14 @@ fun VolumeMuteButton(
 
 @Composable
 fun ClosedCaptionsButton(
-    sendReport: (ByteArray) -> Unit,
+    touchDown: () -> Unit,
+    touchUp: () -> Unit,
     modifier: Modifier = Modifier,
     shape: Shape = RectangleShape
 ) {
     IconRemoteButton(
-        bytes = RemoteInput.REMOTE_INPUT_CLOSED_CAPTIONS,
-        sendReport = sendReport,
+        touchDown = touchDown,
+        touchUp = touchUp,
         image = AppIcons.ClosedCaption,
         contentDescription = stringResource(id = R.string.closed_captions),
         modifier = modifier,
@@ -224,15 +227,16 @@ fun TVChannelButton(
 
 @Composable
 fun TVChannelButton1(
-    sendReport: (ByteArray) -> Unit,
+    touchDown: () -> Unit,
+    touchUp: () -> Unit,
     modifier: Modifier = Modifier,
     shape: Shape = RectangleShape,
     elevation: Dp = dimensionElevation1()
 ) {
     TextRemoteButton(
         text = "1",
-        bytes = ChannelInput.CHANNEL_INPUT_1,
-        sendReport = sendReport,
+        touchDown = touchDown,
+        touchUp = touchUp,
         modifier = modifier,
         shape = shape,
         elevation = elevation
@@ -241,15 +245,16 @@ fun TVChannelButton1(
 
 @Composable
 fun TVChannelButton2(
-    sendReport: (ByteArray) -> Unit,
+    touchDown: () -> Unit,
+    touchUp: () -> Unit,
     modifier: Modifier = Modifier,
     shape: Shape = RectangleShape,
     elevation: Dp = dimensionElevation1()
 ) {
     TextRemoteButton(
         text = "2",
-        bytes = ChannelInput.CHANNEL_INPUT_2,
-        sendReport = sendReport,
+        touchDown = touchDown,
+        touchUp = touchUp,
         modifier = modifier,
         shape = shape,
         elevation = elevation
@@ -258,15 +263,16 @@ fun TVChannelButton2(
 
 @Composable
 fun TVChannelButton3(
-    sendReport: (ByteArray) -> Unit,
+    touchDown: () -> Unit,
+    touchUp: () -> Unit,
     modifier: Modifier = Modifier,
     shape: Shape = RectangleShape,
     elevation: Dp = dimensionElevation1()
 ) {
     TextRemoteButton(
         text = "3",
-        bytes = ChannelInput.CHANNEL_INPUT_3,
-        sendReport = sendReport,
+        touchDown = touchDown,
+        touchUp = touchUp,
         modifier = modifier,
         shape = shape,
         elevation = elevation
@@ -275,15 +281,16 @@ fun TVChannelButton3(
 
 @Composable
 fun TVChannelButton4(
-    sendReport: (ByteArray) -> Unit,
+    touchDown: () -> Unit,
+    touchUp: () -> Unit,
     modifier: Modifier = Modifier,
     shape: Shape = RectangleShape,
     elevation: Dp = dimensionElevation1()
 ) {
     TextRemoteButton(
         text = "4",
-        bytes = ChannelInput.CHANNEL_INPUT_4,
-        sendReport = sendReport,
+        touchDown = touchDown,
+        touchUp = touchUp,
         modifier = modifier,
         shape = shape,
         elevation = elevation
@@ -292,15 +299,16 @@ fun TVChannelButton4(
 
 @Composable
 fun TVChannelButton5(
-    sendReport: (ByteArray) -> Unit,
+    touchDown: () -> Unit,
+    touchUp: () -> Unit,
     modifier: Modifier = Modifier,
     shape: Shape = RectangleShape,
     elevation: Dp = dimensionElevation1()
 ) {
     TextRemoteButton(
         text = "5",
-        bytes = ChannelInput.CHANNEL_INPUT_5,
-        sendReport = sendReport,
+        touchDown = touchDown,
+        touchUp = touchUp,
         modifier = modifier,
         shape = shape,
         elevation = elevation
@@ -309,15 +317,16 @@ fun TVChannelButton5(
 
 @Composable
 fun TVChannelButton6(
-    sendReport: (ByteArray) -> Unit,
+    touchDown: () -> Unit,
+    touchUp: () -> Unit,
     modifier: Modifier = Modifier,
     shape: Shape = RectangleShape,
     elevation: Dp = dimensionElevation1()
 ) {
     TextRemoteButton(
         text = "6",
-        bytes = ChannelInput.CHANNEL_INPUT_6,
-        sendReport = sendReport,
+        touchDown = touchDown,
+        touchUp = touchUp,
         modifier = modifier,
         shape = shape,
         elevation = elevation
@@ -326,15 +335,16 @@ fun TVChannelButton6(
 
 @Composable
 fun TVChannelButton7(
-    sendReport: (ByteArray) -> Unit,
+    touchDown: () -> Unit,
+    touchUp: () -> Unit,
     modifier: Modifier = Modifier,
     shape: Shape = RectangleShape,
     elevation: Dp = dimensionElevation1()
 ) {
     TextRemoteButton(
         text = "7",
-        bytes = ChannelInput.CHANNEL_INPUT_7,
-        sendReport = sendReport,
+        touchDown = touchDown,
+        touchUp = touchUp,
         modifier = modifier,
         shape = shape,
         elevation = elevation
@@ -343,15 +353,16 @@ fun TVChannelButton7(
 
 @Composable
 fun TVChannelButton8(
-    sendReport: (ByteArray) -> Unit,
+    touchDown: () -> Unit,
+    touchUp: () -> Unit,
     modifier: Modifier = Modifier,
     shape: Shape = RectangleShape,
     elevation: Dp = dimensionElevation1()
 ) {
     TextRemoteButton(
         text = "8",
-        bytes = ChannelInput.CHANNEL_INPUT_8,
-        sendReport = sendReport,
+        touchDown = touchDown,
+        touchUp = touchUp,
         modifier = modifier,
         shape = shape,
         elevation = elevation
@@ -360,15 +371,16 @@ fun TVChannelButton8(
 
 @Composable
 fun TVChannelButton9(
-    sendReport: (ByteArray) -> Unit,
+    touchDown: () -> Unit,
+    touchUp: () -> Unit,
     modifier: Modifier = Modifier,
     shape: Shape = RectangleShape,
     elevation: Dp = dimensionElevation1()
 ) {
     TextRemoteButton(
         text = "9",
-        bytes = ChannelInput.CHANNEL_INPUT_9,
-        sendReport = sendReport,
+        touchDown = touchDown,
+        touchUp = touchUp,
         modifier = modifier,
         shape = shape,
         elevation = elevation
@@ -377,15 +389,16 @@ fun TVChannelButton9(
 
 @Composable
 fun TVChannelButton0(
-    sendReport: (ByteArray) -> Unit,
+    touchDown: () -> Unit,
+    touchUp: () -> Unit,
     modifier: Modifier = Modifier,
     shape: Shape = RectangleShape,
     elevation: Dp = dimensionElevation1()
 ) {
     TextRemoteButton(
         text = "0",
-        bytes = ChannelInput.CHANNEL_INPUT_0,
-        sendReport = sendReport,
+        touchDown = touchDown,
+        touchUp = touchUp,
         modifier = modifier,
         shape = shape,
         elevation = elevation
@@ -394,14 +407,15 @@ fun TVChannelButton0(
 
 @Composable
 fun TVChannelPreviousButton(
-    sendReport: (ByteArray) -> Unit,
+    touchDown: () -> Unit,
+    touchUp: () -> Unit,
     modifier: Modifier = Modifier,
     shape: Shape = RectangleShape,
     elevation: Dp = dimensionElevation1()
 ) {
     IconRemoteButton(
-        bytes = RemoteInput.REMOTE_INPUT_CHANNEL_DEC,
-        sendReport = sendReport,
+        touchDown = touchDown,
+        touchUp = touchUp,
         image = AppIcons.TVChannelDecrease,
         contentDescription = stringResource(id = R.string.previous_channel),
         modifier = modifier,
@@ -412,14 +426,15 @@ fun TVChannelPreviousButton(
 
 @Composable
 fun TVChannelNextButton(
-    sendReport: (ByteArray) -> Unit,
+    touchDown: () -> Unit,
+    touchUp: () -> Unit,
     modifier: Modifier = Modifier,
     shape: Shape = RectangleShape,
     elevation: Dp = dimensionElevation1()
 ) {
     IconRemoteButton(
-        bytes = RemoteInput.REMOTE_INPUT_CHANNEL_INC,
-        sendReport = sendReport,
+        touchDown = touchDown,
+        touchUp = touchUp,
         image = AppIcons.TVChannelIncrease,
         contentDescription = stringResource(id = R.string.next_channel),
         modifier = modifier,

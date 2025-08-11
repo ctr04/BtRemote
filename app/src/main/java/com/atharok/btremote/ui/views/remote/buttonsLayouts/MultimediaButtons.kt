@@ -17,8 +17,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.Dp
 import com.atharok.btremote.R
 import com.atharok.btremote.common.utils.AppIcons
-import com.atharok.btremote.domain.entities.remoteInput.RemoteInput
-import com.atharok.btremote.ui.components.RemoteButtonContentTemplate
+import com.atharok.btremote.ui.components.ButtonContentTemplate
 import com.atharok.btremote.ui.components.RemoteButtonSurface
 import com.atharok.btremote.ui.theme.dimensionElevation1
 
@@ -58,20 +57,35 @@ private fun MultimediaLayout(
 
 @Composable
 fun MultimediaLayout(
-    sendReport: (ByteArray) -> Unit,
+    multimediaPlayPauseTouchDown: () -> Unit,
+    multimediaPreviousTouchDown: () -> Unit,
+    multimediaNextTouchDown: () -> Unit,
+    remoteTouchUp: () -> Unit,
     modifier: Modifier = Modifier,
     shape: Shape = RectangleShape,
     elevation: Dp = dimensionElevation1()
 ) {
     MultimediaLayout(
         previous = {
-            MultimediaPreviousButtonContent(sendReport = sendReport, shape = shape)
+            MultimediaPreviousButtonContent(
+                touchDown = multimediaPreviousTouchDown,
+                touchUp = remoteTouchUp,
+                shape = shape
+            )
         },
         playPause = {
-            MultimediaPlayPauseButtonContent(sendReport = sendReport, shape = shape)
+            MultimediaPlayPauseButtonContent(
+                touchDown = multimediaPlayPauseTouchDown,
+                touchUp = remoteTouchUp,
+                shape = shape
+            )
         },
         next = {
-            MultimediaNextButtonContent(sendReport = sendReport, shape = shape)
+            MultimediaNextButtonContent(
+                touchDown = multimediaNextTouchDown,
+                touchUp = remoteTouchUp,
+                shape = shape
+            )
         },
         modifier = modifier,
         shape = shape,
@@ -81,12 +95,13 @@ fun MultimediaLayout(
 
 @Composable
 private fun MultimediaPreviousButtonContent(
-    sendReport: (ByteArray) -> Unit,
+    touchDown: () -> Unit,
+    touchUp: () -> Unit,
     shape: Shape
 ) {
-    RemoteButtonContentTemplate(
-        bytes = RemoteInput.REMOTE_INPUT_PREVIOUS,
-        sendReport = sendReport,
+    ButtonContentTemplate(
+        touchDown = touchDown,
+        touchUp = touchUp,
         shape = shape
     ) {
         Icon(
@@ -99,12 +114,13 @@ private fun MultimediaPreviousButtonContent(
 
 @Composable
 private fun MultimediaNextButtonContent(
-    sendReport: (ByteArray) -> Unit,
+    touchDown: () -> Unit,
+    touchUp: () -> Unit,
     shape: Shape
 ) {
-    RemoteButtonContentTemplate(
-        bytes = RemoteInput.REMOTE_INPUT_NEXT,
-        sendReport = sendReport,
+    ButtonContentTemplate(
+        touchDown = touchDown,
+        touchUp = touchUp,
         shape = shape
     ) {
         Icon(
@@ -117,12 +133,13 @@ private fun MultimediaNextButtonContent(
 
 @Composable
 private fun MultimediaPlayPauseButtonContent(
-    sendReport: (ByteArray) -> Unit,
+    touchDown: () -> Unit,
+    touchUp: () -> Unit,
     shape: Shape
 ) {
-    RemoteButtonContentTemplate(
-        bytes = RemoteInput.REMOTE_INPUT_PLAY_PAUSE,
-        sendReport = sendReport,
+    ButtonContentTemplate(
+        touchDown = touchDown,
+        touchUp = touchUp,
         shape = shape
     ) {
         Row(

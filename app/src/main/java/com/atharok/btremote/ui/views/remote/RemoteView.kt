@@ -36,8 +36,31 @@ import com.atharok.btremote.ui.views.remote.buttonsLayouts.VolumeVerticalButtons
 
 @Composable
 fun RemoteView(
-    sendRemoteKeyReport: (bytes: ByteArray) -> Unit,
-    sendNumberKeyReport: (bytes: ByteArray) -> Unit,
+    multimediaPlayPauseTouchDown: () -> Unit,
+    multimediaPreviousTouchDown: () -> Unit,
+    multimediaNextTouchDown: () -> Unit,
+    volumeIncTouchDown: () -> Unit,
+    volumeDecTouchDown: () -> Unit,
+    volumeMuteTouchDown: () -> Unit,
+    closedCaptionsTouchDown: () -> Unit,
+    backTouchDown: () -> Unit,
+    homeTouchDown: () -> Unit,
+    menuTouchDown: () -> Unit,
+    powerTouchDown: () -> Unit,
+    tvChannelIncTouchDown: () -> Unit,
+    tvChannelDecTouchDown: () -> Unit,
+    tvChannel1TouchDown: () -> Unit,
+    tvChannel2TouchDown: () -> Unit,
+    tvChannel3TouchDown: () -> Unit,
+    tvChannel4TouchDown: () -> Unit,
+    tvChannel5TouchDown: () -> Unit,
+    tvChannel6TouchDown: () -> Unit,
+    tvChannel7TouchDown: () -> Unit,
+    tvChannel8TouchDown: () -> Unit,
+    tvChannel9TouchDown: () -> Unit,
+    tvChannel0TouchDown: () -> Unit,
+    remoteTouchUp: () -> Unit,
+    keyboardTouchUp: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     val shape = CircleShape
@@ -45,7 +68,10 @@ fun RemoteView(
 
     Column(modifier = modifier) {
         MultimediaLayout(
-            sendReport = sendRemoteKeyReport,
+            multimediaPlayPauseTouchDown = multimediaPlayPauseTouchDown,
+            multimediaPreviousTouchDown = multimediaPreviousTouchDown,
+            multimediaNextTouchDown = multimediaNextTouchDown,
+            remoteTouchUp = remoteTouchUp,
             modifier = Modifier
                 .fillMaxWidth()
                 .weight(1f)
@@ -64,7 +90,9 @@ fun RemoteView(
                 modifier = Modifier.weight(1f)
             ) {
                 VolumeVerticalButtons(
-                    sendReport = sendRemoteKeyReport,
+                    volumeUpButtonTouchDown = volumeIncTouchDown,
+                    volumeDownButtonTouchDown = volumeDecTouchDown,
+                    buttonTouchUp = remoteTouchUp,
                     modifier = Modifier
                         .weight(2f)
                         .padding(padding)
@@ -73,7 +101,8 @@ fun RemoteView(
                 )
 
                 VolumeMuteButton(
-                    sendReport = sendRemoteKeyReport,
+                    touchDown = volumeMuteTouchDown,
+                    touchUp = remoteTouchUp,
                     modifier = Modifier
                         .weight(1f)
                         .padding(padding),
@@ -81,7 +110,8 @@ fun RemoteView(
                 )
 
                 BackButton(
-                    sendReport = sendRemoteKeyReport,
+                    touchDown = backTouchDown,
+                    touchUp = remoteTouchUp,
                     modifier = Modifier
                         .weight(1f)
                         .padding(padding),
@@ -93,7 +123,8 @@ fun RemoteView(
                 modifier = Modifier.weight(1f)
             ) {
                 TVChannelButton1(
-                    sendReport = sendNumberKeyReport,
+                    touchDown = tvChannel1TouchDown,
+                    touchUp = keyboardTouchUp,
                     modifier = Modifier
                         .weight(1f)
                         .padding(padding),
@@ -101,7 +132,8 @@ fun RemoteView(
                 )
 
                 TVChannelButton4(
-                    sendReport = sendNumberKeyReport,
+                    touchDown = tvChannel4TouchDown,
+                    touchUp = keyboardTouchUp,
                     modifier = Modifier
                         .weight(1f)
                         .padding(padding),
@@ -109,7 +141,8 @@ fun RemoteView(
                 )
 
                 TVChannelButton7(
-                    sendReport = sendNumberKeyReport,
+                    touchDown = tvChannel7TouchDown,
+                    touchUp = keyboardTouchUp,
                     modifier = Modifier
                         .weight(1f)
                         .padding(padding),
@@ -117,7 +150,8 @@ fun RemoteView(
                 )
 
                 HomeButton(
-                    sendReport = sendRemoteKeyReport,
+                    touchDown = homeTouchDown,
+                    touchUp = remoteTouchUp,
                     modifier = Modifier
                         .weight(1f)
                         .padding(padding),
@@ -129,7 +163,8 @@ fun RemoteView(
                 modifier = Modifier.weight(1f)
             ) {
                 TVChannelButton2(
-                    sendReport = sendNumberKeyReport,
+                    touchDown = tvChannel2TouchDown,
+                    touchUp = keyboardTouchUp,
                     modifier = Modifier
                         .weight(1f)
                         .padding(padding),
@@ -137,7 +172,8 @@ fun RemoteView(
                 )
 
                 TVChannelButton5(
-                    sendReport = sendNumberKeyReport,
+                    touchDown = tvChannel5TouchDown,
+                    touchUp = keyboardTouchUp,
                     modifier = Modifier
                         .weight(1f)
                         .padding(padding),
@@ -145,7 +181,8 @@ fun RemoteView(
                 )
 
                 TVChannelButton8(
-                    sendReport = sendNumberKeyReport,
+                    touchDown = tvChannel8TouchDown,
+                    touchUp = keyboardTouchUp,
                     modifier = Modifier
                         .weight(1f)
                         .padding(padding),
@@ -153,7 +190,8 @@ fun RemoteView(
                 )
 
                 TVChannelButton0(
-                    sendReport = sendNumberKeyReport,
+                    touchDown = tvChannel0TouchDown,
+                    touchUp = keyboardTouchUp,
                     modifier = Modifier
                         .weight(1f)
                         .padding(padding),
@@ -165,7 +203,8 @@ fun RemoteView(
                 modifier = Modifier.weight(1f)
             ) {
                 TVChannelButton3(
-                    sendReport = sendNumberKeyReport,
+                    touchDown = tvChannel3TouchDown,
+                    touchUp = keyboardTouchUp,
                     modifier = Modifier
                         .weight(1f)
                         .padding(padding),
@@ -173,7 +212,8 @@ fun RemoteView(
                 )
 
                 TVChannelButton6(
-                    sendReport = sendNumberKeyReport,
+                    touchDown = tvChannel6TouchDown,
+                    touchUp = keyboardTouchUp,
                     modifier = Modifier
                         .weight(1f)
                         .padding(padding),
@@ -181,7 +221,8 @@ fun RemoteView(
                 )
 
                 TVChannelButton9(
-                    sendReport = sendNumberKeyReport,
+                    touchDown = tvChannel9TouchDown,
+                    touchUp = keyboardTouchUp,
                     modifier = Modifier
                         .weight(1f)
                         .padding(padding),
@@ -189,7 +230,8 @@ fun RemoteView(
                 )
 
                 MenuButton(
-                    sendReport = sendRemoteKeyReport,
+                    touchDown = menuTouchDown,
+                    touchUp = remoteTouchUp,
                     modifier = Modifier
                         .weight(1f)
                         .padding(padding),
@@ -201,7 +243,9 @@ fun RemoteView(
                 modifier = Modifier.weight(1f)
             ) {
                 TVChannelVerticalButtons(
-                    sendReport = sendRemoteKeyReport,
+                    tvChannelUpButtonTouchDown = tvChannelIncTouchDown,
+                    tvChannelDownButtonTouchDown = tvChannelDecTouchDown,
+                    buttonTouchUp = remoteTouchUp,
                     modifier = Modifier
                         .weight(2f)
                         .padding(padding)
@@ -210,7 +254,8 @@ fun RemoteView(
                 )
 
                 ClosedCaptionsButton(
-                    sendReport = sendRemoteKeyReport,
+                    touchDown = closedCaptionsTouchDown,
+                    touchUp = remoteTouchUp,
                     modifier = Modifier
                         .weight(1f)
                         .padding(padding),
@@ -218,7 +263,8 @@ fun RemoteView(
                 )
 
                 PowerButton(
-                    sendReport = sendRemoteKeyReport,
+                    touchDown = powerTouchDown,
+                    touchUp = remoteTouchUp,
                     modifier = Modifier
                         .weight(1f)
                         .padding(padding),
@@ -231,7 +277,20 @@ fun RemoteView(
 
 @Composable
 fun MinimalistRemoteView(
-    sendRemoteKeyReport: (bytes: ByteArray) -> Unit,
+    multimediaPlayPauseTouchDown: () -> Unit,
+    multimediaPreviousTouchDown: () -> Unit,
+    multimediaNextTouchDown: () -> Unit,
+    volumeIncTouchDown: () -> Unit,
+    volumeDecTouchDown: () -> Unit,
+    volumeMuteTouchDown: () -> Unit,
+    closedCaptionsTouchDown: () -> Unit,
+    backTouchDown: () -> Unit,
+    homeTouchDown: () -> Unit,
+    menuTouchDown: () -> Unit,
+    powerTouchDown: () -> Unit,
+    brightnessIncTouchDown: () -> Unit,
+    brightnessDecTouchDown: () -> Unit,
+    remoteTouchUp: () -> Unit,
     showTVChannelButtons: () -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -240,7 +299,10 @@ fun MinimalistRemoteView(
 
     Column(modifier = modifier) {
         MultimediaLayout(
-            sendReport = sendRemoteKeyReport,
+            multimediaPlayPauseTouchDown = multimediaPlayPauseTouchDown,
+            multimediaPreviousTouchDown = multimediaPreviousTouchDown,
+            multimediaNextTouchDown = multimediaNextTouchDown,
+            remoteTouchUp = remoteTouchUp,
             modifier = Modifier
                 .fillMaxWidth()
                 .weight(1f)
@@ -256,7 +318,9 @@ fun MinimalistRemoteView(
         ) {
             Column(modifier = Modifier.weight(1f).padding(padding)) {
                 VolumeVerticalButtons(
-                    sendReport = sendRemoteKeyReport,
+                    volumeUpButtonTouchDown = volumeIncTouchDown,
+                    volumeDownButtonTouchDown = volumeDecTouchDown,
+                    buttonTouchUp = remoteTouchUp,
                     modifier = Modifier.align(Alignment.Start),
                     shape = shape
                 )
@@ -269,7 +333,8 @@ fun MinimalistRemoteView(
                     modifier = Modifier.weight(1f)
                 ) {
                     VolumeMuteButton(
-                        sendReport = sendRemoteKeyReport,
+                        touchDown = volumeMuteTouchDown,
+                        touchUp = remoteTouchUp,
                         modifier = Modifier
                             .weight(1f)
                             .padding(padding),
@@ -277,7 +342,8 @@ fun MinimalistRemoteView(
                     )
 
                     ClosedCaptionsButton(
-                        sendReport = sendRemoteKeyReport,
+                        touchDown = closedCaptionsTouchDown,
+                        touchUp = remoteTouchUp,
                         modifier = Modifier
                             .weight(1f)
                             .padding(padding),
@@ -296,7 +362,9 @@ fun MinimalistRemoteView(
 
             Column(modifier = Modifier.weight(1f).padding(padding)) {
                 BrightnessVerticalButtons(
-                    sendReport = sendRemoteKeyReport,
+                    brightnessUpButtonTouchDown = brightnessIncTouchDown,
+                    brightnessDownButtonTouchDown = brightnessDecTouchDown,
+                    buttonTouchUp = remoteTouchUp,
                     modifier = Modifier.align(Alignment.End),
                     shape = shape
                 )
@@ -310,28 +378,32 @@ fun MinimalistRemoteView(
             horizontalArrangement = Arrangement.Absolute.SpaceBetween
         ) {
             BackButton(
-                sendReport = sendRemoteKeyReport,
+                touchDown = backTouchDown,
+                touchUp = remoteTouchUp,
                 modifier = Modifier
                     .weight(1f)
                     .padding(padding),
                 shape = shape
             )
             HomeButton(
-                sendReport = sendRemoteKeyReport,
+                touchDown = homeTouchDown,
+                touchUp = remoteTouchUp,
                 modifier = Modifier
                     .weight(1f)
                     .padding(padding),
                 shape = shape
             )
             MenuButton(
-                sendReport = sendRemoteKeyReport,
+                touchDown = menuTouchDown,
+                touchUp = remoteTouchUp,
                 modifier = Modifier
                     .weight(1f)
                     .padding(padding),
                 shape = shape
             )
             PowerButton(
-                sendReport = sendRemoteKeyReport,
+                touchDown = powerTouchDown,
+                touchUp = remoteTouchUp,
                 modifier = Modifier
                     .weight(1f)
                     .padding(padding),
