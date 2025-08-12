@@ -98,6 +98,8 @@ fun SettingsScreen(
             val mustClearInputField: Boolean by settingsViewModel.mustClearInputField.collectAsStateWithLifecycle(initialValue = true)
             val useAdvancedKeyboard: Boolean by settingsViewModel.useAdvancedKeyboard.collectAsStateWithLifecycle(initialValue = false)
             val useAdvancedKeyboardIntegrated: Boolean by settingsViewModel.useAdvancedKeyboardIntegrated.collectAsStateWithLifecycle(initialValue = false)
+            // Advanced Options
+            val hideBluetoothActivationButton: Boolean by settingsViewModel.hideBluetoothActivationButtonFlow.collectAsStateWithLifecycle(initialValue = false)
 
             // ---- Appearance ----
 
@@ -364,6 +366,39 @@ fun SettingsScreen(
                     )
                 }
             }
+
+            HorizontalDivider(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(vertical = verticalPadding)
+            )
+
+            // ---- Advanced Options ----
+
+            SettingsTitle(
+                text = stringResource(id = R.string.advanced_options),
+                icon = AppIcons.Settings,
+                iconDescription = stringResource(id = R.string.advanced_options),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(
+                        horizontal = horizontalPadding,
+                        vertical = verticalPadding
+                    )
+            )
+
+            SettingsSwitch(
+                primaryText = stringResource(id = R.string.hide_bluetooth_activation_button),
+                secondaryText = null,
+                checked = hideBluetoothActivationButton,
+                onCheckedChange = { settingsViewModel.saveHideBluetoothActivationButton(it) },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(
+                        horizontal = horizontalPadding,
+                        vertical = verticalPadding
+                    )
+            )
 
             HorizontalDivider(
                 modifier = Modifier

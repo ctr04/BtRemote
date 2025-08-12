@@ -4,23 +4,29 @@ import android.bluetooth.BluetoothAdapter
 import android.content.Intent
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.atharok.btremote.R
 import com.atharok.btremote.common.extensions.getActivity
 import com.atharok.btremote.common.utils.AppIcons
 import com.atharok.btremote.common.utils.checkBluetoothConnectPermission
 import com.atharok.btremote.ui.views.ActivationView
+import kotlinx.coroutines.flow.Flow
 
 @Composable
 fun BluetoothActivationScreen(
     isBluetoothEnabled: Boolean,
     openBluetoothDeviceSelectionScreen: () -> Unit,
+    hideBluetoothActivationButtonFlow: Flow<Boolean>,
     openSettings: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     val context = LocalContext.current
+
+    val hideBluetoothActivationButton by hideBluetoothActivationButtonFlow.collectAsStateWithLifecycle(false)
 
     DisposableEffect(isBluetoothEnabled) {
         if(isBluetoothEnabled) {
@@ -44,6 +50,7 @@ fun BluetoothActivationScreen(
                 }
             }
         },
+        hideButton = hideBluetoothActivationButton,
         openSettings = openSettings,
         modifier = modifier
     )

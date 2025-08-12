@@ -86,4 +86,9 @@ class SettingsRepositoryImpl(
     override suspend fun saveFavoriteDevices(macAddresses: List<String>) {
         settingsDataStore.saveFavoriteDevices(macAddresses)
     }
+
+    override fun hideBluetoothActivationButton(): Flow<Boolean> = settingsDataStore.hideBluetoothActivationButtonFlow
+    override suspend fun saveHideBluetoothActivationButton(hide: Boolean) {
+        settingsDataStore.saveHideBluetoothActivationButton(hide)
+    }
 }

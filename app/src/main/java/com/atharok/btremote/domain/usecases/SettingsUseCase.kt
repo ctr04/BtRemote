@@ -82,4 +82,9 @@ class SettingsUseCase(private val repository: SettingsRepository) {
     suspend fun saveFavoriteDevices(macAddresses: List<String>) {
         repository.saveFavoriteDevices(macAddresses)
     }
+
+    fun hideBluetoothActivationButton(): Flow<Boolean> = repository.hideBluetoothActivationButton()
+    suspend fun saveHideBluetoothActivationButton(hide: Boolean) {
+        repository.saveHideBluetoothActivationButton(hide)
+    }
 }

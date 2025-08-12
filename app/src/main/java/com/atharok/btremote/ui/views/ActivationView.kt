@@ -37,6 +37,7 @@ fun ActivationView(
     buttonIcon: ImageVector,
     buttonText: String,
     buttonOnClick: () -> Unit,
+    hideButton: Boolean,
     openSettings: () -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -79,12 +80,16 @@ fun ActivationView(
                         )
                 )
 
-                MaterialButton(
-                    onClick = buttonOnClick,
-                    modifier = Modifier.fillMaxWidth(),
-                    text = buttonText,
-                    icon = buttonIcon,
-                )
+                if(!hideButton) {
+                    MaterialButton(
+                        onClick = buttonOnClick,
+                        modifier = Modifier.fillMaxWidth(),
+                        text = buttonText,
+                        icon = buttonIcon,
+                    )
+                } else {
+                    Spacer(modifier = Modifier)
+                }
             }
         }
     }

@@ -50,4 +50,7 @@ interface SettingsRepository {
 
     fun getFavoriteDevices(): Flow<List<String>>
     suspend fun saveFavoriteDevices(macAddresses: List<String>)
+
+    fun hideBluetoothActivationButton(): Flow<Boolean>
+    suspend fun saveHideBluetoothActivationButton(hide: Boolean)
 }

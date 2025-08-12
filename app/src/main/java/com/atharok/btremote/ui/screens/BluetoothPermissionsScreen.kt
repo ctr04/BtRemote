@@ -77,6 +77,7 @@ private fun StatelessBluetoothPermission(
         buttonIcon = AppIcons.Key,
         buttonText = stringResource(id = R.string.bluetooth_permission_button),
         buttonOnClick = requestPermission,
+        hideButton = false,
         openSettings = openSettings,
         modifier = modifier
     )

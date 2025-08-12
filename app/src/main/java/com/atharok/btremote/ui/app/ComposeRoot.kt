@@ -115,6 +115,7 @@ fun ComposeRoot(
                             openBluetoothDeviceSelectionScreen = {
                                 navController.navigateTo(AppNavDestination.BluetoothDeviceSelectionDestination.route)
                             },
+                            hideBluetoothActivationButtonFlow = settingsViewModel.hideBluetoothActivationButtonFlow,
                             openSettings = openSettings
                         )
                     },
