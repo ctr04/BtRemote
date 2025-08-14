@@ -12,7 +12,7 @@ import com.atharok.btremote.R
 import com.atharok.btremote.common.utils.AppIcons
 import com.atharok.btremote.ui.components.TemplateModalBottomSheet
 import com.atharok.btremote.ui.components.TextMedium
-import com.atharok.btremote.ui.components.TextNormalSecondary
+import com.atharok.btremote.ui.components.TextNormal
 
 @Composable
 private fun HelpModalBottomSheet(
@@ -216,7 +216,7 @@ private fun Section(
         TextMedium(
             text = title
         )
-        TextNormalSecondary(
+        TextNormal(
             text = message,
             modifier = Modifier.padding(vertical = dimensionResource(id = R.dimen.padding_max))
         )

@@ -23,6 +23,7 @@ import com.atharok.btremote.ui.components.AutoConnectDropdownMenuItem
 import com.atharok.btremote.ui.components.FavoriteDeviceDropdownMenuItem
 import com.atharok.btremote.ui.components.MoreOverflowMenu
 import com.atharok.btremote.ui.components.TextMedium
+import com.atharok.btremote.ui.components.TextNormal
 import com.atharok.btremote.ui.components.TextNormalSecondary
 import com.atharok.btremote.ui.components.UnpairDropdownMenuItem
 import com.atharok.btremote.ui.theme.dimensionElevation3
@@ -51,7 +52,7 @@ fun DeviceItemView(
 
         Column(
             modifier = Modifier,
-            verticalArrangement = Arrangement.SpaceBetween
+            verticalArrangement = Arrangement.spacedBy(dimensionResource(id = R.dimen.padding_min))
         ) {
             TextMedium(text = name)
             TextNormalSecondary(text = macAddress)
@@ -88,7 +89,7 @@ fun DeviceItemView(
                 shape = CircleShape,
                 tonalElevation = dimensionElevation3()
             ) {
-                TextNormalSecondary(
+                TextNormal(
                     text = stringResource(id = R.string.automatic_shorten),
                     modifier = Modifier.padding(
                         horizontal = dimensionResource(id = R.dimen.padding_max),

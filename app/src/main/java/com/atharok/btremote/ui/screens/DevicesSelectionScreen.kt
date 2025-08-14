@@ -479,7 +479,7 @@ private fun InfoView(
                     text = stringResource(R.string.help_info_hid_service_not_initialized_message)
                 )
             } else {
-                TextNormalSecondary(text = stringResource(R.string.help_info_message))
+                TextNormal(text = stringResource(R.string.help_info_message))
             }
         }
     }

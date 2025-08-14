@@ -100,7 +100,6 @@ fun TextMedium(
         modifier = modifier,
         color = color,
         style = Typography.titleMedium,
-        fontWeight = FontWeight.Medium,
         textAlign = textAlign
     )
 }
@@ -113,7 +112,7 @@ fun TextNormal(
     modifier: Modifier = Modifier,
     color: Color = Color.Unspecified,
     fontSize: TextUnit = TextUnit.Unspecified,
-    style: TextStyle = Typography.titleSmall,
+    style: TextStyle = Typography.bodyMedium,
     textDecoration: TextDecoration? = null,
     textAlign: TextAlign? = null
 ) {
@@ -129,6 +128,20 @@ fun TextNormal(
 }
 
 @Composable
+fun TextNormalBold(
+    text: String,
+    modifier: Modifier = Modifier,
+    color: Color = Color.Unspecified
+) {
+    TextNormal(
+        text = text,
+        modifier = modifier,
+        color = color,
+        style = Typography.titleSmall
+    )
+}
+
+@Composable
 fun TextNormalSecondary(
     text: String,
     modifier: Modifier = Modifier,
@@ -138,7 +151,6 @@ fun TextNormalSecondary(
         text = text,
         modifier = modifier,
         color = MaterialTheme.colorScheme.onSurfaceVariant,
-        style = Typography.bodyMedium,
         textAlign = textAlign
     )
 }
@@ -153,6 +165,23 @@ fun TextNormalError(
         text = text,
         modifier = modifier,
         color = MaterialTheme.colorScheme.error,
+        textAlign = textAlign
+    )
+}
+
+// Small
+
+@Composable
+fun TextSmall(
+    text: String,
+    modifier: Modifier = Modifier,
+    textAlign: TextAlign? = null
+) {
+    TextNormal(
+        text = text,
+        modifier = modifier,
+        color = MaterialTheme.colorScheme.onSurfaceVariant,
+        style = Typography.bodySmall,
         textAlign = textAlign
     )
 }

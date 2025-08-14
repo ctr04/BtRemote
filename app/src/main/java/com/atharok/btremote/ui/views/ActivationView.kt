@@ -25,7 +25,7 @@ import com.atharok.btremote.ui.components.AppScaffold
 import com.atharok.btremote.ui.components.MaterialButton
 import com.atharok.btremote.ui.components.SettingsAction
 import com.atharok.btremote.ui.components.TextMedium
-import com.atharok.btremote.ui.components.TextNormalSecondary
+import com.atharok.btremote.ui.components.TextNormal
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -121,7 +121,7 @@ private fun Content(
             textAlign = TextAlign.Center
         )
 
-        TextNormalSecondary(
+        TextNormal(
             text = message,
             textAlign = TextAlign.Center
         )

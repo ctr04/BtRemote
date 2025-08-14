@@ -54,7 +54,8 @@ import com.atharok.btremote.ui.components.FadeAnimatedContent
 import com.atharok.btremote.ui.components.ListDialog
 import com.atharok.btremote.ui.components.NavigateUpAction
 import com.atharok.btremote.ui.components.TextNormal
-import com.atharok.btremote.ui.components.TextNormalSecondary
+import com.atharok.btremote.ui.components.TextNormalBold
+import com.atharok.btremote.ui.components.TextSmall
 
 @Composable
 fun SettingsScreen(
@@ -492,14 +493,15 @@ private fun SettingsRemoteNavigationSelector(
     modifier: Modifier = Modifier
 ) {
     Column(
-        modifier = modifier
+        modifier = modifier,
+        verticalArrangement = Arrangement.spacedBy(dimensionResource(id = R.dimen.padding_min))
     ) {
         TextNormal(
             text = stringResource(id = R.string.navigation_mode),
             modifier = Modifier.fillMaxSize()
         )
 
-        TextNormalSecondary(
+        TextSmall(
             text = stringResource(id = remoteNavigation.description),
             modifier = Modifier.fillMaxSize().padding(bottom = dimensionResource(R.dimen.padding_small))
         )
@@ -595,10 +597,11 @@ private fun <T> StatelessSettingsListDialog(
     Column(
         modifier = Modifier
             .clickable { onShowDialogChange(true) }
-            .then(modifier)
+            .then(modifier),
+        verticalArrangement = Arrangement.spacedBy(dimensionResource(id = R.dimen.padding_min))
     ) {
         TextNormal(text = stringResource(id = title))
-        TextNormalSecondary(text = convertValueToString(value))
+        TextSmall(text = convertValueToString(value))
     }
 }
 
@@ -618,11 +621,12 @@ private fun SettingsSwitch(
         verticalAlignment = Alignment.CenterVertically
     ) {
         Column(
-            modifier = Modifier.fillMaxWidth(0.8f)
+            modifier = Modifier.fillMaxWidth(0.8f),
+            verticalArrangement = Arrangement.spacedBy(dimensionResource(id = R.dimen.padding_min))
         ) {
             TextNormal(text = primaryText)
             secondaryText?.let {
-                TextNormalSecondary(text = it)
+                TextSmall(text = it)
             }
         }
 
@@ -673,7 +677,7 @@ private fun SettingsTitle(
             modifier = Modifier.size(dimensionResource(id = R.dimen.medium_icon_size)),
             colorFilter = ColorFilter.tint(color = MaterialTheme.colorScheme.secondary)
         )
-        TextNormal(
+        TextNormalBold(
             text = text,
             modifier = Modifier.padding(start = dimensionResource(id = R.dimen.padding_medium)),
             color = MaterialTheme.colorScheme.secondary

@@ -90,7 +90,7 @@ fun ListDialog(
             Column(modifier = Modifier.fillMaxWidth()) {
                 TextLarge(text = dialogTitle)
                 dialogMessage?.let {
-                    TextNormalSecondary(
+                    TextNormal(
                         text = it,
                         modifier = Modifier.padding(top = dimensionResource(id = R.dimen.padding_max))
                     )
@@ -165,7 +165,7 @@ private fun DialogButton(
             onClick = action,
             modifier = modifier
         ) {
-            TextNormal(text = text)
+            TextNormalBold(text = text)
         }
     }
 }
