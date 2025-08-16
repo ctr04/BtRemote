@@ -194,4 +194,9 @@
     <string name="help_hid_service_not_initialized_message_1">Wenn eine Nachricht darauf hinweist, dass das HID-Gerät nicht initialisiert wurde, gehe bitte in die Entwickleroptionen deines Geräts und sucht nach der Option „Deaktiviere Bluetooth-HID-Geräteprofil“:</string>
     <string name="help_hid_service_not_initialized_message_2">• Wenn die Option verfügbar ist, deaktiviere sie und starte dein Gerät neu. Nach dem Neustart sollte das HID-Profil normal funktionieren.</string>
     <string name="help_hid_service_not_initialized_message_3">• Wenn die Option nicht verfügbar ist, unterstützt dein Gerät das HID-Profil vermutlich nicht. In diesem Fall kannst du diese App auf diesem Gerät leider nicht benutzen.</string>
+    <string name="favorites">Favoriten</string>
+    <string name="add_to_favorites">Als Favorit hinzufügen</string>
+    <string name="advanced_options">Erweiterte Optionen</string>
+    <string name="remove_from_favorites">Als Favorit entfernen</string>
+    <string name="hide_bluetooth_activation_button">Verstecke Bluetooth-Aktivierungsbutton beim starten der App</string>
 </resources>
