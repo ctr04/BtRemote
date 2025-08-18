@@ -194,4 +194,9 @@
     <string name="help_hid_service_not_initialized_message_3">• Якщо ця опція недоступна, можливо, пристрій не підтримує профіль HID. У такому випадку, можливо, не зможете використовувати цю програму на цьому пристрої.</string>
     <string name="use_enter_for_selection_summary">Вмикайте цю опцію лише якщо клавіша вибору не працює</string>
     <string name="use_enter_for_selection_title">Використовувати клавішу Ввести для вибирання</string>
+    <string name="remove_from_favorites">Вилучити з вибраних</string>
+    <string name="favorites">Вибрані</string>
+    <string name="advanced_options">Розширені опції</string>
+    <string name="hide_bluetooth_activation_button">Приховати кнопку активації Bluetooth при запуску програми</string>
+    <string name="add_to_favorites">Додати до вибраних</string>
 </resources>
