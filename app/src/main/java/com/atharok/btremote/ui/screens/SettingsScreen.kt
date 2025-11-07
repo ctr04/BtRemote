@@ -54,8 +54,7 @@ import com.atharok.btremote.ui.components.FadeAnimatedContent
 import com.atharok.btremote.ui.components.ListDialog
 import com.atharok.btremote.ui.components.NavigateUpAction
 import com.atharok.btremote.ui.components.TextNormal
-import com.atharok.btremote.ui.components.TextNormalBold
-import com.atharok.btremote.ui.components.TextSmall
+import com.atharok.btremote.ui.components.TextNormalSecondary
 
 @Composable
 fun SettingsScreen(
@@ -501,7 +500,7 @@ private fun SettingsRemoteNavigationSelector(
             modifier = Modifier.fillMaxSize()
         )
 
-        TextSmall(
+        TextNormalSecondary(
             text = stringResource(id = remoteNavigation.description),
             modifier = Modifier.fillMaxSize().padding(bottom = dimensionResource(R.dimen.padding_small))
         )
@@ -601,7 +600,7 @@ private fun <T> StatelessSettingsListDialog(
         verticalArrangement = Arrangement.spacedBy(dimensionResource(id = R.dimen.padding_min))
     ) {
         TextNormal(text = stringResource(id = title))
-        TextSmall(text = convertValueToString(value))
+        TextNormalSecondary(text = convertValueToString(value))
     }
 }
 
@@ -626,7 +625,7 @@ private fun SettingsSwitch(
         ) {
             TextNormal(text = primaryText)
             secondaryText?.let {
-                TextSmall(text = it)
+                TextNormalSecondary(text = it)
             }
         }
 
@@ -677,7 +676,7 @@ private fun SettingsTitle(
             modifier = Modifier.size(dimensionResource(id = R.dimen.medium_icon_size)),
             colorFilter = ColorFilter.tint(color = MaterialTheme.colorScheme.secondary)
         )
-        TextNormalBold(
+        TextNormal(
             text = text,
             modifier = Modifier.padding(start = dimensionResource(id = R.dimen.padding_medium)),
             color = MaterialTheme.colorScheme.secondary

@@ -70,8 +70,8 @@ fun TextLarge(
     modifier: Modifier = Modifier,
     color: Color = Color.Unspecified,
     fontSize: TextUnit = TextUnit.Unspecified,
-    maxLines: Int = 1,
-    textAlign: TextAlign? = null
+    textAlign: TextAlign? = null,
+    maxLines: Int = 1
 ) {
     Text(
         text = text,
@@ -79,7 +79,7 @@ fun TextLarge(
         color = color,
         fontSize = fontSize,
         style = Typography.titleLarge,
-        fontWeight = FontWeight.Medium,
+        fontWeight = FontWeight.Bold,
         overflow = TextOverflow.Ellipsis,
         maxLines = maxLines,
         textAlign = textAlign
@@ -93,14 +93,19 @@ fun TextMedium(
     text: String,
     modifier: Modifier = Modifier,
     color: Color = Color.Unspecified,
-    textAlign: TextAlign? = null
+    textAlign: TextAlign? = null,
+    overflow: TextOverflow = TextOverflow.Ellipsis,
+    maxLines: Int = Int.MAX_VALUE
 ) {
     Text(
         text = text,
         modifier = modifier,
         color = color,
         style = Typography.titleMedium,
-        textAlign = textAlign
+        fontWeight = FontWeight.SemiBold,
+        textAlign = textAlign,
+        overflow = overflow,
+        maxLines = maxLines
     )
 }
 
@@ -112,9 +117,12 @@ fun TextNormal(
     modifier: Modifier = Modifier,
     color: Color = Color.Unspecified,
     fontSize: TextUnit = TextUnit.Unspecified,
-    style: TextStyle = Typography.bodyMedium,
+    style: TextStyle = Typography.titleSmall,
+    fontWeight: FontWeight? = null,
     textDecoration: TextDecoration? = null,
-    textAlign: TextAlign? = null
+    textAlign: TextAlign? = null,
+    overflow: TextOverflow = TextOverflow.Ellipsis,
+    maxLines: Int = Int.MAX_VALUE
 ) {
     Text(
         text = text,
@@ -122,22 +130,11 @@ fun TextNormal(
         color = color,
         fontSize = fontSize,
         style = style,
+        fontWeight = fontWeight,
         textDecoration = textDecoration,
-        textAlign = textAlign
-    )
-}
-
-@Composable
-fun TextNormalBold(
-    text: String,
-    modifier: Modifier = Modifier,
-    color: Color = Color.Unspecified
-) {
-    TextNormal(
-        text = text,
-        modifier = modifier,
-        color = color,
-        style = Typography.titleSmall
+        textAlign = textAlign,
+        overflow = overflow,
+        maxLines = maxLines
     )
 }
 
@@ -145,43 +142,18 @@ fun TextNormalBold(
 fun TextNormalSecondary(
     text: String,
     modifier: Modifier = Modifier,
-    textAlign: TextAlign? = null
+    color: Color = MaterialTheme.colorScheme.onSurfaceVariant,
+    textAlign: TextAlign? = null,
+    overflow: TextOverflow = TextOverflow.Ellipsis,
+    maxLines: Int = Int.MAX_VALUE
 ) {
     TextNormal(
         text = text,
         modifier = modifier,
-        color = MaterialTheme.colorScheme.onSurfaceVariant,
-        textAlign = textAlign
-    )
-}
-
-@Composable
-fun TextNormalError(
-    text: String,
-    modifier: Modifier = Modifier,
-    textAlign: TextAlign? = null
-) {
-    TextNormal(
-        text = text,
-        modifier = modifier,
-        color = MaterialTheme.colorScheme.error,
-        textAlign = textAlign
-    )
-}
-
-// Small
-
-@Composable
-fun TextSmall(
-    text: String,
-    modifier: Modifier = Modifier,
-    textAlign: TextAlign? = null
-) {
-    TextNormal(
-        text = text,
-        modifier = modifier,
-        color = MaterialTheme.colorScheme.onSurfaceVariant,
-        style = Typography.bodySmall,
-        textAlign = textAlign
+        color = color,
+        style = Typography.bodyMedium,
+        textAlign = textAlign,
+        overflow = overflow,
+        maxLines = maxLines
     )
 }

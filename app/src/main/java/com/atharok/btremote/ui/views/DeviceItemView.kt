@@ -54,8 +54,14 @@ fun DeviceItemView(
             modifier = Modifier,
             verticalArrangement = Arrangement.spacedBy(dimensionResource(id = R.dimen.padding_min))
         ) {
-            TextMedium(text = name)
-            TextNormalSecondary(text = macAddress)
+            TextMedium(
+                text = name,
+                maxLines = 1
+            )
+            TextNormalSecondary(
+                text = macAddress,
+                maxLines = 1
+            )
         }
     }
 }
@@ -94,7 +100,8 @@ fun DeviceItemView(
                     modifier = Modifier.padding(
                         horizontal = dimensionResource(id = R.dimen.padding_max),
                         vertical = dimensionResource(id = R.dimen.padding_small)
-                    )
+                    ),
+                    maxLines = 1
                 )
             }
         }

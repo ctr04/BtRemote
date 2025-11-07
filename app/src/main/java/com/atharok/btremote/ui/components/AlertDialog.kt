@@ -165,7 +165,7 @@ private fun DialogButton(
             onClick = action,
             modifier = modifier
         ) {
-            TextNormalBold(text = text)
+            TextNormal(text = text)
         }
     }
 }

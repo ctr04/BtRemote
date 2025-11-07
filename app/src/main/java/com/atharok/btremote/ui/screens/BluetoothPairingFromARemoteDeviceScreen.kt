@@ -35,7 +35,7 @@ import com.atharok.btremote.ui.components.MaterialButton
 import com.atharok.btremote.ui.components.MaterialOutlinedButton
 import com.atharok.btremote.ui.components.NavigateUpAction
 import com.atharok.btremote.ui.components.TextMedium
-import com.atharok.btremote.ui.components.TextNormal
+import com.atharok.btremote.ui.components.TextNormalSecondary
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
@@ -160,8 +160,8 @@ private fun PairingFromARemoteDeviceIntroScreen(
         verticalArrangement = Arrangement.spacedBy(space = dimensionResource(id = R.dimen.padding_large))
     ) {
         TextMedium(text = stringResource(id = R.string.pairing_from_a_remote_device_intro_title))
-        TextNormal(text = stringResource(id = R.string.pairing_from_a_remote_device_intro_content))
-        TextNormal(text = stringResource(id = R.string.name_of_this_device, localDeviceName))
+        TextNormalSecondary(text = stringResource(id = R.string.pairing_from_a_remote_device_intro_content))
+        TextNormalSecondary(text = stringResource(id = R.string.name_of_this_device, localDeviceName))
     }
 }
 
@@ -176,8 +176,8 @@ private fun PairingFromARemoteDevicePart1Screen(
         verticalArrangement = Arrangement.spacedBy(space = dimensionResource(id = R.dimen.padding_large))
     ) {
         TextMedium(text = stringResource(id = R.string.pairing_from_a_remote_device_step_1_title))
-        TextNormal(text = stringResource(id = R.string.pairing_from_a_remote_device_step_1_content_1))
-        TextNormal(text = stringResource(id = R.string.pairing_from_a_remote_device_step_1_content_2, localDeviceName))
+        TextNormalSecondary(text = stringResource(id = R.string.pairing_from_a_remote_device_step_1_content_1))
+        TextNormalSecondary(text = stringResource(id = R.string.pairing_from_a_remote_device_step_1_content_2, localDeviceName))
         MaterialButton(
             onClick = {
                 val enableDiscoverableBtIntent = Intent(BluetoothAdapter.ACTION_REQUEST_DISCOVERABLE).apply {
@@ -202,10 +202,10 @@ private fun PairingFromARemoteDevicePart2Screen(
         verticalArrangement = Arrangement.spacedBy(space = dimensionResource(id = R.dimen.padding_large))
     ) {
         TextMedium(text = stringResource(id = R.string.pairing_from_a_remote_device_step_2_title))
-        TextNormal(text = stringResource(id = R.string.pairing_from_a_remote_device_step_2_content_1))
-        TextNormal(text = stringResource(id = R.string.pairing_from_a_remote_device_step_2_content_2, localDeviceName))
-        TextNormal(text = stringResource(id = R.string.pairing_from_a_remote_device_step_2_content_3))
-        TextNormal(text = stringResource(id = R.string.pairing_from_a_remote_device_step_2_content_4))
+        TextNormalSecondary(text = stringResource(id = R.string.pairing_from_a_remote_device_step_2_content_1))
+        TextNormalSecondary(text = stringResource(id = R.string.pairing_from_a_remote_device_step_2_content_2, localDeviceName))
+        TextNormalSecondary(text = stringResource(id = R.string.pairing_from_a_remote_device_step_2_content_3))
+        TextNormalSecondary(text = stringResource(id = R.string.pairing_from_a_remote_device_step_2_content_4))
     }
 }
 
@@ -219,8 +219,8 @@ private fun PairingFromARemoteDevicePart3Screen(
         verticalArrangement = Arrangement.spacedBy(space = dimensionResource(id = R.dimen.padding_large))
     ) {
         TextMedium(text = stringResource(id = R.string.pairing_from_a_remote_device_step_3_title))
-        TextNormal(text = stringResource(id = R.string.pairing_from_a_remote_device_step_3_content_1))
-        TextNormal(text = stringResource(id = R.string.pairing_from_a_remote_device_step_3_content_2))
+        TextNormalSecondary(text = stringResource(id = R.string.pairing_from_a_remote_device_step_3_content_1))
+        TextNormalSecondary(text = stringResource(id = R.string.pairing_from_a_remote_device_step_3_content_2))
         MaterialButton(
             onClick = {
                 context.startActivity(Intent(Settings.ACTION_BLUETOOTH_SETTINGS))
@@ -242,7 +242,7 @@ private fun PairingFromARemoteDevicePart4Screen(
         verticalArrangement = Arrangement.spacedBy(space = dimensionResource(id = R.dimen.padding_large))
     ) {
         TextMedium(text = stringResource(id = R.string.pairing_from_a_remote_device_step_4_title))
-        TextNormal(text = stringResource(id = R.string.pairing_from_a_remote_device_step_4_content, context.getString(R.string.done)))
+        TextNormalSecondary(text = stringResource(id = R.string.pairing_from_a_remote_device_step_4_content, context.getString(R.string.done)))
     }
 }
 

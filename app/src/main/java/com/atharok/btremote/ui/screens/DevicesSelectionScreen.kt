@@ -12,14 +12,13 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
-import androidx.compose.material3.TextField
-import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
@@ -32,7 +31,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
@@ -58,7 +56,6 @@ import com.atharok.btremote.ui.components.TemplateDialog
 import com.atharok.btremote.ui.components.TextLarge
 import com.atharok.btremote.ui.components.TextMedium
 import com.atharok.btremote.ui.components.TextNormal
-import com.atharok.btremote.ui.components.TextNormalError
 import com.atharok.btremote.ui.components.TextNormalSecondary
 import com.atharok.btremote.ui.views.DeviceItemView
 import com.atharok.btremote.ui.views.DevicesSelectionScreenHelpModalBottomSheet
@@ -472,14 +469,18 @@ private fun InfoView(
                     imageVector = AppIcons.Info,
                     contentDescription = stringResource(R.string.information)
                 )
-                TextMedium(text = stringResource(R.string.information))
+                TextMedium(
+                    text = stringResource(R.string.information),
+                    maxLines = 1
+                )
             }
             if(!isBluetoothServiceStarted) {
-                TextNormalError(
-                    text = stringResource(R.string.help_info_hid_service_not_initialized_message)
+                TextNormalSecondary(
+                    text = stringResource(R.string.help_info_hid_service_not_initialized_message),
+                    color = MaterialTheme.colorScheme.error
                 )
             } else {
-                TextNormal(text = stringResource(R.string.help_info_message))
+                TextNormalSecondary(text = stringResource(R.string.help_info_message))
             }
         }
     }
@@ -506,7 +507,7 @@ private fun BluetoothAddressDialog(
         content = {
             Column {
                 TextNormal(text = stringResource(id = R.string.bluetooth_address_prompt))
-                TextField(
+                OutlinedTextField(
                     value = textState.value,
                     onValueChange = { textState.value = it },
                     modifier = Modifier
@@ -524,13 +525,13 @@ private fun BluetoothAddressDialog(
                             }
                         }
                     ),
-                    shape = RoundedCornerShape(dimensionResource(id = R.dimen.keyboard_key_corner_radius)),
-                    colors = TextFieldDefaults.colors(
-                        focusedIndicatorColor = Color.Transparent
-                    )
+                    singleLine = true
                 )
                 if(showError.value) {
-                    TextNormalError(text = stringResource(id = R.string.bluetooth_address_wrong_format))
+                    TextNormal(
+                        text = stringResource(id = R.string.bluetooth_address_wrong_format),
+                        color = MaterialTheme.colorScheme.error
+                    )
                 }
             }
         },

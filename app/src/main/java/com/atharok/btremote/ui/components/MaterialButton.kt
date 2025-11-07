@@ -99,7 +99,7 @@ private fun ButtonContent(
             )
         }
 
-        TextNormalBold(
+        TextNormal(
             text = text,
             color = textColor
         )
