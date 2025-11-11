@@ -1,5 +1,6 @@
 package com.atharok.btremote.ui.theme
 
+import android.content.Context
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
@@ -22,8 +23,10 @@ import com.atharok.btremote.R
 import com.atharok.btremote.common.extensions.getActivity
 import com.atharok.btremote.common.extensions.setFullScreen
 import com.atharok.btremote.common.utils.isDynamicColorsAvailable
-import com.atharok.btremote.domain.entities.ThemeEntity
-import com.atharok.btremote.presentation.viewmodel.SettingsViewModel
+import com.atharok.btremote.domain.entities.settings.AppearanceSettings
+import com.atharok.btremote.domain.entities.settings.ThemeEntity
+import com.atharok.btremote.presentation.viewmodel.ThemeViewModel
+import org.koin.androidx.compose.koinViewModel
 
 private val lightScheme = lightColorScheme(
     primary = primaryLight,
@@ -267,23 +270,17 @@ val unspecified_scheme = ColorFamily(
 
 @Composable
 fun BtRemoteTheme(
-    settingsViewModel: SettingsViewModel,
+    themeViewModel: ThemeViewModel = koinViewModel(),
+    context: Context = LocalContext.current,
     content: @Composable () -> Unit
 ) {
+    val appearanceSettings by themeViewModel
+        .appearanceSettingsFlow.collectAsStateWithLifecycle(AppearanceSettings())
 
-    val context = LocalContext.current
-
-    val theme: ThemeEntity by settingsViewModel.theme
-        .collectAsStateWithLifecycle(initialValue = ThemeEntity.SYSTEM)
-
-    val useDynamicColors: Boolean by settingsViewModel.useDynamicColors
-        .collectAsStateWithLifecycle(initialValue = isDynamicColorsAvailable())
-
-    val useBlackColorForDarkTheme: Boolean by settingsViewModel.useBlackColorForDarkTheme
-        .collectAsStateWithLifecycle(initialValue = false)
-
-    val useFullScreen: Boolean by settingsViewModel.useFullScreen
-        .collectAsStateWithLifecycle(initialValue = false)
+    val theme = appearanceSettings.theme
+    val useDynamicColors = appearanceSettings.useDynamicColors
+    val useBlackColorForDarkTheme = appearanceSettings.useBlackColorForDarkTheme
+    val useFullScreen = appearanceSettings.useFullScreen
 
     val useDarkTheme = when(theme) {
         ThemeEntity.SYSTEM -> isSystemInDarkTheme()

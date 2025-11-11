@@ -13,8 +13,8 @@ import com.atharok.btremote.data.bluetooth.BluetoothInteractions
 import com.atharok.btremote.data.dataStore.SettingsDataStore
 import com.atharok.btremote.data.repositories.BluetoothHidProfileRepositoryImpl
 import com.atharok.btremote.data.repositories.BluetoothRepositoryImpl
+import com.atharok.btremote.data.repositories.DataStoreRepositoryImpl
 import com.atharok.btremote.data.repositories.GyroscopeSensorRepositoryImpl
-import com.atharok.btremote.data.repositories.SettingsRepositoryImpl
 import com.atharok.btremote.data.sensor.GyroscopeSensor
 import com.atharok.btremote.domain.entities.remoteInput.keyboard.advancedKeyboard.BulgarianAdvancedKeyboardLayout
 import com.atharok.btremote.domain.entities.remoteInput.keyboard.advancedKeyboard.CzechAdvancedKeyboardLayout
@@ -50,17 +50,19 @@ import com.atharok.btremote.domain.entities.remoteInput.keyboard.virtualKeyboard
 import com.atharok.btremote.domain.entities.remoteInput.keyboard.virtualKeyboard.UkrainianVirtualKeyboardLayout
 import com.atharok.btremote.domain.repositories.BluetoothHidProfileRepository
 import com.atharok.btremote.domain.repositories.BluetoothRepository
+import com.atharok.btremote.domain.repositories.DataStoreRepository
 import com.atharok.btremote.domain.repositories.GyroscopeSensorRepository
-import com.atharok.btremote.domain.repositories.SettingsRepository
 import com.atharok.btremote.domain.usecases.BluetoothHidServiceUseCase
 import com.atharok.btremote.domain.usecases.BluetoothHidUseCase
 import com.atharok.btremote.domain.usecases.BluetoothUseCase
 import com.atharok.btremote.domain.usecases.GyroscopeSensorUseCase
 import com.atharok.btremote.domain.usecases.SettingsUseCase
+import com.atharok.btremote.domain.usecases.ThemeUseCase
 import com.atharok.btremote.presentation.viewmodel.BluetoothHidViewModel
 import com.atharok.btremote.presentation.viewmodel.BluetoothViewModel
 import com.atharok.btremote.presentation.viewmodel.GyroscopeSensorViewModel
 import com.atharok.btremote.presentation.viewmodel.SettingsViewModel
+import com.atharok.btremote.presentation.viewmodel.ThemeViewModel
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.module.Module
 import org.koin.core.module.dsl.viewModel
@@ -157,6 +159,12 @@ private val viewModelModule: Module = module {
             useCase = get<SettingsUseCase>()
         )
     }
+
+    viewModel {
+        ThemeViewModel(
+            useCase = get<ThemeUseCase>()
+        )
+    }
 }
 
 private val useCaseModule: Module = module {
@@ -186,7 +194,13 @@ private val useCaseModule: Module = module {
 
     single {
         SettingsUseCase(
-            repository = get<SettingsRepository>()
+            repository = get<DataStoreRepository>()
+        )
+    }
+
+    single {
+        ThemeUseCase(
+            repository = get<DataStoreRepository>()
         )
     }
 }
@@ -210,8 +224,8 @@ private val repositoryModule: Module = module {
         )
     }
 
-    single<SettingsRepository> {
-        SettingsRepositoryImpl(
+    single<DataStoreRepository> {
+        DataStoreRepositoryImpl(
             settingsDataStore = get<SettingsDataStore>()
         )
     }

@@ -8,11 +8,25 @@ import androidx.datastore.preferences.core.emptyPreferences
 import androidx.datastore.preferences.core.floatPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
 import com.atharok.btremote.common.extensions.dataStore
-import com.atharok.btremote.common.utils.MOUSE_SPEED_DEFAULT_VALUE
+import com.atharok.btremote.common.utils.DEFAULT_KEYBOARD_LANGUAGE
+import com.atharok.btremote.common.utils.DEFAULT_MOUSE_SPEED
+import com.atharok.btremote.common.utils.DEFAULT_MUST_CLEAR_INPUT_FIELD
+import com.atharok.btremote.common.utils.DEFAULT_REMOTE_NAVIGATION
+import com.atharok.btremote.common.utils.DEFAULT_SHOULD_INVERT_MOUSE_SCROLLING_DIRECTION
+import com.atharok.btremote.common.utils.DEFAULT_THEME
+import com.atharok.btremote.common.utils.DEFAULT_USE_ADVANCED_KEYBOARD
+import com.atharok.btremote.common.utils.DEFAULT_USE_ADVANCED_KEYBOARD_INTEGRATED
+import com.atharok.btremote.common.utils.DEFAULT_USE_BLACK_COLOR_FOR_DARK_THEME
+import com.atharok.btremote.common.utils.DEFAULT_USE_ENTER_FOR_SELECTION
+import com.atharok.btremote.common.utils.DEFAULT_USE_FULL_SCREEN
+import com.atharok.btremote.common.utils.DEFAULT_USE_GYROSCOPE
+import com.atharok.btremote.common.utils.DEFAULT_USE_MINIMALIST_REMOTE
 import com.atharok.btremote.common.utils.isDynamicColorsAvailable
 import com.atharok.btremote.domain.entities.RemoteNavigationEntity
-import com.atharok.btremote.domain.entities.ThemeEntity
 import com.atharok.btremote.domain.entities.remoteInput.keyboard.KeyboardLanguage
+import com.atharok.btremote.domain.entities.settings.AppearanceSettings
+import com.atharok.btremote.domain.entities.settings.RemoteSettings
+import com.atharok.btremote.domain.entities.settings.ThemeEntity
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.map
@@ -26,6 +40,7 @@ class SettingsDataStore(private val context: Context) {
         private const val DYNAMIC_COLORS_KEY = "material_you_key"
         private const val BLACK_COLOR_KEY = "black_color_key"
         private const val FULL_SCREEN_KEY = "full_screen_key"
+
         private const val MOUSE_SPEED_KEY = "mouse_speed_key"
         private const val INVERT_MOUSE_SCROLLING_DIRECTION_KEY = "invert_mouse_scrolling_direction_key"
         private const val USE_GYROSCOPE_KEY = "use_gyroscope_key"
@@ -36,6 +51,7 @@ class SettingsDataStore(private val context: Context) {
         private const val USE_MINIMALIST_REMOTE_KEY = "use_minimalist_remote_key"
         private const val REMOTE_NAVIGATION_KEY = "remote_navigation_key"
         private const val USE_ENTER_FOR_SELECTION_KEY = "use_enter_for_selection_key"
+
         private const val FAVORITE_DEVICES_KEY = "favorite_devices_key"
         private const val HIDE_BLUETOOTH_ACTIVATION_BUTTON_KEY = "hide_bluetooth_activation_button_key"
     }
@@ -66,34 +82,27 @@ class SettingsDataStore(private val context: Context) {
         }
     }
 
-    // ---- Appearance ----
+    // ---- Appearance Settings ----
 
-    val themeFlow: Flow<ThemeEntity> by lazy {
-        context.dataStore.data
-            .catchException()
-            .map { preferences ->
-                preferences[themeKey] ?: ThemeEntity.SYSTEM.name
-            }.map {
-                try {
-                    ThemeEntity.valueOf(it)
-                } catch (e: IllegalArgumentException) {
-                    ThemeEntity.SYSTEM
-                }
-            }
-    }
+    val appearanceSettingsFlow: Flow<AppearanceSettings> = context.dataStore.data
+        .catchException()
+        .map { preferences ->
+            AppearanceSettings(
+                theme = try {
+                    ThemeEntity.valueOf(preferences[themeKey] ?: DEFAULT_THEME.name)
+                } catch (_: IllegalArgumentException) {
+                    DEFAULT_THEME
+                },
+                useDynamicColors = preferences[useDynamicColorsKey] ?: isDynamicColorsAvailable(),
+                useBlackColorForDarkTheme = preferences[useBlackColorForDarkThemeKey] ?: DEFAULT_USE_BLACK_COLOR_FOR_DARK_THEME,
+                useFullScreen = preferences[useFullScreenKey] ?: DEFAULT_USE_FULL_SCREEN
+            )
+        }
 
     suspend fun saveTheme(themeEntity: ThemeEntity) {
         context.dataStore.edit {
             it[themeKey] = themeEntity.name
         }
-    }
-
-    val useDynamicColorsFlow: Flow<Boolean> by lazy {
-        context.dataStore.data
-            .catchException()
-            .map { preferences ->
-                preferences[useDynamicColorsKey] ?: isDynamicColorsAvailable()
-            }
     }
 
     suspend fun saveUseDynamicColors(useDynamicColors: Boolean) {
@@ -102,26 +111,10 @@ class SettingsDataStore(private val context: Context) {
         }
     }
 
-    val useBlackColorForDarkThemeFlow: Flow<Boolean> by lazy {
-        context.dataStore.data
-            .catchException()
-            .map { preferences ->
-                preferences[useBlackColorForDarkThemeKey] == true
-            }
-    }
-
     suspend fun saveUseBlackColorForDarkTheme(useBlackColorForDarkTheme: Boolean) {
         context.dataStore.edit {
             it[useBlackColorForDarkThemeKey] = useBlackColorForDarkTheme
         }
-    }
-
-    val useFullScreenFlow: Flow<Boolean> by lazy {
-        context.dataStore.data
-            .catchException()
-            .map { preferences ->
-                preferences[useFullScreenKey] == true
-            }
     }
 
     suspend fun saveUseFullScreen(useFullScreen: Boolean) {
@@ -130,15 +123,39 @@ class SettingsDataStore(private val context: Context) {
         }
     }
 
-    // ---- Mouse ----
+    // ---- Remote Settings ----
 
-    val mouseSpeed: Flow<Float> by lazy {
-        context.dataStore.data
-            .catchException()
-            .map { preferences ->
-                preferences[mouseSpeedKey] ?: MOUSE_SPEED_DEFAULT_VALUE
-            }
-    }
+    val remoteSettingsFlow: Flow<RemoteSettings> = context.dataStore.data
+        .catchException()
+        .map { preferences ->
+            RemoteSettings(
+                // ---- Mouse ----
+                mouseSpeed = preferences[mouseSpeedKey] ?: DEFAULT_MOUSE_SPEED,
+                shouldInvertMouseScrollingDirection = preferences[invertMouseScrollingDirectionKey] ?: DEFAULT_SHOULD_INVERT_MOUSE_SCROLLING_DIRECTION,
+                useGyroscope = preferences[useGyroscopeKey] ?: DEFAULT_USE_GYROSCOPE,
+
+                // ---- Keyboard ----
+                keyboardLanguage = try {
+                    KeyboardLanguage.valueOf(preferences[keyboardLanguageKey] ?: DEFAULT_KEYBOARD_LANGUAGE.name)
+                } catch (_: IllegalArgumentException) {
+                    DEFAULT_KEYBOARD_LANGUAGE
+                },
+                mustClearInputField = preferences[mustClearInputFieldKey] ?: DEFAULT_MUST_CLEAR_INPUT_FIELD,
+                useAdvancedKeyboard = preferences[useAdvancedKeyboardKey] ?: DEFAULT_USE_ADVANCED_KEYBOARD,
+                useAdvancedKeyboardIntegrated = preferences[useAdvancedKeyboardIntegratedKey] ?: DEFAULT_USE_ADVANCED_KEYBOARD_INTEGRATED,
+
+                // ---- Remote ----
+                remoteNavigationEntity = try {
+                    RemoteNavigationEntity.valueOf(preferences[remoteNavigationKey] ?: DEFAULT_REMOTE_NAVIGATION.name)
+                } catch (_: IllegalArgumentException) {
+                    DEFAULT_REMOTE_NAVIGATION
+                },
+                useMinimalistRemote = preferences[useMinimalistRemoteKey] ?: DEFAULT_USE_MINIMALIST_REMOTE,
+                useEnterForSelection = preferences[useEnterForSelectionKey] ?: DEFAULT_USE_ENTER_FOR_SELECTION
+            )
+        }
+
+    // ---- Mouse ----
 
     suspend fun saveMouseSpeed(mouseSpeed: Float) {
         context.dataStore.edit {
@@ -146,26 +163,10 @@ class SettingsDataStore(private val context: Context) {
         }
     }
 
-    val shouldInvertMouseScrollingDirection: Flow<Boolean> by lazy {
-        context.dataStore.data
-            .catchException()
-            .map { preferences ->
-                preferences[invertMouseScrollingDirectionKey] == true
-            }
-    }
-
     suspend fun saveInvertMouseScrollingDirection(invertScrollingDirection: Boolean) {
         context.dataStore.edit {
             it[invertMouseScrollingDirectionKey] = invertScrollingDirection
         }
-    }
-
-    val useGyroscope: Flow<Boolean> by lazy {
-        context.dataStore.data
-            .catchException()
-            .map { preferences ->
-                preferences[useGyroscopeKey] == true
-            }
     }
 
     suspend fun saveUseGyroscope(useGyroscope: Boolean) {
@@ -176,32 +177,10 @@ class SettingsDataStore(private val context: Context) {
 
     // ---- Keyboard ----
 
-    val keyboardLanguageFlow: Flow<KeyboardLanguage> by lazy {
-        context.dataStore.data
-            .catchException()
-            .map { preferences ->
-                preferences[keyboardLanguageKey] ?: KeyboardLanguage.ENGLISH_US.name
-            }.map {
-                try {
-                    KeyboardLanguage.valueOf(it)
-                } catch (e: IllegalArgumentException) {
-                    KeyboardLanguage.ENGLISH_US
-                }
-            }
-    }
-
     suspend fun saveKeyboardLanguage(language: KeyboardLanguage) {
         context.dataStore.edit {
             it[keyboardLanguageKey] = language.name
         }
-    }
-
-    val mustClearInputFieldFlow: Flow<Boolean> by lazy {
-        context.dataStore.data
-            .catchException()
-            .map { preferences ->
-                preferences[mustClearInputFieldKey] != false
-            }
     }
 
     suspend fun saveMustClearInputField(mustClearInputField: Boolean) {
@@ -210,26 +189,10 @@ class SettingsDataStore(private val context: Context) {
         }
     }
 
-    val useAdvancedKeyboardFlow: Flow<Boolean> by lazy {
-        context.dataStore.data
-            .catchException()
-            .map { preferences ->
-                preferences[useAdvancedKeyboardKey] == true
-            }
-    }
-
     suspend fun saveUseAdvancedKeyboard(useAdvancedKeyboard: Boolean) {
         context.dataStore.edit {
             it[useAdvancedKeyboardKey] = useAdvancedKeyboard
         }
-    }
-
-    val useAdvancedKeyboardIntegratedFlow: Flow<Boolean> by lazy {
-        context.dataStore.data
-            .catchException()
-            .map { preferences ->
-                preferences[useAdvancedKeyboardIntegratedKey] == true
-            }
     }
 
     suspend fun saveUseAdvancedKeyboardIntegrated(useAdvancedKeyboardIntegrated: Boolean) {
@@ -240,46 +203,16 @@ class SettingsDataStore(private val context: Context) {
 
     // ---- Remote ----
 
-    val useMinimalistRemoteFlow: Flow<Boolean> by lazy {
-        context.dataStore.data
-            .catchException()
-            .map { preferences ->
-                preferences[useMinimalistRemoteKey] == true
-            }
-    }
-
     suspend fun saveUseMinimalistRemote(useAdvancedKeyboard: Boolean) {
         context.dataStore.edit {
             it[useMinimalistRemoteKey] = useAdvancedKeyboard
         }
     }
 
-    val remoteNavigationFlow: Flow<RemoteNavigationEntity> by lazy {
-        context.dataStore.data
-            .catchException()
-            .map { preferences ->
-                preferences[remoteNavigationKey] ?: RemoteNavigationEntity.D_PAD.name
-            }.map {
-                try {
-                    RemoteNavigationEntity.valueOf(it)
-                } catch (e: IllegalArgumentException) {
-                    RemoteNavigationEntity.D_PAD
-                }
-            }
-    }
-
     suspend fun saveRemoteNavigation(remoteNavigationEntity: RemoteNavigationEntity) {
         context.dataStore.edit {
             it[remoteNavigationKey] = remoteNavigationEntity.name
         }
-    }
-
-    val useEnterForSelectionFlow: Flow<Boolean> by lazy {
-        context.dataStore.data
-            .catchException()
-            .map { preferences ->
-                preferences[useEnterForSelectionKey] == true
-            }
     }
 
     suspend fun saveUseEnterForSelection(useEnterForSelection: Boolean) {

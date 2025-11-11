@@ -1,5 +1,6 @@
 package com.atharok.btremote.ui.screens
 
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Build
@@ -36,18 +37,20 @@ import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalUriHandler
+import androidx.compose.ui.platform.UriHandler
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.atharok.btremote.R
 import com.atharok.btremote.common.utils.AppIcons
-import com.atharok.btremote.common.utils.MOUSE_SPEED_DEFAULT_VALUE
 import com.atharok.btremote.common.utils.SOURCE_CODE_LINK
 import com.atharok.btremote.common.utils.WEB_SITE_LINK
 import com.atharok.btremote.common.utils.isDynamicColorsAvailable
 import com.atharok.btremote.domain.entities.RemoteNavigationEntity
-import com.atharok.btremote.domain.entities.ThemeEntity
 import com.atharok.btremote.domain.entities.remoteInput.keyboard.KeyboardLanguage
+import com.atharok.btremote.domain.entities.settings.AppearanceSettings
+import com.atharok.btremote.domain.entities.settings.RemoteSettings
+import com.atharok.btremote.domain.entities.settings.ThemeEntity
 import com.atharok.btremote.presentation.viewmodel.SettingsViewModel
 import com.atharok.btremote.ui.components.AppScaffold
 import com.atharok.btremote.ui.components.FadeAnimatedContent
@@ -61,46 +64,35 @@ fun SettingsScreen(
     navigateUp: () -> Unit,
     openThirdLibrariesScreen: () -> Unit,
     settingsViewModel: SettingsViewModel,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    context: Context = LocalContext.current,
+    uriHandler: UriHandler = LocalUriHandler.current
 ) {
+    val appearanceSettings by settingsViewModel
+        .appearanceSettingsFlow.collectAsStateWithLifecycle(AppearanceSettings())
+
+    val remoteSettings by settingsViewModel
+        .remoteSettingsFlow.collectAsStateWithLifecycle(RemoteSettings())
+
+    // Advanced Options
+    val hideBluetoothActivationButton: Boolean by settingsViewModel.hideBluetoothActivationButtonFlow.collectAsStateWithLifecycle(initialValue = false)
+
     AppScaffold(
         title = stringResource(id = R.string.settings),
         modifier = modifier,
         navigateUp = {
             NavigateUpAction(navigateUp)
-        },
+        }
     ) { innerPadding ->
+
+        val horizontalPadding = dimensionResource(id = R.dimen.padding_max)
+        val verticalPadding = dimensionResource(id = R.dimen.padding_large)
+
         Column(
             modifier = Modifier
                 .verticalScroll(rememberScrollState())
                 .padding(innerPadding)
         ) {
-
-            val context = LocalContext.current
-            val uriHandler = LocalUriHandler.current
-            val horizontalPadding = dimensionResource(id = R.dimen.padding_max)
-            val verticalPadding = dimensionResource(id = R.dimen.padding_large)
-
-            // Appearance
-            val theme: ThemeEntity by settingsViewModel.theme.collectAsStateWithLifecycle(initialValue = ThemeEntity.SYSTEM)
-            val useBlackColorForDarkTheme: Boolean by settingsViewModel.useBlackColorForDarkTheme.collectAsStateWithLifecycle(initialValue = false)
-            val useFullScreen: Boolean by settingsViewModel.useFullScreen.collectAsStateWithLifecycle(initialValue = false)
-            // Remote
-            val useMinimalistRemote: Boolean by settingsViewModel.useMinimalistRemote.collectAsStateWithLifecycle(initialValue = false)
-            val remoteNavigation: RemoteNavigationEntity by settingsViewModel.remoteNavigation.collectAsStateWithLifecycle(initialValue = RemoteNavigationEntity.D_PAD)
-            val useEnterForSelection: Boolean by settingsViewModel.useEnterForSelection.collectAsStateWithLifecycle(initialValue = false)
-            // Mouse
-            val mouseSpeed by settingsViewModel.mouseSpeed.collectAsStateWithLifecycle(initialValue = MOUSE_SPEED_DEFAULT_VALUE)
-            val shouldInvertMouseScrollingDirection: Boolean by settingsViewModel.shouldInvertMouseScrollingDirection.collectAsStateWithLifecycle(initialValue = false)
-            val useGyroscope: Boolean by settingsViewModel.useGyroscope.collectAsStateWithLifecycle(initialValue = false)
-            // Keyboard
-            val keyboardLanguage: KeyboardLanguage by settingsViewModel.keyboardLanguage.collectAsStateWithLifecycle(initialValue = KeyboardLanguage.ENGLISH_US)
-            val mustClearInputField: Boolean by settingsViewModel.mustClearInputField.collectAsStateWithLifecycle(initialValue = true)
-            val useAdvancedKeyboard: Boolean by settingsViewModel.useAdvancedKeyboard.collectAsStateWithLifecycle(initialValue = false)
-            val useAdvancedKeyboardIntegrated: Boolean by settingsViewModel.useAdvancedKeyboardIntegrated.collectAsStateWithLifecycle(initialValue = false)
-            // Advanced Options
-            val hideBluetoothActivationButton: Boolean by settingsViewModel.hideBluetoothActivationButtonFlow.collectAsStateWithLifecycle(initialValue = false)
-
             // ---- Appearance ----
 
             SettingsTitle(
@@ -118,7 +110,7 @@ fun SettingsScreen(
             SettingsListDialog(
                 title = R.string.theme,
                 dialogMessage = null,
-                value = theme,
+                value = appearanceSettings.theme,
                 onValueChange = { settingsViewModel.changeTheme(it) },
                 items = ThemeEntity.entries,
                 convertValueToString = { context.getString(it.stringRes) },
@@ -133,7 +125,7 @@ fun SettingsScreen(
             SettingsSwitch(
                 primaryText = stringResource(id = R.string.theme_black),
                 secondaryText = stringResource(id = R.string.theme_black_oled_info),
-                checked = useBlackColorForDarkTheme,
+                checked = appearanceSettings.useBlackColorForDarkTheme,
                 onCheckedChange = { settingsViewModel.setUseBlackColorForDarkTheme(it) },
                 modifier = Modifier
                     .fillMaxWidth()
@@ -144,11 +136,10 @@ fun SettingsScreen(
             )
 
             if(isDynamicColorsAvailable()) {
-                val useDynamicColors: Boolean by settingsViewModel.useDynamicColors.collectAsStateWithLifecycle(initialValue = true)
                 SettingsSwitch(
                     primaryText = stringResource(id = R.string.dynamic_colors),
                     secondaryText = null,
-                    checked = useDynamicColors,
+                    checked = appearanceSettings.useDynamicColors,
                     onCheckedChange = { settingsViewModel.setUseDynamicColors(it) },
                     modifier = Modifier
                         .fillMaxWidth()
@@ -162,7 +153,7 @@ fun SettingsScreen(
             SettingsSwitch(
                 primaryText = stringResource(id = R.string.full_screen),
                 secondaryText = null,
-                checked = useFullScreen,
+                checked = appearanceSettings.useFullScreen,
                 onCheckedChange = { settingsViewModel.saveUseFullScreen(it) },
                 modifier = Modifier
                     .fillMaxWidth()
@@ -195,7 +186,7 @@ fun SettingsScreen(
             SettingsSwitch(
                 primaryText = stringResource(id = R.string.use_minimalist_interface),
                 secondaryText = stringResource(id = R.string.minimalist_interface_info),
-                checked = useMinimalistRemote,
+                checked = remoteSettings.useMinimalistRemote,
                 onCheckedChange = { settingsViewModel.saveUseMinimalistRemote(it) },
                 modifier = Modifier
                     .fillMaxWidth()
@@ -206,7 +197,7 @@ fun SettingsScreen(
             )
 
             SettingsRemoteNavigationSelector(
-                remoteNavigation = remoteNavigation,
+                remoteNavigation = remoteSettings.remoteNavigationEntity,
                 onRemoteNavigationChange = { settingsViewModel.saveRemoteNavigation(it) },
                 modifier = Modifier
                     .fillMaxWidth()
@@ -219,7 +210,7 @@ fun SettingsScreen(
             SettingsSwitch(
                 primaryText = stringResource(id = R.string.use_enter_for_selection_title),
                 secondaryText = stringResource(id = R.string.use_enter_for_selection_summary),
-                checked = useEnterForSelection,
+                checked = remoteSettings.useEnterForSelection,
                 onCheckedChange = { settingsViewModel.saveUseEnterForSelection(it) },
                 modifier = Modifier
                     .fillMaxWidth()
@@ -250,9 +241,9 @@ fun SettingsScreen(
             )
 
             SettingsSlider(
-                value = mouseSpeed,
+                value = remoteSettings.mouseSpeed,
                 onValueChange = { settingsViewModel.saveMouseSpeed(it) },
-                info = stringResource(id = R.string.mouse_pointer_speed) + " (x$mouseSpeed)",
+                info = stringResource(id = R.string.mouse_pointer_speed) + " (x${remoteSettings.mouseSpeed})",
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(
@@ -264,7 +255,7 @@ fun SettingsScreen(
             SettingsSwitch(
                 primaryText = stringResource(id = R.string.invert_mouse_scrolling_direction),
                 secondaryText = null,
-                checked = shouldInvertMouseScrollingDirection,
+                checked = remoteSettings.shouldInvertMouseScrollingDirection,
                 onCheckedChange = { settingsViewModel.saveInvertMouseScrollingDirection(it) },
                 modifier = Modifier
                     .fillMaxWidth()
@@ -277,7 +268,7 @@ fun SettingsScreen(
             SettingsSwitch(
                 primaryText = stringResource(id = R.string.use_the_gyroscope_to_control_the_mouse),
                 secondaryText = null,
-                checked = useGyroscope,
+                checked = remoteSettings.useGyroscope,
                 onCheckedChange = { settingsViewModel.saveUseGyroscope(it) },
                 modifier = Modifier
                     .fillMaxWidth()
@@ -310,7 +301,7 @@ fun SettingsScreen(
             SettingsListDialog(
                 title = R.string.keyboard_language,
                 dialogMessage = stringResource(id = R.string.keyboard_language_info),
-                value = keyboardLanguage,
+                value = remoteSettings.keyboardLanguage,
                 onValueChange = { settingsViewModel.changeKeyboardLanguage(it) },
                 items = KeyboardLanguage.entries.sortedBy { context.getString(it.language) },
                 convertValueToString = { context.getString(it.language) },
@@ -325,7 +316,7 @@ fun SettingsScreen(
             SettingsSwitch(
                 primaryText = stringResource(id = R.string.advanced_keyboard),
                 secondaryText = null,
-                checked = useAdvancedKeyboard,
+                checked = remoteSettings.useAdvancedKeyboard,
                 onCheckedChange = { settingsViewModel.saveUseAdvancedKeyboard(it) },
                 modifier = Modifier
                     .fillMaxWidth()
@@ -336,13 +327,13 @@ fun SettingsScreen(
             )
 
             FadeAnimatedContent(
-                targetState = useAdvancedKeyboard
+                targetState = remoteSettings.useAdvancedKeyboard
             ) {
                 if(it) {
                     SettingsSwitch(
                         primaryText = stringResource(id = R.string.integrate_advanced_keyboard_into_the_view),
                         secondaryText = null,
-                        checked = useAdvancedKeyboardIntegrated,
+                        checked = remoteSettings.useAdvancedKeyboardIntegrated,
                         onCheckedChange = { value -> settingsViewModel.saveUseAdvancedKeyboardIntegrated(value) },
                         modifier = Modifier
                             .fillMaxWidth()
@@ -355,7 +346,7 @@ fun SettingsScreen(
                     SettingsSwitch(
                         primaryText = stringResource(id = R.string.clear_input_field),
                         secondaryText = null,
-                        checked = mustClearInputField,
+                        checked = remoteSettings.mustClearInputField,
                         onCheckedChange = { value -> settingsViewModel.saveMustClearInputField(value) },
                         modifier = Modifier
                             .fillMaxWidth()

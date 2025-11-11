@@ -1,20 +1,47 @@
 package com.atharok.btremote.common.utils
 
+import com.atharok.btremote.domain.entities.RemoteNavigationEntity
+import com.atharok.btremote.domain.entities.remoteInput.keyboard.KeyboardLanguage
+import com.atharok.btremote.domain.entities.settings.ThemeEntity
+
 const val NOTIFICATION_ID = 1
 const val NOTIFICATION_CHANNEL_ID = "notificationChannelId"
-
-const val DATA_STORE_PREFERENCES_SETTINGS_NAME = "dataStoreSettings"
-
-const val MOUSE_SPEED_DEFAULT_VALUE = 1.5f
 
 const val SOURCE_CODE_LINK = "https://gitlab.com/Atharok/BtRemote"
 const val WEB_SITE_LINK = "https://atharok.gitlab.io/site/projects/bt-remote/"
 
+const val DATA_STORE_PREFERENCES_SETTINGS_NAME = "dataStoreSettings"
+
+// ---- Settings default value ----
+
+// ---- Appearance ----
+val DEFAULT_THEME = ThemeEntity.SYSTEM
+const val DEFAULT_USE_BLACK_COLOR_FOR_DARK_THEME: Boolean = false
+const val DEFAULT_USE_FULL_SCREEN: Boolean = false
+
+// ---- Mouse ----
+const val DEFAULT_MOUSE_SPEED: Float = 1.5f
+const val DEFAULT_SHOULD_INVERT_MOUSE_SCROLLING_DIRECTION: Boolean = false
+const val DEFAULT_USE_GYROSCOPE: Boolean = false
+
+// ---- Keyboard ----
+val DEFAULT_KEYBOARD_LANGUAGE: KeyboardLanguage = KeyboardLanguage.ENGLISH_US
+const val DEFAULT_MUST_CLEAR_INPUT_FIELD: Boolean = true
+const val DEFAULT_USE_ADVANCED_KEYBOARD: Boolean = false
+const val DEFAULT_USE_ADVANCED_KEYBOARD_INTEGRATED: Boolean = false
+
+// ---- Remote ----
+val DEFAULT_REMOTE_NAVIGATION: RemoteNavigationEntity = RemoteNavigationEntity.D_PAD
+const val DEFAULT_USE_MINIMALIST_REMOTE: Boolean = false
+const val DEFAULT_USE_ENTER_FOR_SELECTION: Boolean = false
+
+const val DELAY_BETWEEN_KEY_PRESSES_IN_MILLIS = 25L
+
+// ---- HID Descriptor ----
+
 const val KEYBOARD_REPORT_ID = 0x01
 const val REMOTE_REPORT_ID = 0x02
 const val MOUSE_REPORT_ID = 0x03
-
-const val DELAY_BETWEEN_KEY_PRESSES_IN_MILLIS = 25L
 
 val REMOTE_INPUT_NONE = byteArrayOf(0x00, 0x00)
 

@@ -36,7 +36,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.toSize
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.atharok.btremote.R
-import com.atharok.btremote.common.utils.MOUSE_SPEED_DEFAULT_VALUE
 import com.atharok.btremote.common.utils.REMOTE_INPUT_NONE
 import com.atharok.btremote.common.utils.getKeyboardLayout
 import com.atharok.btremote.domain.entities.DeviceHidConnectionState
@@ -47,6 +46,7 @@ import com.atharok.btremote.domain.entities.remoteInput.RemoteInput
 import com.atharok.btremote.domain.entities.remoteInput.keyboard.KeyboardKey
 import com.atharok.btremote.domain.entities.remoteInput.keyboard.KeyboardLanguage
 import com.atharok.btremote.domain.entities.remoteInput.keyboard.virtualKeyboard.VirtualKeyboardLayout
+import com.atharok.btremote.domain.entities.settings.RemoteSettings
 import com.atharok.btremote.presentation.viewmodel.SettingsViewModel
 import com.atharok.btremote.ui.components.AppScaffold
 import com.atharok.btremote.ui.components.BrightnessDecDropdownMenuItem
@@ -97,25 +97,14 @@ fun RemoteScreen(
 ) {
     val configuration = LocalConfiguration.current
 
+    val remoteSettings by settingsViewModel
+        .remoteSettingsFlow.collectAsStateWithLifecycle(RemoteSettings())
+
     // Remote
     var navigationToggle by rememberSaveable { mutableStateOf(NavigationToggle.DIRECTION) }
-    val useMinimalistRemote: Boolean by settingsViewModel.useMinimalistRemote
-        .collectAsStateWithLifecycle(initialValue = false)
-    val remoteNavigationMode: RemoteNavigationEntity by settingsViewModel.remoteNavigation
-        .collectAsStateWithLifecycle(initialValue = RemoteNavigationEntity.D_PAD)
-    val useEnterForSelection: Boolean by settingsViewModel.useEnterForSelection
-        .collectAsStateWithLifecycle(initialValue = false)
 
     // Keyboard
     var showKeyboard: Boolean by rememberSaveable { mutableStateOf(false) }
-    val useAdvancedKeyboard: Boolean by settingsViewModel.useAdvancedKeyboard
-        .collectAsStateWithLifecycle(initialValue = false)
-    val useAdvancedKeyboardIntegrated: Boolean by settingsViewModel.useAdvancedKeyboardIntegrated
-        .collectAsStateWithLifecycle(initialValue = false)
-    val keyboardLanguage: KeyboardLanguage by settingsViewModel.keyboardLanguage
-        .collectAsStateWithLifecycle(initialValue = KeyboardLanguage.ENGLISH_US)
-    val mustClearInputField: Boolean by settingsViewModel.mustClearInputField
-        .collectAsStateWithLifecycle(initialValue = false)
 
     // Help
     var showHelpBottomSheet: Boolean by remember { mutableStateOf(false) }
@@ -145,33 +134,31 @@ fun RemoteScreen(
                 disconnectDevice = disconnectDevice,
                 navigationToggle = navigationToggle,
                 onNavigationToggleChanged = { navigationToggle = it },
-                useAdvancedKeyboardIntegrated = useAdvancedKeyboard && useAdvancedKeyboardIntegrated,
+                useAdvancedKeyboardIntegrated = remoteSettings.useAdvancedKeyboard && remoteSettings.useAdvancedKeyboardIntegrated,
                 showKeyboard = showKeyboard,
                 onShowKeyboardChanged = { showKeyboard = it },
                 showHelpBottomSheet = showHelpBottomSheet,
                 onShowHelpBottomSheetChanged = { showHelpBottomSheet = it },
                 sendRemoteKeyReport = sendRemoteKeyReport,
-                showBrightnessButtons = !useMinimalistRemote
+                showBrightnessButtons = !remoteSettings.useMinimalistRemote
             )
         },
         remoteLayout = {
             RemoteLayout(
-                useMinimalistRemote = useMinimalistRemote,
-                showAdvancedKeyboard = useAdvancedKeyboard && useAdvancedKeyboardIntegrated && showKeyboard,
-                keyboardLanguage = keyboardLanguage,
+                useMinimalistRemote = remoteSettings.useMinimalistRemote,
+                showAdvancedKeyboard = remoteSettings.useAdvancedKeyboard && remoteSettings.useAdvancedKeyboardIntegrated && showKeyboard,
+                keyboardLanguage = remoteSettings.keyboardLanguage,
                 sendRemoteKeyReport = sendRemoteKeyReport,
                 sendKeyboardKeyReport = sendKeyboardKeyReport
             )
         },
         navigationLayout = {
             NavigationLayout(
-                settingsViewModel = settingsViewModel,
-                remoteNavigationMode = remoteNavigationMode,
+                remoteSettings = remoteSettings,
                 sendRemoteKeyReport = sendRemoteKeyReport,
                 sendKeyboardKeyReport = sendKeyboardKeyReport,
                 sendMouseKeyReport = sendMouseKeyReport,
                 navigationToggle = navigationToggle,
-                useEnterForSelection = useEnterForSelection
             )
         },
         overlayView = {
@@ -191,11 +178,11 @@ fun RemoteScreen(
                         modifier = modifier
                     )
                 }
-                showKeyboard && (!useAdvancedKeyboard || !useAdvancedKeyboardIntegrated) -> {
+                showKeyboard && (!remoteSettings.useAdvancedKeyboard || !remoteSettings.useAdvancedKeyboardIntegrated) -> {
                     KeyboardModalBottomSheet(
-                        useAdvancedKeyboard = useAdvancedKeyboard,
-                        keyboardLanguage = keyboardLanguage,
-                        mustClearInputField = mustClearInputField,
+                        useAdvancedKeyboard = remoteSettings.useAdvancedKeyboard,
+                        keyboardLanguage = remoteSettings.keyboardLanguage,
+                        mustClearInputField = remoteSettings.mustClearInputField,
                         sendKeyboardKeyReport = sendKeyboardKeyReport,
                         sendTextReport = sendTextReport,
                         onShowKeyboardChanged = { showKeyboard = it }
@@ -486,19 +473,17 @@ private fun RemoteButtonsLayouts(
 
 @Composable
 private fun NavigationLayout(
-    settingsViewModel: SettingsViewModel,
-    remoteNavigationMode: RemoteNavigationEntity,
+    remoteSettings: RemoteSettings,
     sendRemoteKeyReport: (ByteArray) -> Unit,
     sendKeyboardKeyReport: (ByteArray) -> Unit,
     sendMouseKeyReport: (input: MouseAction, x: Float, y: Float, wheel: Float) -> Unit,
-    navigationToggle: NavigationToggle,
-    useEnterForSelection: Boolean
+    navigationToggle: NavigationToggle
 ) {
     FadeAnimatedContent(targetState = navigationToggle) {
         when(it) {
             NavigationToggle.DIRECTION -> {
                 RemotePadLayout(
-                    remoteNavigationMode = remoteNavigationMode,
+                    remoteNavigationMode = remoteSettings.remoteNavigationEntity,
                     upTouchDown = {
                         sendRemoteKeyReport(RemoteInput.REMOTE_INPUT_MENU_UP)
                     },
@@ -512,7 +497,7 @@ private fun NavigationLayout(
                         sendRemoteKeyReport(RemoteInput.REMOTE_INPUT_MENU_RIGHT)
                     },
                     pickTouchDown = {
-                        if(useEnterForSelection) {
+                        if(remoteSettings.useEnterForSelection) {
                             sendKeyboardKeyReport(byteArrayOf(0x00, KeyboardKey.KEY_ENTER.byte))
                         } else {
                             sendRemoteKeyReport(RemoteInput.REMOTE_INPUT_MENU_PICK)
@@ -522,7 +507,7 @@ private fun NavigationLayout(
                         sendRemoteKeyReport(REMOTE_INPUT_NONE)
                     },
                     pickTouchUp = {
-                        if(useEnterForSelection) {
+                        if(remoteSettings.useEnterForSelection) {
                             sendKeyboardKeyReport(REMOTE_INPUT_NONE)
                         } else {
                             sendRemoteKeyReport(REMOTE_INPUT_NONE)
@@ -532,18 +517,10 @@ private fun NavigationLayout(
             }
 
             NavigationToggle.MOUSE -> {
-                val mouseSpeed: Float by settingsViewModel.mouseSpeed
-                    .collectAsStateWithLifecycle(initialValue = MOUSE_SPEED_DEFAULT_VALUE)
-
-                val shouldInvertMouseScrollingDirection: Boolean by settingsViewModel.shouldInvertMouseScrollingDirection
-                    .collectAsStateWithLifecycle(initialValue = false)
-
-                val useGyroscope: Boolean by settingsViewModel.useGyroscope.collectAsStateWithLifecycle(initialValue = false)
-
                 MousePadLayout(
-                    mouseSpeed = mouseSpeed,
-                    shouldInvertMouseScrollingDirection = shouldInvertMouseScrollingDirection,
-                    useGyroscope = useGyroscope,
+                    mouseSpeed = remoteSettings.mouseSpeed,
+                    shouldInvertMouseScrollingDirection = remoteSettings.shouldInvertMouseScrollingDirection,
+                    useGyroscope = remoteSettings.useGyroscope,
                     sendMouseInput = sendMouseKeyReport,
                     modifier = Modifier
                 )

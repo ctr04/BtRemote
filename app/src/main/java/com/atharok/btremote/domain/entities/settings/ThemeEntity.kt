@@ -1,4 +1,4 @@
-package com.atharok.btremote.domain.entities
+package com.atharok.btremote.domain.entities.settings
 
 import androidx.annotation.StringRes
 import com.atharok.btremote.R

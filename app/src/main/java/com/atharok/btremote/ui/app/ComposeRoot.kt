@@ -51,7 +51,7 @@ fun ComposeRoot(
         navController.navigateTo(AppNavDestination.SettingsDestination.route)
     }
 ) {
-    BtRemoteTheme(settingsViewModel) {
+    BtRemoteTheme {
         Surface(modifier = Modifier.fillMaxSize()) {
             if(!bluetoothViewModel.isBluetoothSupported) {
                 BluetoothNotSupportScreen()
