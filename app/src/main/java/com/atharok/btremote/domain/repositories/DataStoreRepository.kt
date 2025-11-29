@@ -50,6 +50,9 @@ interface DataStoreRepository {
     fun getFavoriteDevices(): Flow<List<String>>
     suspend fun saveFavoriteDevices(macAddresses: List<String>)
 
+    fun getAutoConnectDeviceAddressFlow(): Flow<String>
+    suspend fun saveAutoConnectDeviceAddress(macAddress: String)
+
     fun hideBluetoothActivationButton(): Flow<Boolean>
     suspend fun saveHideBluetoothActivationButton(hide: Boolean)
 }

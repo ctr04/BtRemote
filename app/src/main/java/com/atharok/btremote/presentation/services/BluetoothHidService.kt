@@ -5,16 +5,12 @@ import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
 import android.app.Service
-import android.bluetooth.BluetoothAdapter
 import android.bluetooth.BluetoothProfile.STATE_CONNECTED
 import android.bluetooth.BluetoothProfile.STATE_DISCONNECTED
-import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import android.content.IntentFilter
 import android.os.Binder
 import android.os.IBinder
-import android.util.Log
 import android.widget.RemoteViews
 import androidx.core.app.NotificationCompat
 import androidx.glance.appwidget.updateAll
@@ -43,9 +39,7 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
 
-
 class BluetoothHidService : Service() {
-
     private val useCase: BluetoothHidServiceUseCase by inject()
     private lateinit var notificationManager: NotificationManager
     private var job: Job? = null
@@ -54,7 +48,6 @@ class BluetoothHidService : Service() {
     override fun onCreate() {
         super.onCreate()
         createNotificationChannel()
-        registerReceiver()
 
         job = CoroutineScope(Dispatchers.Main).launch {
             useCase.getDeviceHidConnectionState().collect {
@@ -210,34 +203,17 @@ class BluetoothHidService : Service() {
         job?.cancel()
         job = null
         useCase.stopHidProfile()
-        unregisterReceiver()
     }
 
-    // ---- BroadcastReceiver ----
-
-    private val bluetoothStateChangeReceiver = object : BroadcastReceiver() {
-        override fun onReceive(context: Context?, intent: Intent?) {
-            when(intent?.action) {
-                BluetoothAdapter.ACTION_STATE_CHANGED -> {
-                    val bluetoothState = intent.getIntExtra(BluetoothAdapter.EXTRA_STATE, BluetoothAdapter.ERROR)
-                    if (bluetoothState == BluetoothAdapter.STATE_OFF) {
-                        stopSelf() // Stop service if bluetooth is disabled
-                    }
-                }
-            }
+    companion object {
+        fun start(context: Context) {
+            val serviceIntent = Intent(context, BluetoothHidService::class.java)
+            context.startForegroundService(serviceIntent)
         }
-    }
 
-    private fun registerReceiver() {
-        val filter = IntentFilter(BluetoothAdapter.ACTION_STATE_CHANGED)
-        registerReceiver(bluetoothStateChangeReceiver, filter)
-    }
-
-    private fun unregisterReceiver() {
-        try {
-            unregisterReceiver(bluetoothStateChangeReceiver)
-        } catch (e: java.lang.RuntimeException) {
-            Log.e("unregisterReceiver()", "Receiver already unregister: ${e.message ?: e.toString()}")
+        fun stop(context: Context) {
+            val serviceIntent = Intent(context, BluetoothHidService::class.java)
+            context.stopService(serviceIntent)
         }
     }
 }

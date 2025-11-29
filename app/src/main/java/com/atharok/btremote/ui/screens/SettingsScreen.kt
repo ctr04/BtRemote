@@ -58,13 +58,14 @@ import com.atharok.btremote.ui.components.ListDialog
 import com.atharok.btremote.ui.components.NavigateUpAction
 import com.atharok.btremote.ui.components.TextNormal
 import com.atharok.btremote.ui.components.TextNormalSecondary
+import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun SettingsScreen(
     navigateUp: () -> Unit,
-    openThirdLibrariesScreen: () -> Unit,
-    settingsViewModel: SettingsViewModel,
+    navigateToThirdLibrariesScreen: () -> Unit,
     modifier: Modifier = Modifier,
+    settingsViewModel: SettingsViewModel = koinViewModel(),
     context: Context = LocalContext.current,
     uriHandler: UriHandler = LocalUriHandler.current
 ) {
@@ -283,7 +284,7 @@ fun SettingsScreen(
                     .fillMaxWidth()
                     .padding(vertical = verticalPadding)
             )
-            
+
             // ---- Keyboard and Input Field ----
 
             SettingsTitle(
@@ -436,7 +437,7 @@ fun SettingsScreen(
                 text = stringResource(id = R.string.third_party_library),
                 modifier = Modifier
                     .clickable {
-                        openThirdLibrariesScreen()
+                        navigateToThirdLibrariesScreen()
                     }
                     .fillMaxWidth()
                     .padding(

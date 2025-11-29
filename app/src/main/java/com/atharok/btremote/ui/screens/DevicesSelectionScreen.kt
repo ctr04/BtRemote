@@ -1,6 +1,7 @@
 package com.atharok.btremote.ui.screens
 
 import android.bluetooth.BluetoothHidDevice
+import android.content.Context
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -20,7 +21,6 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -42,11 +42,13 @@ import com.atharok.btremote.common.utils.AppIcons
 import com.atharok.btremote.common.utils.isMacAddress
 import com.atharok.btremote.domain.entities.DeviceEntity
 import com.atharok.btremote.domain.entities.DeviceHidConnectionState
+import com.atharok.btremote.presentation.services.BluetoothHidService
+import com.atharok.btremote.presentation.viewmodel.DeviceSelectionViewModel
 import com.atharok.btremote.ui.components.AppScaffold
-import com.atharok.btremote.ui.components.BluetoothPairingFromARemoteDeviceDropdownMenuItem
-import com.atharok.btremote.ui.components.BluetoothPairingFromAScannedDeviceDropdownMenuItem
 import com.atharok.btremote.ui.components.BluetoothPairingOverflowMenu
 import com.atharok.btremote.ui.components.DefaultElevatedCard
+import com.atharok.btremote.ui.components.DeviceDiscoveryDropdownMenuItem
+import com.atharok.btremote.ui.components.DistantDevicePairDropdownMenuItem
 import com.atharok.btremote.ui.components.EnterBluetoothAddressManuallyDropdownMenuItem
 import com.atharok.btremote.ui.components.HelpAction
 import com.atharok.btremote.ui.components.LoadingDialog
@@ -59,100 +61,93 @@ import com.atharok.btremote.ui.components.TextNormal
 import com.atharok.btremote.ui.components.TextNormalSecondary
 import com.atharok.btremote.ui.views.DeviceItemView
 import com.atharok.btremote.ui.views.DevicesSelectionScreenHelpModalBottomSheet
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
+import org.koin.androidx.compose.koinViewModel
 
 private data class InternalDevice(val name: String = "", val macAddress: String = "")
 
 @Composable
 fun DevicesSelectionScreen(
     isBluetoothEnabled: Boolean,
-    isBluetoothServiceStarted: Boolean,
+    isBluetoothServiceRunning: Boolean,
     isBluetoothHidProfileRegistered: Boolean,
     bluetoothDeviceHidConnectionState: DeviceHidConnectionState,
     closeApp: () -> Unit,
     navigateUp: () -> Unit,
-    startHidService: () -> Unit,
-    stopHidService: () -> Unit,
-    devicesFlow: StateFlow<List<DeviceEntity>>,
-    findBondedDevices: () -> Unit,
-    connectDevice: (String) -> Unit,
-    disconnectDevice: () -> Unit,
-    unpairDevice: (address: String) -> Boolean,
-    autoConnectionDeviceAddressFlow: Flow<String>,
-    saveAutoConnectionDeviceAddress: (String) -> Unit,
-    favoriteDevicesFlow: Flow<List<String>>,
-    saveFavoriteDevicesAddress: (List<String>) -> Unit,
-    openRemoteScreen: (deviceName: String) -> Unit,
-    openPairingFromAScannedDeviceScreen: () -> Unit,
-    openPairingFromARemoteDeviceScreen: () -> Unit,
-    openSettings: () -> Unit,
-    modifier: Modifier = Modifier
+    navigateToRemoteScreen: (deviceName: String) -> Unit,
+    navigateToDeviceDiscoveryScreen: () -> Unit,
+    navigateToDistantDevicePairScreen: () -> Unit,
+    navigateToSettings: () -> Unit,
+    modifier: Modifier = Modifier,
+    viewModel: DeviceSelectionViewModel = koinViewModel(),
+    context: Context = LocalContext.current
 ) {
-    val context = LocalContext.current
     val coroutineScope = rememberCoroutineScope()
     val snackbarHostState: SnackbarHostState = remember { SnackbarHostState() }
 
-    val devices by devicesFlow.collectAsStateWithLifecycle()
-    val autoConnectionDeviceAddress: String by autoConnectionDeviceAddressFlow.collectAsStateWithLifecycle("")
-
-    val favoriteDevices by favoriteDevicesFlow.collectAsStateWithLifecycle(listOf())
+    val devices: List<DeviceEntity> by viewModel.devicesFlow.collectAsStateWithLifecycle()
+    val autoConnectionDeviceAddress: String by viewModel.getAutoConnectDeviceAddressFlow().collectAsStateWithLifecycle("")
+    val favoriteDevices: List<String> by viewModel.getFavoriteDevices().collectAsStateWithLifecycle(emptyList())
 
     var showBluetoothAddressDialog: Boolean by remember { mutableStateOf(false) }
     var showHelpBottomSheet: Boolean by remember { mutableStateOf(false) }
     var deviceToAutoConnect: InternalDevice by remember { mutableStateOf(InternalDevice()) }
     var deviceToUnpair: InternalDevice by remember { mutableStateOf(InternalDevice()) }
 
-    DisposableEffect(isBluetoothEnabled) {
-        if(!isBluetoothEnabled) {
-            stopHidService()
-            navigateUp()
-        }
-        onDispose {}
-    }
-
-    DisposableEffect(isBluetoothServiceStarted) {
-        if(!isBluetoothServiceStarted && isBluetoothEnabled) {
-            startHidService()
-        }
-        onDispose {}
-    }
-
-    DisposableEffect(bluetoothDeviceHidConnectionState.state) {
-        if(bluetoothDeviceHidConnectionState.state == BluetoothHidDevice.STATE_CONNECTED) {
-            openRemoteScreen(bluetoothDeviceHidConnectionState.deviceName)
-        }
-        onDispose {}
-    }
-
     BackHandler(enabled = true, onBack = closeApp)
 
+    // If the device's Bluetooth is disabled, we stop the service and return to the previous view.
+    LaunchedEffect(isBluetoothEnabled) {
+        if(!isBluetoothEnabled) {
+            BluetoothHidService.stop(context)
+            navigateUp()
+        }
+    }
+
+    // If the service isn't started and Bluetooth is enabled, we start the service.
+    LaunchedEffect(isBluetoothServiceRunning) {
+        if(!isBluetoothServiceRunning && isBluetoothEnabled) {
+            BluetoothHidService.start(context)
+        }
+    }
+
+    // If a connection has been established with a remote device, we open the remote control view.
+    LaunchedEffect(bluetoothDeviceHidConnectionState.state) {
+        if(bluetoothDeviceHidConnectionState.state == BluetoothHidDevice.STATE_CONNECTED) {
+            navigateToRemoteScreen(bluetoothDeviceHidConnectionState.deviceName)
+        }
+    }
+
+    // Fetch the device's paired Bluetooth devices.
     LaunchedEffect(Unit) {
-        findBondedDevices()
+        viewModel.findBondedDevices()
     }
 
     StatelessDevicesSelectionScreen(
         snackbarHostState = snackbarHostState,
-        isBluetoothServiceStarted = isBluetoothServiceStarted,
+        isBluetoothServiceRunning = isBluetoothServiceRunning,
         isBluetoothHidProfileRegistered = isBluetoothHidProfileRegistered,
         bluetoothDeviceHidConnectionState = bluetoothDeviceHidConnectionState,
 
         favoriteDevices = devices.filter { it.macAddress in favoriteDevices },
         nonFavoriteDevices = devices.filter { it.macAddress !in favoriteDevices },
-        connectDevice = connectDevice,
+        connectDevice = {
+            if(!viewModel.connectDevice(macAddress = it)) {
+                viewModel.disconnectDevice()
+                viewModel.connectDevice(macAddress = it)
+            }
+        },
         autoConnectDeviceAddress = autoConnectionDeviceAddress,
-        openPairingFromAScannedDeviceScreen = openPairingFromAScannedDeviceScreen,
-        openPairingFromARemoteDeviceScreen = openPairingFromARemoteDeviceScreen,
-        openSettings = openSettings,
+        navigateToDeviceDiscoveryScreen = navigateToDeviceDiscoveryScreen,
+        navigateToDistantDevicePairScreen = navigateToDistantDevicePairScreen,
+        navigateToSettings = navigateToSettings,
 
         failureHidConnectionDialog = {
             SimpleDialog(
                 confirmButtonText = stringResource(id = R.string.retry),
                 dismissButtonText = stringResource(id = R.string.close),
                 onConfirmation = {
-                    stopHidService()
-                    startHidService()
+                    BluetoothHidService.stop(context) // isBluetoothServiceRunning becomes false, so the service will be restarted via LaunchedEffect(isBluetoothServiceRunning)
                 },
                 onDismissRequest = closeApp,
                 dialogTitle = stringResource(id = R.string.error),
@@ -164,14 +159,16 @@ fun DevicesSelectionScreen(
                 title = stringResource(id = R.string.connection),
                 message = stringResource(id = R.string.bluetooth_device_connecting_message, bluetoothDeviceHidConnectionState.deviceName),
                 buttonText = stringResource(id = android.R.string.cancel),
-                onButtonClick = disconnectDevice
+                onButtonClick = {
+                    viewModel.disconnectDevice()
+                }
             )
         },
         bluetoothAddressDialog = {
             BluetoothAddressDialog(
                 connectDevice = {
                     showBluetoothAddressDialog = false
-                    connectDevice(it)
+                    viewModel.connectDevice(it)
                 },
                 close = {
                     showBluetoothAddressDialog = false
@@ -188,7 +185,7 @@ fun DevicesSelectionScreen(
                 confirmButtonText = stringResource(id = R.string.unpair),
                 dismissButtonText = stringResource(id = android.R.string.cancel),
                 onConfirmation = {
-                    val msg = if(unpairDevice(deviceToUnpair.macAddress)) {
+                    val msg = if(viewModel.unpairDevice(deviceToUnpair.macAddress)) {
                         context.getString(R.string.unpair_device_successful)
                     } else {
                         context.getString(R.string.unpair_device_failure)
@@ -210,7 +207,7 @@ fun DevicesSelectionScreen(
                     confirmButtonText = stringResource(id = android.R.string.ok),
                     dismissButtonText = stringResource(id = android.R.string.cancel),
                     onConfirmation = {
-                        saveAutoConnectionDeviceAddress("")
+                        viewModel.saveAutoConnectDeviceAddress("")
                         deviceToAutoConnect = InternalDevice()
                     },
                     onDismissRequest = {
@@ -225,7 +222,7 @@ fun DevicesSelectionScreen(
                     confirmButtonText = stringResource(id = android.R.string.ok),
                     dismissButtonText = stringResource(id = android.R.string.cancel),
                     onConfirmation = {
-                        saveAutoConnectionDeviceAddress(deviceToAutoConnect.macAddress)
+                        viewModel.saveAutoConnectDeviceAddress(deviceToAutoConnect.macAddress)
                         deviceToAutoConnect = InternalDevice()
                     },
                     onDismissRequest = {
@@ -247,9 +244,9 @@ fun DevicesSelectionScreen(
         onDeviceToAutoConnectChanged = { deviceToAutoConnect = it },
         saveFavoriteDevice = {
             if(favoriteDevices.contains(it)) {
-                saveFavoriteDevicesAddress(favoriteDevices - it)
+                viewModel.saveFavoriteDevices(favoriteDevices - it)
             } else {
-                saveFavoriteDevicesAddress(favoriteDevices + it)
+                viewModel.saveFavoriteDevices(favoriteDevices + it)
             }
         },
 
@@ -260,7 +257,7 @@ fun DevicesSelectionScreen(
 @Composable
 private fun StatelessDevicesSelectionScreen(
     snackbarHostState: SnackbarHostState,
-    isBluetoothServiceStarted: Boolean,
+    isBluetoothServiceRunning: Boolean,
     isBluetoothHidProfileRegistered: Boolean,
     bluetoothDeviceHidConnectionState: DeviceHidConnectionState,
 
@@ -268,9 +265,9 @@ private fun StatelessDevicesSelectionScreen(
     nonFavoriteDevices: List<DeviceEntity>,
     connectDevice: (String) -> Unit,
     autoConnectDeviceAddress: String,
-    openPairingFromAScannedDeviceScreen: () -> Unit,
-    openPairingFromARemoteDeviceScreen: () -> Unit,
-    openSettings: () -> Unit,
+    navigateToDeviceDiscoveryScreen: () -> Unit,
+    navigateToDistantDevicePairScreen: () -> Unit,
+    navigateToSettings: () -> Unit,
 
     failureHidConnectionDialog: @Composable () -> Unit,
     connectingDialog: @Composable () -> Unit,
@@ -296,15 +293,15 @@ private fun StatelessDevicesSelectionScreen(
         modifier = modifier,
         topBarActions = {
             BluetoothPairingOverflowMenu { closeDropdownMenu: () -> Unit ->
-                BluetoothPairingFromAScannedDeviceDropdownMenuItem(
-                    openBluetoothPairingScreen = {
-                        openPairingFromAScannedDeviceScreen()
+                DeviceDiscoveryDropdownMenuItem(
+                    navigateToDeviceDiscoveryScreen = {
+                        navigateToDeviceDiscoveryScreen()
                         closeDropdownMenu()
                     }
                 )
-                BluetoothPairingFromARemoteDeviceDropdownMenuItem(
-                    openBluetoothPairingScreen = {
-                        openPairingFromARemoteDeviceScreen()
+                DistantDevicePairDropdownMenuItem(
+                    navigateToDistantDevicePairScreen = {
+                        navigateToDistantDevicePairScreen()
                         closeDropdownMenu()
                     }
                 )
@@ -317,7 +314,7 @@ private fun StatelessDevicesSelectionScreen(
             }
 
             HelpAction(showHelp = { onShowHelpBottomSheetChanged(!showHelpBottomSheet) })
-            SettingsAction(openSettings)
+            SettingsAction(navigateToSettings)
         },
         snackbarHost = {
             SnackbarHost(hostState = snackbarHostState)
@@ -331,14 +328,14 @@ private fun StatelessDevicesSelectionScreen(
             autoConnect = onDeviceToAutoConnectChanged,
             saveFavoriteDevice = saveFavoriteDevice,
             unpairDevice = onDeviceToUnpairChanged,
-            isBluetoothServiceStarted = isBluetoothServiceStarted,
+            isBluetoothServiceRunning = isBluetoothServiceRunning,
             modifier = Modifier,
             contentPadding = innerPadding
         )
 
         // Dialog / ModalBottomSheet
         when {
-            isBluetoothServiceStarted && !isBluetoothHidProfileRegistered -> failureHidConnectionDialog()
+            isBluetoothServiceRunning && !isBluetoothHidProfileRegistered -> failureHidConnectionDialog()
             bluetoothDeviceHidConnectionState.state == BluetoothHidDevice.STATE_CONNECTING -> connectingDialog()
             showHelpBottomSheet -> helpBottomSheet()
             showBluetoothAddressDialog -> bluetoothAddressDialog()
@@ -357,7 +354,7 @@ private fun DevicesListView(
     autoConnect: (InternalDevice) -> Unit,
     saveFavoriteDevice: (String) -> Unit,
     unpairDevice: (InternalDevice) -> Unit,
-    isBluetoothServiceStarted: Boolean,
+    isBluetoothServiceRunning: Boolean,
     modifier: Modifier = Modifier,
     contentPadding: PaddingValues = PaddingValues(0.dp)
 ) {
@@ -367,7 +364,7 @@ private fun DevicesListView(
     ) {
         item {
             InfoView(
-                isBluetoothServiceStarted = isBluetoothServiceStarted,
+                isBluetoothServiceRunning = isBluetoothServiceRunning,
                 modifier = Modifier.padding(
                     horizontal = dimensionResource(R.dimen.padding_max),
                     vertical = dimensionResource(R.dimen.padding_large)
@@ -447,7 +444,7 @@ private fun DevicesListView(
 
 @Composable
 private fun InfoView(
-    isBluetoothServiceStarted: Boolean,
+    isBluetoothServiceRunning: Boolean,
     modifier: Modifier = Modifier
 ) {
     DefaultElevatedCard(modifier = modifier) {
@@ -474,7 +471,7 @@ private fun InfoView(
                     maxLines = 1
                 )
             }
-            if(!isBluetoothServiceStarted) {
+            if(!isBluetoothServiceRunning) {
                 TextNormalSecondary(
                     text = stringResource(R.string.help_info_hid_service_not_initialized_message),
                     color = MaterialTheme.colorScheme.error

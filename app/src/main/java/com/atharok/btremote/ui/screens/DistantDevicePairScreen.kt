@@ -18,7 +18,7 @@ import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
@@ -42,13 +42,13 @@ import kotlinx.coroutines.launch
 private const val MAX_PAGES = 5
 
 @Composable
-fun BluetoothPairingFromARemoteDeviceScreen(
+fun DistantDevicePairScreen(
     isBluetoothEnabled: Boolean,
     localDeviceName: String,
     navigateUp: () -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    context: Context = LocalContext.current
 ) {
-    val context: Context = LocalContext.current
     val scrollState: ScrollState = rememberScrollState()
     val pagerState: PagerState = rememberPagerState(pageCount = { MAX_PAGES })
     val coroutineScope: CoroutineScope = rememberCoroutineScope()
@@ -61,14 +61,13 @@ fun BluetoothPairingFromARemoteDeviceScreen(
         )
     }
 
-    DisposableEffect(isBluetoothEnabled) {
+    LaunchedEffect(isBluetoothEnabled) {
         if(!isBluetoothEnabled) {
             navigateUp()
         }
-        onDispose {}
     }
 
-    StatelessPairingFromARemoteDeviceScreen(
+    StatelessDistantDevicePairScreen(
         pages = pagerContents,
         scrollState = scrollState,
         pagerState = pagerState,
@@ -83,15 +82,15 @@ private fun createPages(
     localDeviceName: String,
     verticalPadding: Dp
 ): Array<@Composable () -> Unit> = arrayOf(
-    { PairingFromARemoteDeviceIntroScreen(localDeviceName, Modifier.padding(vertical = verticalPadding)) },
-    { PairingFromARemoteDevicePart1Screen(context, localDeviceName, Modifier.padding(vertical = verticalPadding)) },
-    { PairingFromARemoteDevicePart2Screen(localDeviceName, Modifier.padding(vertical = verticalPadding)) },
-    { PairingFromARemoteDevicePart3Screen(context, Modifier.padding(vertical = verticalPadding)) },
-    { PairingFromARemoteDevicePart4Screen(context, Modifier.padding(vertical = verticalPadding)) }
+    { Page1(localDeviceName, Modifier.padding(vertical = verticalPadding)) },
+    { Page2(context, localDeviceName, Modifier.padding(vertical = verticalPadding)) },
+    { Page3(localDeviceName, Modifier.padding(vertical = verticalPadding)) },
+    { Page4(context, Modifier.padding(vertical = verticalPadding)) },
+    { Page5(context, Modifier.padding(vertical = verticalPadding)) }
 )
 
 @Composable
-private fun StatelessPairingFromARemoteDeviceScreen(
+private fun StatelessDistantDevicePairScreen(
     pages: Array<@Composable () -> Unit>,
     scrollState: ScrollState,
     pagerState: PagerState,
@@ -124,7 +123,7 @@ private fun StatelessPairingFromARemoteDeviceScreen(
                 pages[pageIndex]()
             }
 
-            PairingFromARemoteDeviceBottomView(
+            DistantDevicePairBottomView(
                 pageIndex = pagerState.currentPage,
                 previous = {
                     if (pagerState.currentPage > 0) {
@@ -151,7 +150,7 @@ private fun StatelessPairingFromARemoteDeviceScreen(
 }
 
 @Composable
-private fun PairingFromARemoteDeviceIntroScreen(
+private fun Page1(
     localDeviceName: String,
     modifier: Modifier = Modifier
 ) {
@@ -166,7 +165,7 @@ private fun PairingFromARemoteDeviceIntroScreen(
 }
 
 @Composable
-private fun PairingFromARemoteDevicePart1Screen(
+private fun Page2(
     context: Context,
     localDeviceName: String,
     modifier: Modifier = Modifier
@@ -193,7 +192,7 @@ private fun PairingFromARemoteDevicePart1Screen(
 }
 
 @Composable
-private fun PairingFromARemoteDevicePart2Screen(
+private fun Page3(
     localDeviceName: String,
     modifier: Modifier = Modifier
 ) {
@@ -210,7 +209,7 @@ private fun PairingFromARemoteDevicePart2Screen(
 }
 
 @Composable
-private fun PairingFromARemoteDevicePart3Screen(
+private fun Page4(
     context: Context,
     modifier: Modifier = Modifier
 ) {
@@ -233,7 +232,7 @@ private fun PairingFromARemoteDevicePart3Screen(
 }
 
 @Composable
-private fun PairingFromARemoteDevicePart4Screen(
+private fun Page5(
     context: Context,
     modifier: Modifier = Modifier
 ) {
@@ -247,7 +246,7 @@ private fun PairingFromARemoteDevicePart4Screen(
 }
 
 @Composable
-private fun PairingFromARemoteDeviceBottomView(
+private fun DistantDevicePairBottomView(
     pageIndex: Int,
     previous: () -> Unit,
     next: () -> Unit,

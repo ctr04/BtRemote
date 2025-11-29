@@ -182,11 +182,11 @@ fun HelpDropdownMenuItem(
 
 @Composable
 fun SettingsDropdownMenuItem(
-    showSettingsScreen: () -> Unit,
+    navigateToSettings: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     DropdownMenuItemTemplate(
-        onClick = showSettingsScreen,
+        onClick = navigateToSettings,
         image = AppIcons.Settings,
         title = stringResource(id = R.string.settings),
         modifier = modifier
@@ -236,12 +236,12 @@ fun FavoriteDeviceDropdownMenuItem(
 }
 
 @Composable
-fun BluetoothPairingFromAScannedDeviceDropdownMenuItem(
-    openBluetoothPairingScreen: () -> Unit,
+fun DeviceDiscoveryDropdownMenuItem(
+    navigateToDeviceDiscoveryScreen: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     DropdownMenuItemTemplate(
-        onClick = openBluetoothPairingScreen,
+        onClick = navigateToDeviceDiscoveryScreen,
         image = AppIcons.BluetoothPairing,
         title = stringResource(id = R.string.pairing_a_device),
         modifier = modifier
@@ -249,12 +249,12 @@ fun BluetoothPairingFromAScannedDeviceDropdownMenuItem(
 }
 
 @Composable
-fun BluetoothPairingFromARemoteDeviceDropdownMenuItem(
-    openBluetoothPairingScreen: () -> Unit,
+fun DistantDevicePairDropdownMenuItem(
+    navigateToDistantDevicePairScreen: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     DropdownMenuItemTemplate(
-        onClick = openBluetoothPairingScreen,
+        onClick = navigateToDistantDevicePairScreen,
         image = AppIcons.BluetoothPairing,
         title = stringResource(id = R.string.pairing_from_the_remote_device),
         modifier = modifier

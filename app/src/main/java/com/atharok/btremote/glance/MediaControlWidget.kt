@@ -30,7 +30,7 @@ import androidx.glance.layout.fillMaxSize
 import androidx.glance.layout.fillMaxWidth
 import androidx.glance.layout.width
 import com.atharok.btremote.R
-import com.atharok.btremote.domain.usecases.BluetoothHidUseCase
+import com.atharok.btremote.domain.usecases.BluetoothHidServiceUseCase
 import com.atharok.btremote.presentation.activities.MainActivity
 import com.atharok.btremote.presentation.services.NotificationBroadcastReceiver
 import com.atharok.btremote.presentation.services.NotificationBroadcastReceiver.Companion.ACTION_MULTIMEDIA_NEXT
@@ -49,10 +49,10 @@ class MediaControlWidget : GlanceAppWidget(), KoinComponent {
     override val sizeMode: SizeMode = SizeMode.Exact
 
     override suspend fun provideGlance(context: Context, id: GlanceId) {
-        val bluetoothHidUseCase by inject<BluetoothHidUseCase>()
+        val bluetoothHidServiceUseCase by inject<BluetoothHidServiceUseCase>()
         provideContent {
             GlanceTheme {
-                val state by bluetoothHidUseCase.getDeviceHidConnectionState().collectAsState()
+                val state by bluetoothHidServiceUseCase.getDeviceHidConnectionState().collectAsState()
                 if (state.state != BluetoothHidDevice.STATE_CONNECTED) {
                     AppLauncher()
                 } else {

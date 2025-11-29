@@ -1,6 +1,7 @@
 package com.atharok.btremote.ui.screens
 
 import android.bluetooth.BluetoothHidDevice
+import android.content.Context
 import android.content.res.Configuration
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.Arrangement
@@ -29,6 +30,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
@@ -47,7 +49,8 @@ import com.atharok.btremote.domain.entities.remoteInput.keyboard.KeyboardKey
 import com.atharok.btremote.domain.entities.remoteInput.keyboard.KeyboardLanguage
 import com.atharok.btremote.domain.entities.remoteInput.keyboard.virtualKeyboard.VirtualKeyboardLayout
 import com.atharok.btremote.domain.entities.settings.RemoteSettings
-import com.atharok.btremote.presentation.viewmodel.SettingsViewModel
+import com.atharok.btremote.presentation.services.BluetoothHidService
+import com.atharok.btremote.presentation.viewmodel.RemoteViewModel
 import com.atharok.btremote.ui.components.AppScaffold
 import com.atharok.btremote.ui.components.BrightnessDecDropdownMenuItem
 import com.atharok.btremote.ui.components.BrightnessIncDropdownMenuItem
@@ -72,6 +75,7 @@ import com.atharok.btremote.ui.views.remote.RemoteView
 import com.atharok.btremote.ui.views.remote.buttonsLayouts.TVChannelDialog
 import com.atharok.btremote.ui.views.remoteNavigation.RemoteDirectionalPadNavigation
 import com.atharok.btremote.ui.views.remoteNavigation.RemoteSwipeNavigation
+import org.koin.androidx.compose.koinViewModel
 
 private enum class NavigationToggle {
     DIRECTION,
@@ -80,24 +84,18 @@ private enum class NavigationToggle {
 
 @Composable
 fun RemoteScreen(
-    deviceName: String,
-    isBluetoothServiceStarted: Boolean,
+    isBluetoothServiceRunning: Boolean,
     bluetoothDeviceHidConnectionState: DeviceHidConnectionState,
-    navigateUp: () -> Unit,
     closeApp: () -> Unit,
-    openSettings: () -> Unit,
-    settingsViewModel: SettingsViewModel,
-    disconnectDevice: () -> Unit,
-    forceDisconnectDevice: () -> Unit,
-    sendRemoteKeyReport: (ByteArray) -> Unit,
-    sendMouseKeyReport: (MouseAction, Float, Float, Float) -> Unit,
-    sendKeyboardKeyReport: (ByteArray) -> Unit,
-    sendTextReport: (String, VirtualKeyboardLayout) -> Unit,
-    modifier: Modifier = Modifier
+    navigateUp: () -> Unit,
+    navigateToSettings: () -> Unit,
+    modifier: Modifier = Modifier,
+    remoteViewModel: RemoteViewModel = koinViewModel(),
+    context: Context = LocalContext.current
 ) {
     val configuration = LocalConfiguration.current
 
-    val remoteSettings by settingsViewModel
+    val remoteSettings by remoteViewModel
         .remoteSettingsFlow.collectAsStateWithLifecycle(RemoteSettings())
 
     // Remote
@@ -111,8 +109,8 @@ fun RemoteScreen(
 
     BackHandler(enabled = true, onBack = closeApp)
 
-    DisposableEffect(isBluetoothServiceStarted) {
-        if(!isBluetoothServiceStarted) {
+    DisposableEffect(isBluetoothServiceRunning) {
+        if(!isBluetoothServiceRunning) {
             navigateUp()
         }
         onDispose {}
@@ -126,12 +124,14 @@ fun RemoteScreen(
     }
 
     StatelessRemoteScreen(
-        deviceName = deviceName,
+        deviceName = bluetoothDeviceHidConnectionState.deviceName,
         isLandscapeMode = configuration.orientation == Configuration.ORIENTATION_LANDSCAPE,
         topBarActions = {
             TopBarActions(
-                openSettings = openSettings,
-                disconnectDevice = disconnectDevice,
+                navigateToSettings = navigateToSettings,
+                disconnectDevice = {
+                    remoteViewModel.disconnectDevice()
+                },
                 navigationToggle = navigationToggle,
                 onNavigationToggleChanged = { navigationToggle = it },
                 useAdvancedKeyboardIntegrated = remoteSettings.useAdvancedKeyboard && remoteSettings.useAdvancedKeyboardIntegrated,
@@ -139,7 +139,7 @@ fun RemoteScreen(
                 onShowKeyboardChanged = { showKeyboard = it },
                 showHelpBottomSheet = showHelpBottomSheet,
                 onShowHelpBottomSheetChanged = { showHelpBottomSheet = it },
-                sendRemoteKeyReport = sendRemoteKeyReport,
+                sendRemoteKeyReport = remoteViewModel.sendRemoteReport,
                 showBrightnessButtons = !remoteSettings.useMinimalistRemote
             )
         },
@@ -148,16 +148,16 @@ fun RemoteScreen(
                 useMinimalistRemote = remoteSettings.useMinimalistRemote,
                 showAdvancedKeyboard = remoteSettings.useAdvancedKeyboard && remoteSettings.useAdvancedKeyboardIntegrated && showKeyboard,
                 keyboardLanguage = remoteSettings.keyboardLanguage,
-                sendRemoteKeyReport = sendRemoteKeyReport,
-                sendKeyboardKeyReport = sendKeyboardKeyReport
+                sendRemoteKeyReport = remoteViewModel.sendRemoteReport,
+                sendKeyboardKeyReport = remoteViewModel.sendKeyboardReport
             )
         },
         navigationLayout = {
             NavigationLayout(
                 remoteSettings = remoteSettings,
-                sendRemoteKeyReport = sendRemoteKeyReport,
-                sendKeyboardKeyReport = sendKeyboardKeyReport,
-                sendMouseKeyReport = sendMouseKeyReport,
+                sendRemoteKeyReport = remoteViewModel.sendRemoteReport,
+                sendKeyboardKeyReport = remoteViewModel.sendKeyboardReport,
+                sendMouseKeyReport = remoteViewModel.sendMouseReport,
                 navigationToggle = navigationToggle,
             )
         },
@@ -169,7 +169,10 @@ fun RemoteScreen(
                         title = stringResource(id = R.string.connection),
                         message = stringResource(id = R.string.bluetooth_device_disconnecting_message, bluetoothDeviceHidConnectionState.deviceName),
                         buttonText = stringResource(id = R.string.disconnect),
-                        onButtonClick = forceDisconnectDevice
+                        onButtonClick = {
+                            remoteViewModel.disconnectDevice()
+                            BluetoothHidService.stop(context) // force disconnection
+                        }
                     )
                 }
                 showHelpBottomSheet -> {
@@ -183,8 +186,8 @@ fun RemoteScreen(
                         useAdvancedKeyboard = remoteSettings.useAdvancedKeyboard,
                         keyboardLanguage = remoteSettings.keyboardLanguage,
                         mustClearInputField = remoteSettings.mustClearInputField,
-                        sendKeyboardKeyReport = sendKeyboardKeyReport,
-                        sendTextReport = sendTextReport,
+                        sendKeyboardKeyReport = remoteViewModel.sendKeyboardReport,
+                        sendTextReport = remoteViewModel.sendTextReport,
                         onShowKeyboardChanged = { showKeyboard = it }
                     )
                 }
@@ -600,7 +603,7 @@ private fun KeyboardModalBottomSheet(
 
 @Composable
 private fun TopBarActions(
-    openSettings: () -> Unit,
+    navigateToSettings: () -> Unit,
     disconnectDevice: () -> Unit,
     navigationToggle: NavigationToggle,
     onNavigationToggleChanged: (NavigationToggle) -> Unit,
@@ -697,9 +700,9 @@ private fun TopBarActions(
             }
         )
         SettingsDropdownMenuItem(
-            showSettingsScreen = {
+            navigateToSettings = {
                 closeDropdownMenu()
-                openSettings()
+                navigateToSettings()
             }
         )
     }

@@ -86,6 +86,11 @@ class DataStoreRepositoryImpl(
         settingsDataStore.saveFavoriteDevices(macAddresses)
     }
 
+    override fun getAutoConnectDeviceAddressFlow(): Flow<String> = settingsDataStore.autoConnectDeviceAddressFlow
+    override suspend fun saveAutoConnectDeviceAddress(macAddress: String) {
+        settingsDataStore.saveAutoConnectDeviceAddress(macAddress)
+    }
+
     override fun hideBluetoothActivationButton(): Flow<Boolean> = settingsDataStore.hideBluetoothActivationButtonFlow
     override suspend fun saveHideBluetoothActivationButton(hide: Boolean) {
         settingsDataStore.saveHideBluetoothActivationButton(hide)

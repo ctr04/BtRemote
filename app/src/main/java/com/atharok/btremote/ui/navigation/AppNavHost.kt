@@ -39,19 +39,20 @@ private val popExitTransition: AnimatedContentTransitionScope<NavBackStackEntry>
 @Composable
 fun AppNavHost(
     navController: NavHostController,
+    startDestination: String,
     bluetoothPermissionsScreen: @Composable () -> Unit,
     settingsScreen: @Composable () -> Unit,
     thirdLibrariesScreen: @Composable () -> Unit,
     bluetoothActivationScreen: @Composable () -> Unit,
-    bluetoothDeviceSelectionScreen: @Composable () -> Unit,
-    bluetoothPairingFromAScannedDeviceScreen: @Composable () -> Unit,
-    bluetoothPairingFromARemoteDeviceScreen: @Composable () -> Unit,
-    bluetoothRemoteScreen: @Composable () -> Unit,
+    deviceSelectionScreen: @Composable () -> Unit,
+    deviceDiscoveryScreen: @Composable () -> Unit,
+    distantDevicePairScreen: @Composable () -> Unit,
+    remoteScreen: @Composable () -> Unit,
     modifier: Modifier = Modifier
 ) {
     NavHost(
         navController = navController,
-        startDestination = AppNavDestination.BluetoothPermissionsDestination.route,
+        startDestination = startDestination,
         modifier = modifier
     ) {
 
@@ -96,43 +97,43 @@ fun AppNavHost(
         }
 
         composable(
-            route = AppNavDestination.BluetoothDeviceSelectionDestination.route,
+            route = AppNavDestination.DeviceSelectionDestination.route,
             enterTransition = enterTransition,
             exitTransition = exitTransition,
             popEnterTransition = popEnterTransition,
             popExitTransition = popExitTransition
         ) {
-            bluetoothDeviceSelectionScreen()
+            deviceSelectionScreen()
         }
 
         composable(
-            route = AppNavDestination.BluetoothPairingFromAScannedDeviceDestination.route,
+            route = AppNavDestination.DeviceDiscoveryDestination.route,
             enterTransition = enterTransition,
             exitTransition = exitTransition,
             popEnterTransition = popEnterTransition,
             popExitTransition = popExitTransition
         ) {
-            bluetoothPairingFromAScannedDeviceScreen()
+            deviceDiscoveryScreen()
         }
 
         composable(
-            route = AppNavDestination.BluetoothPairingFromARemoteDeviceDestination.route,
+            route = AppNavDestination.DistantDevicePairDestination.route,
             enterTransition = enterTransition,
             exitTransition = exitTransition,
             popEnterTransition = popEnterTransition,
             popExitTransition = popExitTransition
         ) {
-            bluetoothPairingFromARemoteDeviceScreen()
+            distantDevicePairScreen()
         }
 
         composable(
-            route = AppNavDestination.BluetoothRemoteDestination.route,
+            route = AppNavDestination.RemoteDestination.route,
             enterTransition = enterTransition,
             exitTransition = exitTransition,
             popEnterTransition = popEnterTransition,
             popExitTransition = popExitTransition
         ) {
-            bluetoothRemoteScreen()
+            remoteScreen()
         }
     }
 }

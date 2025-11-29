@@ -81,11 +81,6 @@ class SettingsViewModel(
 
     // ---- Others ----
 
-    val favoriteDevices: Flow<List<String>> get() = useCase.getFavoriteDevices()
-    fun saveFavoriteDevices(macAddresses: List<String>) = viewModelScope.launch {
-        useCase.saveFavoriteDevices(macAddresses)
-    }
-
     val hideBluetoothActivationButtonFlow: Flow<Boolean> get() = useCase.hideBluetoothActivationButton()
     fun saveHideBluetoothActivationButton(hide: Boolean) = viewModelScope.launch {
         useCase.saveHideBluetoothActivationButton(hide)

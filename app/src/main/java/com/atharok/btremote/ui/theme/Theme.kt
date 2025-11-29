@@ -25,8 +25,7 @@ import com.atharok.btremote.common.extensions.setFullScreen
 import com.atharok.btremote.common.utils.isDynamicColorsAvailable
 import com.atharok.btremote.domain.entities.settings.AppearanceSettings
 import com.atharok.btremote.domain.entities.settings.ThemeEntity
-import com.atharok.btremote.presentation.viewmodel.ThemeViewModel
-import org.koin.androidx.compose.koinViewModel
+import kotlinx.coroutines.flow.Flow
 
 private val lightScheme = lightColorScheme(
     primary = primaryLight,
@@ -270,17 +269,16 @@ val unspecified_scheme = ColorFamily(
 
 @Composable
 fun BtRemoteTheme(
-    themeViewModel: ThemeViewModel = koinViewModel(),
+    appearanceFlow: Flow<AppearanceSettings>,
     context: Context = LocalContext.current,
     content: @Composable () -> Unit
 ) {
-    val appearanceSettings by themeViewModel
-        .appearanceSettingsFlow.collectAsStateWithLifecycle(AppearanceSettings())
+    val appearance by appearanceFlow.collectAsStateWithLifecycle(AppearanceSettings())
 
-    val theme = appearanceSettings.theme
-    val useDynamicColors = appearanceSettings.useDynamicColors
-    val useBlackColorForDarkTheme = appearanceSettings.useBlackColorForDarkTheme
-    val useFullScreen = appearanceSettings.useFullScreen
+    val theme = appearance.theme
+    val useDynamicColors = appearance.useDynamicColors
+    val useBlackColorForDarkTheme = appearance.useBlackColorForDarkTheme
+    val useFullScreen = appearance.useFullScreen
 
     val useDarkTheme = when(theme) {
         ThemeEntity.SYSTEM -> isSystemInDarkTheme()

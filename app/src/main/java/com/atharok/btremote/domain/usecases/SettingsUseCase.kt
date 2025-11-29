@@ -8,83 +8,78 @@ import com.atharok.btremote.domain.entities.settings.ThemeEntity
 import com.atharok.btremote.domain.repositories.DataStoreRepository
 import kotlinx.coroutines.flow.Flow
 
-class SettingsUseCase(private val repository: DataStoreRepository) {
+class SettingsUseCase(private val dataStoreRepository: DataStoreRepository) {
 
     // ---- Appearance ----
 
     val appearanceSettingsFlow: Flow<AppearanceSettings>
-        get() = repository.appearanceSettingsFlow
+        get() = dataStoreRepository.appearanceSettingsFlow
 
     suspend fun saveTheme(themeEntity: ThemeEntity) {
-        repository.saveTheme(themeEntity)
+        dataStoreRepository.saveTheme(themeEntity)
     }
 
     suspend fun saveUseDynamicColors(useDynamicColors: Boolean) {
-        repository.saveUseDynamicColors(useDynamicColors)
+        dataStoreRepository.saveUseDynamicColors(useDynamicColors)
     }
 
     suspend fun saveUseBlackColorForDarkTheme(useBlackColorForDarkTheme: Boolean) {
-        repository.saveUseBlackColorForDarkTheme(useBlackColorForDarkTheme)
+        dataStoreRepository.saveUseBlackColorForDarkTheme(useBlackColorForDarkTheme)
     }
 
     suspend fun saveUseFullScreen(useFullScreen: Boolean) {
-        repository.saveUseFullScreen(useFullScreen)
+        dataStoreRepository.saveUseFullScreen(useFullScreen)
     }
 
     // ---- Remote ----
 
     val remoteSettingsFlow: Flow<RemoteSettings>
-        get() = repository.remoteSettingsFlow
+        get() = dataStoreRepository.remoteSettingsFlow
 
     suspend fun saveMouseSpeed(mouseSpeed: Float) {
-        repository.saveMouseSpeed(mouseSpeed)
+        dataStoreRepository.saveMouseSpeed(mouseSpeed)
     }
 
     suspend fun saveInvertMouseScrollingDirection(invertScrollingDirection: Boolean) {
-        repository.saveInvertMouseScrollingDirection(invertScrollingDirection)
+        dataStoreRepository.saveInvertMouseScrollingDirection(invertScrollingDirection)
     }
 
     suspend fun saveUseGyroscope(useGyroscope: Boolean) {
-        repository.saveUseGyroscope(useGyroscope)
+        dataStoreRepository.saveUseGyroscope(useGyroscope)
     }
 
     suspend fun saveKeyboardLanguage(language: KeyboardLanguage) {
-        repository.saveKeyboardLanguage(language)
+        dataStoreRepository.saveKeyboardLanguage(language)
     }
 
     suspend fun saveMustClearInputField(mustClearInputField: Boolean) {
-        repository.saveMustClearInputField(mustClearInputField)
+        dataStoreRepository.saveMustClearInputField(mustClearInputField)
     }
 
     suspend fun saveUseAdvancedKeyboard(useAdvancedKeyboard: Boolean) {
-        repository.saveUseAdvancedKeyboard(useAdvancedKeyboard)
+        dataStoreRepository.saveUseAdvancedKeyboard(useAdvancedKeyboard)
     }
 
     suspend fun saveUseAdvancedKeyboardIntegrated(useAdvancedKeyboardIntegrated: Boolean) {
-        repository.saveUseAdvancedKeyboardIntegrated(useAdvancedKeyboardIntegrated)
+        dataStoreRepository.saveUseAdvancedKeyboardIntegrated(useAdvancedKeyboardIntegrated)
     }
 
     suspend fun saveUseMinimalistRemote(useMinimalistRemote: Boolean) {
-        repository.saveUseMinimalistRemote(useMinimalistRemote)
+        dataStoreRepository.saveUseMinimalistRemote(useMinimalistRemote)
     }
 
     suspend fun saveRemoteNavigation(remoteNavigationEntity: RemoteNavigationEntity) {
-        repository.saveRemoteNavigation(remoteNavigationEntity)
+        dataStoreRepository.saveRemoteNavigation(remoteNavigationEntity)
     }
 
     suspend fun saveUseEnterForSelection(useEnterForSelection: Boolean) {
-        repository.saveUseEnterForSelection(useEnterForSelection)
+        dataStoreRepository.saveUseEnterForSelection(useEnterForSelection)
     }
 
     // ---- Others ----
 
-    fun getFavoriteDevices(): Flow<List<String>> = repository.getFavoriteDevices()
-    suspend fun saveFavoriteDevices(macAddresses: List<String>) {
-        repository.saveFavoriteDevices(macAddresses)
-    }
-
-    fun hideBluetoothActivationButton(): Flow<Boolean> = repository.hideBluetoothActivationButton()
+    fun hideBluetoothActivationButton(): Flow<Boolean> = dataStoreRepository.hideBluetoothActivationButton()
     suspend fun saveHideBluetoothActivationButton(hide: Boolean) {
-        repository.saveHideBluetoothActivationButton(hide)
+        dataStoreRepository.saveHideBluetoothActivationButton(hide)
     }
 }

@@ -38,7 +38,7 @@ fun ActivationView(
     buttonText: String,
     buttonOnClick: () -> Unit,
     hideButton: Boolean,
-    openSettings: () -> Unit,
+    navigateToSettings: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     AppScaffold(
@@ -46,7 +46,7 @@ fun ActivationView(
         modifier = modifier,
         scrollBehavior = null,
         topBarActions = {
-            SettingsAction(openSettings)
+            SettingsAction(navigateToSettings)
         }
     ) { innerPadding ->
         Box(

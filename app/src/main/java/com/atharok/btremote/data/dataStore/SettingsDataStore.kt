@@ -53,6 +53,7 @@ class SettingsDataStore(private val context: Context) {
         private const val USE_ENTER_FOR_SELECTION_KEY = "use_enter_for_selection_key"
 
         private const val FAVORITE_DEVICES_KEY = "favorite_devices_key"
+        private const val AUTO_CONNECT_DEVICE_ADDRESS_KEY = "auto_connect_device_address_key"
         private const val HIDE_BLUETOOTH_ACTIVATION_BUTTON_KEY = "hide_bluetooth_activation_button_key"
     }
 
@@ -71,6 +72,7 @@ class SettingsDataStore(private val context: Context) {
     private val remoteNavigationKey = stringPreferencesKey(REMOTE_NAVIGATION_KEY)
     private val useEnterForSelectionKey = booleanPreferencesKey(USE_ENTER_FOR_SELECTION_KEY)
     private val favoriteDevicesKey = stringPreferencesKey(FAVORITE_DEVICES_KEY)
+    private val autoConnectDeviceAddressKey = stringPreferencesKey(AUTO_CONNECT_DEVICE_ADDRESS_KEY)
     private val hideBluetoothActivationButtonKey = booleanPreferencesKey(HIDE_BLUETOOTH_ACTIVATION_BUTTON_KEY)
 
     private fun Flow<Preferences>.catchException(): Flow<Preferences> = this.catch {
@@ -234,6 +236,22 @@ class SettingsDataStore(private val context: Context) {
         val jsonString = Json.encodeToString(macAddresses)
         context.dataStore.edit {
             it[favoriteDevicesKey] = jsonString
+        }
+    }
+
+    // ---- Auto Connect ----
+
+    val autoConnectDeviceAddressFlow: Flow<String> by lazy {
+        context.dataStore.data
+            .catchException()
+            .map { preferences ->
+                preferences[autoConnectDeviceAddressKey] ?: ""
+            }
+    }
+
+    suspend fun saveAutoConnectDeviceAddress(macAddress: String) {
+        context.dataStore.edit {
+            it[autoConnectDeviceAddressKey] = macAddress
         }
     }
 

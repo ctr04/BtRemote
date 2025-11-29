@@ -8,10 +8,11 @@ import android.hardware.SensorManager
 import android.hardware.display.DisplayManager
 import com.atharok.btremote.R
 import com.atharok.btremote.common.utils.bluetoothHidDescriptor
-import com.atharok.btremote.data.bluetooth.BluetoothHidProfile
-import com.atharok.btremote.data.bluetooth.BluetoothInteractions
+import com.atharok.btremote.data.bluetooth.BluetoothHidCore
+import com.atharok.btremote.data.bluetooth.BluetoothLocalData
+import com.atharok.btremote.data.bluetooth.BluetoothScanner
+import com.atharok.btremote.data.bluetooth.BluetoothStatusChecker
 import com.atharok.btremote.data.dataStore.SettingsDataStore
-import com.atharok.btremote.data.repositories.BluetoothHidProfileRepositoryImpl
 import com.atharok.btremote.data.repositories.BluetoothRepositoryImpl
 import com.atharok.btremote.data.repositories.DataStoreRepositoryImpl
 import com.atharok.btremote.data.repositories.GyroscopeSensorRepositoryImpl
@@ -48,21 +49,24 @@ import com.atharok.btremote.domain.entities.remoteInput.keyboard.virtualKeyboard
 import com.atharok.btremote.domain.entities.remoteInput.keyboard.virtualKeyboard.SpanishVirtualKeyboardLayout
 import com.atharok.btremote.domain.entities.remoteInput.keyboard.virtualKeyboard.TurkishVirtualKeyboardLayout
 import com.atharok.btremote.domain.entities.remoteInput.keyboard.virtualKeyboard.UkrainianVirtualKeyboardLayout
-import com.atharok.btremote.domain.repositories.BluetoothHidProfileRepository
 import com.atharok.btremote.domain.repositories.BluetoothRepository
 import com.atharok.btremote.domain.repositories.DataStoreRepository
 import com.atharok.btremote.domain.repositories.GyroscopeSensorRepository
+import com.atharok.btremote.domain.usecases.AppScopeUseCase
+import com.atharok.btremote.domain.usecases.BluetoothActivationUseCase
 import com.atharok.btremote.domain.usecases.BluetoothHidServiceUseCase
-import com.atharok.btremote.domain.usecases.BluetoothHidUseCase
-import com.atharok.btremote.domain.usecases.BluetoothUseCase
+import com.atharok.btremote.domain.usecases.DeviceDiscoveryUseCase
+import com.atharok.btremote.domain.usecases.DeviceSelectionUseCase
 import com.atharok.btremote.domain.usecases.GyroscopeSensorUseCase
+import com.atharok.btremote.domain.usecases.RemoteUseCase
 import com.atharok.btremote.domain.usecases.SettingsUseCase
-import com.atharok.btremote.domain.usecases.ThemeUseCase
-import com.atharok.btremote.presentation.viewmodel.BluetoothHidViewModel
-import com.atharok.btremote.presentation.viewmodel.BluetoothViewModel
+import com.atharok.btremote.presentation.viewmodel.AppScopeViewModel
+import com.atharok.btremote.presentation.viewmodel.BluetoothActivationViewModel
+import com.atharok.btremote.presentation.viewmodel.DeviceDiscoveryViewModel
+import com.atharok.btremote.presentation.viewmodel.DeviceSelectionViewModel
 import com.atharok.btremote.presentation.viewmodel.GyroscopeSensorViewModel
+import com.atharok.btremote.presentation.viewmodel.RemoteViewModel
 import com.atharok.btremote.presentation.viewmodel.SettingsViewModel
-import com.atharok.btremote.presentation.viewmodel.ThemeViewModel
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.module.Module
 import org.koin.core.module.dsl.viewModel
@@ -137,20 +141,14 @@ private val androidModule: Module = module {
 
 private val viewModelModule: Module = module {
     viewModel {
+        AppScopeViewModel(
+            useCase = get<AppScopeUseCase>()
+        )
+    }
+
+    viewModel {
         GyroscopeSensorViewModel(
             useCase = get<GyroscopeSensorUseCase>()
-        )
-    }
-
-    viewModel {
-        BluetoothViewModel(
-            useCase = get<BluetoothUseCase>()
-        )
-    }
-
-    viewModel {
-        BluetoothHidViewModel(
-            useCase = get<BluetoothHidUseCase>()
         )
     }
 
@@ -161,13 +159,38 @@ private val viewModelModule: Module = module {
     }
 
     viewModel {
-        ThemeViewModel(
-            useCase = get<ThemeUseCase>()
+        BluetoothActivationViewModel(
+            useCase = get<BluetoothActivationUseCase>()
+        )
+    }
+
+    viewModel {
+        DeviceSelectionViewModel(
+            useCase = get<DeviceSelectionUseCase>()
+        )
+    }
+
+    viewModel {
+        DeviceDiscoveryViewModel(
+            useCase = get<DeviceDiscoveryUseCase>()
+        )
+    }
+
+    viewModel {
+        RemoteViewModel(
+            useCase = get<RemoteUseCase>()
         )
     }
 }
 
 private val useCaseModule: Module = module {
+    single {
+        AppScopeUseCase(
+            bluetoothRepository = get<BluetoothRepository>(),
+            dataStoreRepository = get<DataStoreRepository>()
+        )
+    }
+
     single {
         GyroscopeSensorUseCase(
             repository = get<GyroscopeSensorRepository>()
@@ -175,32 +198,41 @@ private val useCaseModule: Module = module {
     }
 
     single {
-        BluetoothUseCase(
-            bluetoothRepository = get<BluetoothRepository>()
-        )
-    }
-
-    single {
         BluetoothHidServiceUseCase(
-            repository = get<BluetoothHidProfileRepository>()
-        )
-    }
-
-    single {
-        BluetoothHidUseCase(
-            repository = get<BluetoothHidProfileRepository>()
+            bluetoothRepository = get<BluetoothRepository>(),
+            dataStoreRepository = get<DataStoreRepository>()
         )
     }
 
     single {
         SettingsUseCase(
-            repository = get<DataStoreRepository>()
+            dataStoreRepository = get<DataStoreRepository>()
         )
     }
 
     single {
-        ThemeUseCase(
-            repository = get<DataStoreRepository>()
+        BluetoothActivationUseCase(
+            dataStoreRepository = get<DataStoreRepository>()
+        )
+    }
+
+    single {
+        DeviceSelectionUseCase(
+            bluetoothRepository = get<BluetoothRepository>(),
+            dataStoreRepository = get<DataStoreRepository>()
+        )
+    }
+
+    single {
+        DeviceDiscoveryUseCase(
+            bluetoothRepository = get<BluetoothRepository>()
+        )
+    }
+
+    single {
+        RemoteUseCase(
+            bluetoothRepository = get<BluetoothRepository>(),
+            dataStoreRepository = get<DataStoreRepository>()
         )
     }
 }
@@ -214,13 +246,10 @@ private val repositoryModule: Module = module {
 
     single<BluetoothRepository> {
         BluetoothRepositoryImpl(
-            bluetoothInteractions = get<BluetoothInteractions>()
-        )
-    }
-
-    single<BluetoothHidProfileRepository> {
-        BluetoothHidProfileRepositoryImpl(
-            hidProfile = get<BluetoothHidProfile>()
+            bluetoothStatusChecker = get<BluetoothStatusChecker>(),
+            bluetoothScanner = get<BluetoothScanner>(),
+            bluetoothLocalData = get<BluetoothLocalData>(),
+            bluetoothHidCore = get<BluetoothHidCore>()
         )
     }
 
@@ -240,14 +269,28 @@ private val dataModule: Module = module {
     }
 
     single {
-        BluetoothInteractions(
+        BluetoothStatusChecker(
             context = androidContext(),
             adapter = get<BluetoothManager>().adapter
         )
     }
 
     single {
-        BluetoothHidProfile(
+        BluetoothScanner(
+            context = androidContext(),
+            adapter = get<BluetoothManager>().adapter
+        )
+    }
+
+    single {
+        BluetoothLocalData(
+            context = androidContext(),
+            adapter = get<BluetoothManager>().adapter
+        )
+    }
+
+    single {
+        BluetoothHidCore(
             context = androidContext(),
             adapter = get<BluetoothManager>().adapter,
             hidSettings = get<BluetoothHidDeviceAppSdpSettings>()

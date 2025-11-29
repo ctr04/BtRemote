@@ -1,17 +1,51 @@
 package com.atharok.btremote.domain.repositories
 
+import androidx.compose.runtime.snapshots.SnapshotStateList
 import com.atharok.btremote.domain.entities.DeviceEntity
+import com.atharok.btremote.domain.entities.DeviceHidConnectionState
+import com.atharok.btremote.domain.entities.remoteInput.keyboard.virtualKeyboard.VirtualKeyboardLayout
+import kotlinx.coroutines.flow.StateFlow
 
 interface BluetoothRepository {
+
+    // ---- BluetoothStatusChecker ----
+
     fun isBluetoothSupported(): Boolean
-    fun isBluetoothEnabled(): Boolean
-    fun getLocalDeviceName(): String
-    fun getBluetoothPermissions(): Array<String>
-    fun areBluetoothPermissionsGranted(): Boolean
-    fun getBluetoothScanningPermissions(): Array<String>
-    fun areBluetoothScanningPermissionsGranted(): Boolean
-    fun getBondedDevices(): List<DeviceEntity>
+    fun isBluetoothEnabled(): StateFlow<Boolean>
+    fun registerBluetoothStateReceiver()
+    fun unregisterBluetoothStateReceiver()
+
+    // ---- BluetoothScanner ----
+
+    fun getScannedDevices(): SnapshotStateList<DeviceEntity>
+    fun registerBluetoothScannerReceiver()
+    fun unregisterBluetoothScannerReceiver()
     fun startDiscovery(): Boolean
     fun cancelDiscovery(): Boolean
+
+    // ---- BluetoothLocalData ----
+
+    fun getLocalDeviceName(): String
+    fun getBondedDevices(): List<DeviceEntity>
     fun unpairDevice(address: String): Boolean
+
+    // ---- BluetoothHidCore ----
+
+    fun startHidProfile(autoConnectDeviceAddress: String)
+
+    fun stopHidProfile()
+
+    fun isBluetoothServiceRunning(): StateFlow<Boolean>
+
+    fun isBluetoothHidProfileRegistered(): StateFlow<Boolean>
+
+    fun connectDevice(deviceAddress: String): Boolean
+
+    fun disconnectDevice(): Boolean
+
+    fun getDeviceHidConnectionState(): StateFlow<DeviceHidConnectionState>
+
+    fun sendReport(id: Int, bytes: ByteArray): Boolean
+
+    suspend fun sendTextReport(text: String, virtualKeyboardLayout: VirtualKeyboardLayout): Boolean
 }

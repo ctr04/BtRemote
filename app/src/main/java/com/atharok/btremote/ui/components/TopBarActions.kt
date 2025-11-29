@@ -46,11 +46,11 @@ fun NavigateUpAction(
 
 @Composable
 fun SettingsAction(
-    openSettingsScreen: () -> Unit,
+    navigateToSettings: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     TopAppBarAction(
-        onClick = openSettingsScreen,
+        onClick = navigateToSettings,
         image = AppIcons.Settings,
         contentDescription = stringResource(id = R.string.settings),
         modifier = modifier

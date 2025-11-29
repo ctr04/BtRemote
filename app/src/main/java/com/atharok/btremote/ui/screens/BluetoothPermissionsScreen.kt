@@ -1,7 +1,9 @@
 package com.atharok.btremote.ui.screens
 
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -10,75 +12,51 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import com.atharok.btremote.R
 import com.atharok.btremote.common.utils.AppIcons
-import com.atharok.btremote.ui.components.RequestMultiplePermissions
+import com.atharok.btremote.common.utils.arePermissionsGranted
 import com.atharok.btremote.ui.views.ActivationView
 
 @Composable
 fun BluetoothPermissionsScreen(
     permissions: Array<String>,
-    arePermissionsGranted: () -> Boolean,
+    arePermissionsGranted: Boolean,
     onPermissionsGranted: () -> Unit,
-    openSettings: () -> Unit,
+    navigateToSettings: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    StatefulBluetoothPermission(
-        permissions = permissions,
-        arePermissionsGranted = arePermissionsGranted,
-        onPermissionsGranted = onPermissionsGranted
-    ) { requestPermission: () -> Unit ->
-        StatelessBluetoothPermission(
-            requestPermission = requestPermission,
-            openSettings = openSettings,
+    val permissionState = remember { mutableStateOf(arePermissionsGranted) }
+
+    if(permissionState.value) {
+        LaunchedEffect(Unit) {
+            onPermissionsGranted()
+        }
+    } else {
+        var shouldAskPermissions: Boolean by remember { mutableStateOf(false) }
+
+        val launcher = rememberLauncherForActivityResult(
+            contract = ActivityResultContracts.RequestMultiplePermissions(),
+            onResult = { result: Map<String, Boolean> ->
+                shouldAskPermissions = false
+                permissionState.value = arePermissionsGranted(result)
+            }
+        )
+
+        LaunchedEffect(shouldAskPermissions) {
+            if(shouldAskPermissions) {
+                launcher.launch(permissions)
+            }
+        }
+
+        ActivationView(
+            topBarTitle = stringResource(id = R.string.permission),
+            image = AppIcons.Lock,
+            title = stringResource(id = R.string.bluetooth_permission_not_granted),
+            message = stringResource(id = R.string.bluetooth_permission_message),
+            buttonIcon = AppIcons.Key,
+            buttonText = stringResource(id = R.string.bluetooth_permission_button),
+            buttonOnClick = { shouldAskPermissions = true },
+            hideButton = false,
+            navigateToSettings = navigateToSettings,
             modifier = modifier
         )
     }
-}
-
-@Composable
-private fun StatefulBluetoothPermission(
-    permissions: Array<String>,
-    arePermissionsGranted: () -> Boolean,
-    onPermissionsGranted: () -> Unit,
-    content: @Composable (() -> Unit) -> Unit
-) {
-    if(arePermissionsGranted()) {
-        DisposableEffect(Unit) {
-            onPermissionsGranted()
-            onDispose {}
-        }
-    } else {
-        var permissionRequested: Boolean by remember { mutableStateOf(false) }
-
-        if (permissionRequested) {
-            RequestMultiplePermissions(
-                permissions = permissions,
-                onPermissionsGranted = onPermissionsGranted,
-                onPermissionsDenied = { permissionRequested = false }
-            )
-        }
-
-        content {
-            permissionRequested = true
-        }
-    }
-}
-
-@Composable
-private fun StatelessBluetoothPermission(
-    requestPermission: () -> Unit,
-    openSettings: () -> Unit,
-    modifier: Modifier = Modifier
-) {
-    ActivationView(
-        topBarTitle = stringResource(id = R.string.permission),
-        image = AppIcons.Lock,
-        title = stringResource(id = R.string.bluetooth_permission_not_granted),
-        message = stringResource(id = R.string.bluetooth_permission_message),
-        buttonIcon = AppIcons.Key,
-        buttonText = stringResource(id = R.string.bluetooth_permission_button),
-        buttonOnClick = requestPermission,
-        hideButton = false,
-        openSettings = openSettings,
-        modifier = modifier
-    )
 }
