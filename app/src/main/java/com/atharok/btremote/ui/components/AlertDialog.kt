@@ -12,6 +12,7 @@ import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.RadioButton
+import androidx.compose.material3.RadioButtonColors
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.runtime.Composable
@@ -63,7 +64,9 @@ fun SimpleDialog(
             TextLarge(text = dialogTitle)
         },
         content = {
-            TextNormal(text = dialogText)
+            TextNormal(
+                text = dialogText
+            )
         },
         modifier = modifier,
         confirmButtonText = confirmButtonText,
@@ -92,6 +95,7 @@ fun ListDialog(
                 dialogMessage?.let {
                     TextNormal(
                         text = it,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
                         modifier = Modifier.padding(top = dimensionResource(id = R.dimen.padding_max))
                     )
                 }
@@ -112,10 +116,17 @@ fun ListDialog(
                     ) {
                         RadioButton(
                             selected = selected.intValue == index,
-                            onClick = { selected.intValue = index }
+                            onClick = { selected.intValue = index },
+                            colors = RadioButtonColors(
+                                selectedColor = MaterialTheme.colorScheme.primary,
+                                unselectedColor = MaterialTheme.colorScheme.onSurface,
+                                disabledSelectedColor = MaterialTheme.colorScheme.onSurfaceVariant,
+                                disabledUnselectedColor = MaterialTheme.colorScheme.onSurfaceVariant
+                            )
                         )
                         TextNormal(
                             text = item,
+                            color = MaterialTheme.colorScheme.onSurface,
                             modifier = Modifier.clickable { selected.intValue = index }
                         )
                     }
@@ -181,6 +192,8 @@ private fun LoadingView(
         horizontalArrangement = Arrangement.spacedBy(dimensionResource(id = R.dimen.padding_max))
     ) {
         CircularProgressIndicator()
-        TextNormal(text = message)
+        TextNormal(
+            text = message
+        )
     }
 }

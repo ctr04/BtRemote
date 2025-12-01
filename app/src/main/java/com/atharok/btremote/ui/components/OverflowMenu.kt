@@ -81,7 +81,10 @@ private fun DropdownMenuItemTemplate(
 ) {
     DropdownMenuItem(
         text = {
-            TextNormal(title)
+            TextNormal(
+                text = title,
+                color = MaterialTheme.colorScheme.onSurfaceVariant
+            )
         },
         onClick = onClick,
         modifier = modifier,
@@ -109,7 +112,10 @@ private fun DropdownMenuItemTemplate(
     ) {
         DropdownMenuItem(
             text = {
-                TextNormal(title)
+                TextNormal(
+                    text = title,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
             },
             onClick = {},
             modifier = modifier,
