@@ -76,6 +76,10 @@ class SettingsUseCase(private val dataStoreRepository: DataStoreRepository) {
         dataStoreRepository.saveUseEnterForSelection(useEnterForSelection)
     }
 
+    suspend fun saveDefaultToMouseNavigation(defaultToMouseNavigation: Boolean) {
+        dataStoreRepository.saveDefaultToMouseNavigation(defaultToMouseNavigation)
+    }
+
     // ---- Others ----
 
     fun hideBluetoothActivationButton(): Flow<Boolean> = dataStoreRepository.hideBluetoothActivationButton()
