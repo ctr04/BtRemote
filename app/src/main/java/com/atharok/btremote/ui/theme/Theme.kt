@@ -269,11 +269,10 @@ val unspecified_scheme = ColorFamily(
 
 @Composable
 fun BtRemoteTheme(
-    appearanceFlow: Flow<AppearanceSettings>,
+    appearance: AppearanceSettings,
     context: Context = LocalContext.current,
     content: @Composable () -> Unit
 ) {
-    val appearance by appearanceFlow.collectAsStateWithLifecycle(AppearanceSettings())
 
     val theme = appearance.theme
     val useDynamicColors = appearance.useDynamicColors

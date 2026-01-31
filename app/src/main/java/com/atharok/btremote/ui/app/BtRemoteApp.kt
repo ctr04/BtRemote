@@ -15,6 +15,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.unit.dp
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
@@ -24,6 +25,7 @@ import com.atharok.btremote.common.utils.arePermissionsGranted
 import com.atharok.btremote.common.utils.bluetoothConnectPermissions
 import com.atharok.btremote.common.utils.bluetoothScanPermissions
 import com.atharok.btremote.domain.entities.DeviceHidConnectionState
+import com.atharok.btremote.domain.entities.settings.AppearanceSettings
 import com.atharok.btremote.presentation.services.BluetoothHidService
 import com.atharok.btremote.presentation.viewmodel.AppScopeViewModel
 import com.atharok.btremote.ui.components.CheckBluetoothStateChanged
@@ -53,12 +55,15 @@ fun BtRemoteApp(
     },
     context: Context = LocalContext.current
 ) {
+    val appearance by appScopeViewModel.appearanceSettingsFlow
+        .collectAsStateWithLifecycle(AppearanceSettings())
+
     BtRemoteTheme(
-        appearanceFlow = appScopeViewModel.appearanceSettingsFlow
+        appearance = appearance
     ) {
         Surface(
             modifier = Modifier.fillMaxSize(),
-            tonalElevation = surfaceElevationLow()
+            tonalElevation = if(appearance.useBlackColorForDarkTheme) 0.dp else surfaceElevationLow()
         ) {
             if(!appScopeViewModel.isBluetoothSupported) {
                 BluetoothNotSupportScreen()
