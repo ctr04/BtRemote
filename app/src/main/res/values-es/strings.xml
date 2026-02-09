@@ -197,4 +197,6 @@
     <string name="help_hid_service_not_initialized_message_3">• Si esta opción no está disponible, es posible que su dispositivo no sea compatible con el perfil HID. En ese caso, lamentablemente, no podrás usar esta aplicación en este dispositivo.</string>
     <string name="connect">Conectar</string>
     <string name="media_controls">Controles multimedia</string>
+    <string name="no_device_registered">No hay ningún dispositivo registrado en este dispositivo.</string>
+    <string name="code_version">Versión %1$s</string>
 </resources>

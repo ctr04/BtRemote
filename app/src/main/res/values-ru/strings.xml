@@ -216,4 +216,8 @@
     <string name="hide_bluetooth_activation_button">Скрыть кнопку активации Bluetooth при запуске приложения</string>
     <string name="advanced_options">Расширенные опции</string>
     <string name="add_to_favorites">Добавить в избранное</string>
+    <string name="no_device_registered">На этом устройстве не зарегистрировано ни одного устройства.</string>
+    <string name="connect">Подключиться</string>
+    <string name="media_controls">Управление медиа</string>
+    <string name="code_version">Версия %1$s</string>
 </resources>
