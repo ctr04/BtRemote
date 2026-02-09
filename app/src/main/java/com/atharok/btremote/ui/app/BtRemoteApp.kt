@@ -15,7 +15,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.unit.dp
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
@@ -63,7 +62,7 @@ fun BtRemoteApp(
     ) {
         Surface(
             modifier = Modifier.fillMaxSize(),
-            tonalElevation = if(appearance.useBlackColorForDarkTheme) 0.dp else surfaceElevationLow()
+            tonalElevation = surfaceElevationLow()
         ) {
             if(!appScopeViewModel.isBluetoothSupported) {
                 BluetoothNotSupportScreen()

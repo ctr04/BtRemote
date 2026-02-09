@@ -1,9 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="surface_elevation_low">1dp</dimen>
-    <dimen name="surface_elevation_medium">2.5dp</dimen>
-    <dimen name="surface_elevation_high">4dp</dimen>
+    <dimen name="surface_elevation_medium">3dp</dimen>
+    <dimen name="surface_elevation_high">5dp</dimen>
     <dimen name="surface_elevation_shadow">1dp</dimen>
+    <dimen name="true_black_surface_elevation_low">0dp</dimen>
+    <dimen name="true_black_surface_elevation_medium">2dp</dimen>
+    <dimen name="true_black_surface_elevation_high">4dp</dimen>
     <dimen name="keyboard_key_corner_radius">4dp</dimen>
     <dimen name="card_corner_radius">12dp</dimen>
     <dimen name="padding_min">2dp</dimen>
