@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="brightness_increase">Aumentar brilho</string>
     <string name="help_pairing_missing_device_message_1">Se o dispositivo que você deseja emparelhar não aparece, siga as instruções abaixo:</string>
     <string name="help_pairing_missing_device_check_2">• Certifique-se que a visibilidade Bluetooth está ativada no dispositivo remoto.</string>
     <string name="app_name">Controle BT</string>
@@ -85,9 +84,6 @@
     <string name="pause">Pausar</string>
     <string name="previous">Anterior</string>
     <string name="next">Próximo</string>
-    <string name="volume_increase">Aumentar volume</string>
-    <string name="volume_decrease">Diminuir volume</string>
-    <string name="brightness_decrease">Diminuir brilho</string>
     <string name="mute">Silenciar</string>
     <string name="home">Início</string>
     <string name="back">Voltar</string>

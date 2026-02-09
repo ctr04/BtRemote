@@ -92,8 +92,6 @@
     <string name="pause">Пауза</string>
     <string name="previous">Предишен</string>
     <string name="next">Следващ</string>
-    <string name="volume_decrease">Намаляване на звука</string>
-    <string name="brightness_decrease">Намаляване на яркостта</string>
     <string name="mute">Без звук</string>
     <string name="home">Начало</string>
     <string name="back">Назад</string>
@@ -133,8 +131,6 @@
     <string name="notification_channel_name">Bluetooth HID връзка</string>
     <string name="help_device_failed_connection_message_3">Ако проблемът продължава, уверете се, че Bluetooth сензорът на вашите устройства не е дефектен.</string>
     <string name="d_pad_description">Управление чрез контроли за посока</string>
-    <string name="brightness_increase">Увеличаване на яркостта</string>
-    <string name="volume_increase">Увеличаване на звука</string>
     <string name="help_device_failed_connection_message_1">Ако не можете да се свържете с отдалеченото устройство, моля, не забравяйте да следвате инструкциите по-долу:</string>
     <string name="help_device_failed_connection_check_2">• Уверете се, че функцията Bluetooth е активирана на отдалеченото устройство.</string>
     <string name="help_device_failed_connection_check_6">• Сдвоете отново двете устройства, като натиснете иконата, разположена в горната лента.</string>

@@ -53,9 +53,6 @@
     <string name="source_code">Kod źródłowy</string>
     <string name="keyboard_language">Język klawiatury</string>
     <string name="keyboard_language_info">Upewnij się, że wybrany język klawiatury odpowiada językowi skonfigurowanemu na urządzeniu, z którym się chcesz połączyć.</string>
-    <string name="volume_increase">Zwiększ głośność</string>
-    <string name="volume_decrease">Zmniejsz głośność</string>
-    <string name="brightness_increase">Zwiększ jasność</string>
     <string name="help_missing_device_title">Brakujące urządzenie</string>
     <string name="third_party_library">Biblioteki stron trzecich</string>
     <string name="keyboard_english_uk">Angielski (Wielka Brytania)</string>
@@ -85,7 +82,6 @@
     <string name="play">Odtwórz</string>
     <string name="previous">Poprzedni</string>
     <string name="next">Następny</string>
-    <string name="brightness_decrease">Zmniejsz jasność</string>
     <string name="mute">Wycisz</string>
     <string name="back">Wróć</string>
     <string name="next_channel">Następny kanał</string>

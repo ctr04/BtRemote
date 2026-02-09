@@ -52,8 +52,6 @@ import com.atharok.btremote.domain.entities.settings.RemoteSettings
 import com.atharok.btremote.presentation.services.BluetoothHidService
 import com.atharok.btremote.presentation.viewmodel.RemoteViewModel
 import com.atharok.btremote.ui.components.AppScaffold
-import com.atharok.btremote.ui.components.BrightnessDecDropdownMenuItem
-import com.atharok.btremote.ui.components.BrightnessIncDropdownMenuItem
 import com.atharok.btremote.ui.components.DirectionButtonsAction
 import com.atharok.btremote.ui.components.DisconnectDropdownMenuItem
 import com.atharok.btremote.ui.components.FadeAnimatedContent
@@ -64,6 +62,7 @@ import com.atharok.btremote.ui.components.MoreOverflowMenu
 import com.atharok.btremote.ui.components.MouseAction
 import com.atharok.btremote.ui.components.RemoteAction
 import com.atharok.btremote.ui.components.SettingsDropdownMenuItem
+import com.atharok.btremote.ui.components.ShowMoreButtonsDropdownMenuItem
 import com.atharok.btremote.ui.theme.surfaceElevationMedium
 import com.atharok.btremote.ui.views.RemoteScreenHelpModalBottomSheet
 import com.atharok.btremote.ui.views.keyboard.AdvancedKeyboard
@@ -72,6 +71,7 @@ import com.atharok.btremote.ui.views.keyboard.VirtualKeyboardModalBottomSheet
 import com.atharok.btremote.ui.views.mouse.MousePadLayout
 import com.atharok.btremote.ui.views.remote.MinimalistRemoteView
 import com.atharok.btremote.ui.views.remote.RemoteView
+import com.atharok.btremote.ui.views.remote.buttonsLayouts.MoreButtonsDialog
 import com.atharok.btremote.ui.views.remote.buttonsLayouts.TVChannelDialog
 import com.atharok.btremote.ui.views.remoteNavigation.RemoteDirectionalPadNavigation
 import com.atharok.btremote.ui.views.remoteNavigation.RemoteSwipeNavigation
@@ -103,6 +103,9 @@ fun RemoteScreen(
 
     // Keyboard
     var showKeyboard: Boolean by rememberSaveable { mutableStateOf(false) }
+
+    // More Buttons
+    var showMoreButtons: Boolean by rememberSaveable { mutableStateOf(false) }
 
     // Help
     var showHelpBottomSheet: Boolean by remember { mutableStateOf(false) }
@@ -137,10 +140,10 @@ fun RemoteScreen(
                 useAdvancedKeyboardIntegrated = remoteSettings.useAdvancedKeyboard && remoteSettings.useAdvancedKeyboardIntegrated,
                 showKeyboard = showKeyboard,
                 onShowKeyboardChanged = { showKeyboard = it },
+                showMoreButtons = showMoreButtons,
+                onShowMoreButtonsChanged = { showMoreButtons = it },
                 showHelpBottomSheet = showHelpBottomSheet,
-                onShowHelpBottomSheetChanged = { showHelpBottomSheet = it },
-                sendRemoteKeyReport = remoteViewModel.sendRemoteReport,
-                showBrightnessButtons = !remoteSettings.useMinimalistRemote
+                onShowHelpBottomSheetChanged = { showHelpBottomSheet = it }
             )
         },
         remoteLayout = {
@@ -189,6 +192,13 @@ fun RemoteScreen(
                         sendKeyboardKeyReport = remoteViewModel.sendKeyboardReport,
                         sendTextReport = remoteViewModel.sendTextReport,
                         onShowKeyboardChanged = { showKeyboard = it }
+                    )
+                }
+                showMoreButtons -> {
+                    MoreButtonsDialog(
+                        sendRemoteKeyReport = remoteViewModel.sendRemoteReport,
+                        sendKeyboardKeyReport = remoteViewModel.sendKeyboardReport,
+                        onDismissRequest = { showMoreButtons = false }
                     )
                 }
             }
@@ -335,20 +345,20 @@ private fun RemoteLayout(
             RemoteButtonsLayouts(
                 useMinimalistRemote = useMinimalistRemote,
                 multimediaPlayPauseTouchDown = { sendRemoteKeyReport(RemoteInput.REMOTE_INPUT_PLAY_PAUSE) },
-                multimediaPreviousTouchDown = { sendRemoteKeyReport(RemoteInput.REMOTE_INPUT_PREVIOUS) },
-                multimediaNextTouchDown = { sendRemoteKeyReport(RemoteInput.REMOTE_INPUT_NEXT) },
-                volumeIncTouchDown = { sendRemoteKeyReport(RemoteInput.REMOTE_INPUT_VOLUME_INC) },
-                volumeDecTouchDown = { sendRemoteKeyReport(RemoteInput.REMOTE_INPUT_VOLUME_DEC) },
+                multimediaPreviousTouchDown = { sendRemoteKeyReport(RemoteInput.REMOTE_INPUT_REWIND) },
+                multimediaNextTouchDown = { sendRemoteKeyReport(RemoteInput.REMOTE_INPUT_FORWARD) },
+                volumeUpTouchDown = { sendRemoteKeyReport(RemoteInput.REMOTE_INPUT_VOLUME_UP) },
+                volumeDownTouchDown = { sendRemoteKeyReport(RemoteInput.REMOTE_INPUT_VOLUME_DOWN) },
                 volumeMuteTouchDown = { sendRemoteKeyReport(RemoteInput.REMOTE_INPUT_VOLUME_MUTE) },
                 closedCaptionsTouchDown = { sendRemoteKeyReport(RemoteInput.REMOTE_INPUT_CLOSED_CAPTIONS) },
                 backTouchDown = { sendRemoteKeyReport(RemoteInput.REMOTE_INPUT_BACK) },
                 homeTouchDown = { sendRemoteKeyReport(RemoteInput.REMOTE_INPUT_HOME) },
                 menuTouchDown = { sendRemoteKeyReport(RemoteInput.REMOTE_INPUT_MENU) },
                 powerTouchDown = { sendRemoteKeyReport(RemoteInput.REMOTE_INPUT_POWER) },
-                brightnessIncTouchDown = { sendRemoteKeyReport(RemoteInput.REMOTE_INPUT_BRIGHTNESS_INC) },
-                brightnessDecTouchDown = { sendRemoteKeyReport(RemoteInput.REMOTE_INPUT_BRIGHTNESS_DEC) },
-                tvChannelIncTouchDown = { sendRemoteKeyReport(RemoteInput.REMOTE_INPUT_CHANNEL_INC) },
-                tvChannelDecTouchDown = { sendRemoteKeyReport(RemoteInput.REMOTE_INPUT_CHANNEL_DEC) },
+                brightnessUpTouchDown = { sendRemoteKeyReport(RemoteInput.REMOTE_INPUT_BRIGHTNESS_UP) },
+                brightnessDownTouchDown = { sendRemoteKeyReport(RemoteInput.REMOTE_INPUT_BRIGHTNESS_DOWN) },
+                tvChannelUpTouchDown = { sendRemoteKeyReport(RemoteInput.REMOTE_INPUT_CHANNEL_UP) },
+                tvChannelDownTouchDown = { sendRemoteKeyReport(RemoteInput.REMOTE_INPUT_CHANNEL_DOWN) },
                 tvChannel1TouchDown = { sendKeyboardKeyReport(ChannelInput.CHANNEL_INPUT_1) },
                 tvChannel2TouchDown = { sendKeyboardKeyReport(ChannelInput.CHANNEL_INPUT_2) },
                 tvChannel3TouchDown = { sendKeyboardKeyReport(ChannelInput.CHANNEL_INPUT_3) },
@@ -372,18 +382,18 @@ private fun RemoteButtonsLayouts(
     multimediaPlayPauseTouchDown: () -> Unit,
     multimediaPreviousTouchDown: () -> Unit,
     multimediaNextTouchDown: () -> Unit,
-    volumeIncTouchDown: () -> Unit,
-    volumeDecTouchDown: () -> Unit,
+    volumeUpTouchDown: () -> Unit,
+    volumeDownTouchDown: () -> Unit,
     volumeMuteTouchDown: () -> Unit,
     closedCaptionsTouchDown: () -> Unit,
     backTouchDown: () -> Unit,
     homeTouchDown: () -> Unit,
     menuTouchDown: () -> Unit,
     powerTouchDown: () -> Unit,
-    brightnessIncTouchDown: () -> Unit,
-    brightnessDecTouchDown: () -> Unit,
-    tvChannelIncTouchDown: () -> Unit,
-    tvChannelDecTouchDown: () -> Unit,
+    brightnessUpTouchDown: () -> Unit,
+    brightnessDownTouchDown: () -> Unit,
+    tvChannelUpTouchDown: () -> Unit,
+    tvChannelDownTouchDown: () -> Unit,
     tvChannel1TouchDown: () -> Unit,
     tvChannel2TouchDown: () -> Unit,
     tvChannel3TouchDown: () -> Unit,
@@ -404,16 +414,16 @@ private fun RemoteButtonsLayouts(
             multimediaPlayPauseTouchDown = multimediaPlayPauseTouchDown,
             multimediaPreviousTouchDown = multimediaPreviousTouchDown,
             multimediaNextTouchDown = multimediaNextTouchDown,
-            volumeIncTouchDown = volumeIncTouchDown,
-            volumeDecTouchDown = volumeDecTouchDown,
+            volumeUpTouchDown = volumeUpTouchDown,
+            volumeDownTouchDown = volumeDownTouchDown,
             volumeMuteTouchDown = volumeMuteTouchDown,
             closedCaptionsTouchDown = closedCaptionsTouchDown,
             backTouchDown = backTouchDown,
             homeTouchDown = homeTouchDown,
             menuTouchDown = menuTouchDown,
             powerTouchDown = powerTouchDown,
-            brightnessIncTouchDown = brightnessIncTouchDown,
-            brightnessDecTouchDown = brightnessDecTouchDown,
+            brightnessUpTouchDown = brightnessUpTouchDown,
+            brightnessDownTouchDown = brightnessDownTouchDown,
             remoteTouchUp = remoteTouchUp,
             showTVChannelButtons = {
                 showTVChannelButtons = !showTVChannelButtons
@@ -423,8 +433,8 @@ private fun RemoteButtonsLayouts(
 
         if (showTVChannelButtons) {
             TVChannelDialog(
-                tvChannelIncTouchDown = tvChannelIncTouchDown,
-                tvChannelDecTouchDown = tvChannelDecTouchDown,
+                tvChannelUpTouchDown = tvChannelUpTouchDown,
+                tvChannelDownTouchDown = tvChannelDownTouchDown,
                 tvChannel1TouchDown = tvChannel1TouchDown,
                 tvChannel2TouchDown = tvChannel2TouchDown,
                 tvChannel3TouchDown = tvChannel3TouchDown,
@@ -447,16 +457,16 @@ private fun RemoteButtonsLayouts(
             multimediaPlayPauseTouchDown = multimediaPlayPauseTouchDown,
             multimediaPreviousTouchDown = multimediaPreviousTouchDown,
             multimediaNextTouchDown = multimediaNextTouchDown,
-            volumeIncTouchDown = volumeIncTouchDown,
-            volumeDecTouchDown = volumeDecTouchDown,
+            volumeUpTouchDown = volumeUpTouchDown,
+            volumeDownTouchDown = volumeDownTouchDown,
             volumeMuteTouchDown = volumeMuteTouchDown,
             closedCaptionsTouchDown = closedCaptionsTouchDown,
             backTouchDown = backTouchDown,
             homeTouchDown = homeTouchDown,
             menuTouchDown = menuTouchDown,
             powerTouchDown = powerTouchDown,
-            tvChannelIncTouchDown = tvChannelIncTouchDown,
-            tvChannelDecTouchDown = tvChannelDecTouchDown,
+            tvChannelUpTouchDown = tvChannelUpTouchDown,
+            tvChannelDownTouchDown = tvChannelDownTouchDown,
             tvChannel1TouchDown = tvChannel1TouchDown,
             tvChannel2TouchDown = tvChannel2TouchDown,
             tvChannel3TouchDown = tvChannel3TouchDown,
@@ -612,10 +622,10 @@ private fun TopBarActions(
     useAdvancedKeyboardIntegrated: Boolean,
     showKeyboard: Boolean,
     onShowKeyboardChanged: (Boolean) -> Unit,
+    showMoreButtons: Boolean,
+    onShowMoreButtonsChanged: (Boolean) -> Unit,
     showHelpBottomSheet: Boolean,
-    onShowHelpBottomSheetChanged: (Boolean) -> Unit,
-    sendRemoteKeyReport: (ByteArray) -> Unit,
-    showBrightnessButtons: Boolean
+    onShowHelpBottomSheetChanged: (Boolean) -> Unit
 ) {
     FadeAnimatedContent(targetState = navigationToggle) {
         when (it) {
@@ -666,24 +676,12 @@ private fun TopBarActions(
     }
 
     MoreOverflowMenu { closeDropdownMenu: () -> Unit ->
-        if(showBrightnessButtons) {
-            BrightnessIncDropdownMenuItem(
-                touchDown = {
-                    sendRemoteKeyReport(RemoteInput.REMOTE_INPUT_BRIGHTNESS_INC)
-                },
-                touchUp = {
-                    sendRemoteKeyReport(REMOTE_INPUT_NONE)
-                }
-            )
-            BrightnessDecDropdownMenuItem(
-                touchDown = {
-                    sendRemoteKeyReport(RemoteInput.REMOTE_INPUT_BRIGHTNESS_DEC)
-                },
-                touchUp = {
-                    sendRemoteKeyReport(REMOTE_INPUT_NONE)
-                }
-            )
-        }
+        ShowMoreButtonsDropdownMenuItem(
+            showMoreButtons = {
+                closeDropdownMenu()
+                onShowMoreButtonsChanged(!showMoreButtons)
+            }
+        )
         DisconnectDropdownMenuItem(
             disconnect = {
                 closeDropdownMenu()

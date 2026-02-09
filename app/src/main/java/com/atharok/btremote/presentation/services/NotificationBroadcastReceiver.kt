@@ -31,11 +31,11 @@ class NotificationBroadcastReceiver: BroadcastReceiver(), KoinComponent {
 
     override fun onReceive(context: Context?, intent: Intent?) {
         when(intent?.action) {
-            ACTION_VOLUME_INC -> sendReport(RemoteInput.REMOTE_INPUT_VOLUME_INC)
-            ACTION_VOLUME_DEC -> sendReport(RemoteInput.REMOTE_INPUT_VOLUME_DEC)
+            ACTION_VOLUME_INC -> sendReport(RemoteInput.REMOTE_INPUT_VOLUME_UP)
+            ACTION_VOLUME_DEC -> sendReport(RemoteInput.REMOTE_INPUT_VOLUME_DOWN)
             ACTION_MULTIMEDIA_PLAY_PAUSE -> sendReport(RemoteInput.REMOTE_INPUT_PLAY_PAUSE)
-            ACTION_MULTIMEDIA_PREVIOUS -> sendReport(RemoteInput.REMOTE_INPUT_PREVIOUS)
-            ACTION_MULTIMEDIA_NEXT -> sendReport(RemoteInput.REMOTE_INPUT_NEXT)
+            ACTION_MULTIMEDIA_PREVIOUS -> sendReport(RemoteInput.REMOTE_INPUT_REWIND)
+            ACTION_MULTIMEDIA_NEXT -> sendReport(RemoteInput.REMOTE_INPUT_FORWARD)
             ACTION_LEFT -> sendReport(RemoteInput.REMOTE_INPUT_MENU_LEFT)
             ACTION_RIGHT -> sendReport(RemoteInput.REMOTE_INPUT_MENU_RIGHT)
             ACTION_UP -> sendReport(RemoteInput.REMOTE_INPUT_MENU_UP)

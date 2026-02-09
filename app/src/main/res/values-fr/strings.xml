@@ -86,6 +86,7 @@
     <string name="more">Plus</string>
     <string name="disconnect">Se déconnecter</string>
     <string name="direction_arrows">Flèches de direction</string>
+    <string name="more_buttons">Boutons supplémentaires</string>
     <!-- Widgets -->
     <string name="connect">Se connecter</string>
     <string name="media_controls">Contrôles multimédia</string>
@@ -162,14 +163,20 @@
     <string name="down">Bas</string>
     <string name="left">Gauche</string>
     <string name="right">Droite</string>
-    <string name="play">Jouer</string>
+    <string name="play">Lecture</string>
     <string name="pause">Pause</string>
+    <string name="stop">Stop</string>
+    <string name="repeat">Répéter</string>
     <string name="previous">Précédent</string>
     <string name="next">Suivant</string>
-    <string name="volume_increase">Augmenter le volume</string>
-    <string name="volume_decrease">Diminuer le volume</string>
-    <string name="brightness_increase">Augmenter la luminosité</string>
-    <string name="brightness_decrease">Diminuer la luminosité</string>
+    <string name="previous_track">Piste précédente</string>
+    <string name="next_track">Piste suivante</string>
+    <string name="rewind">Reculer</string>
+    <string name="forward">Avancer</string>
+    <string name="volume_up">Volume +</string>
+    <string name="volume_down">Volume -</string>
+    <string name="brightness_up">Luminosité +</string>
+    <string name="brightness_down">Luminosité -</string>
     <string name="mute">Sourdine</string>
     <string name="home">Accueil</string>
     <string name="back">Retour</string>
@@ -179,7 +186,12 @@
     <string name="power">Power</string>
     <string name="menu">Menu</string>
     <string name="closed_captions">Sous-titres</string>
+    <string name="screenshot">Capture d\'écran</string>
     <string name="tv">TV</string>
+    <string name="red_menu_button">Rouge</string>
+    <string name="green_menu_button">Vert</string>
+    <string name="blue_menu_button">Bleu</string>
+    <string name="yellow_menu_button">Jaune</string>
     <!-- Mouse -->
     <string name="mouse">Souris</string>
     <string name="mouse_click_left">Clique gauche</string>

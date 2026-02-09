@@ -7,8 +7,8 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.core.text.layoutDirection
 import com.atharok.btremote.common.utils.AppIcons.Help
 import com.atharok.btremote.common.utils.AppIcons.Mute
-import com.atharok.btremote.common.utils.AppIcons.VolumeDecrease
-import com.atharok.btremote.common.utils.AppIcons.VolumeIncrease
+import com.atharok.btremote.common.utils.AppIcons.VolumeDown
+import com.atharok.btremote.common.utils.AppIcons.VolumeUp
 import com.atharok.btremote.common.utils.AppIcons.getKoin
 import java.util.Locale
 
@@ -21,7 +21,7 @@ fun Modifier.autoMirroredIcon(icon: ImageVector): Modifier {
             }
         }
 
-        Mute, VolumeIncrease, VolumeDecrease -> {
+        Mute, VolumeUp, VolumeDown -> {
             if (getKoin().get<Locale>().layoutDirection == LayoutDirection.RTL) {
                 return this.scale(scaleX = -1f, scaleY = 1f)
             }

@@ -133,10 +133,6 @@
     <string name="pause">ایست</string>
     <string name="previous">پیشین</string>
     <string name="next">بعدی</string>
-    <string name="volume_increase">افزایش صدا</string>
-    <string name="volume_decrease">کاهش صدا</string>
-    <string name="brightness_increase">افزایش روشنایی</string>
-    <string name="brightness_decrease">کاهش روشنایی</string>
     <string name="mute">بی‌صدا</string>
     <string name="home">خانه</string>
     <string name="back">بازگشت</string>

@@ -107,11 +107,11 @@ fun VolumeVerticalButtons(
 ) {
     VerticalLayout(
         topButtonTouchDown = volumeUpButtonTouchDown,
-        topIcon = AppIcons.VolumeIncrease,
-        topIconDescription = R.string.volume_increase,
+        topIcon = AppIcons.VolumeUp,
+        topIconDescription = R.string.volume_up,
         bottomButtonTouchDown = volumeDownButtonTouchDown,
-        bottomIcon = AppIcons.VolumeDecrease,
-        bottomIconDescription = R.string.volume_decrease,
+        bottomIcon = AppIcons.VolumeDown,
+        bottomIconDescription = R.string.volume_down,
         buttonTouchUp = buttonTouchUp,
         modifier = modifier,
         shape = shape
@@ -128,10 +128,10 @@ fun TVChannelVerticalButtons(
 ) {
     VerticalLayout(
         topButtonTouchDown = tvChannelUpButtonTouchDown,
-        topIcon = AppIcons.TVChannelIncrease,
+        topIcon = AppIcons.TVChannelUp,
         topIconDescription = R.string.next_channel,
         bottomButtonTouchDown = tvChannelDownButtonTouchDown,
-        bottomIcon = AppIcons.TVChannelDecrease,
+        bottomIcon = AppIcons.TVChannelDown,
         bottomIconDescription = R.string.previous_channel,
         buttonTouchUp = buttonTouchUp,
         modifier = modifier,
@@ -149,11 +149,11 @@ fun BrightnessVerticalButtons(
 ) {
     VerticalLayout(
         topButtonTouchDown = brightnessUpButtonTouchDown,
-        topIcon = AppIcons.BrightnessIncrease,
-        topIconDescription = R.string.brightness_increase,
+        topIcon = AppIcons.BrightnessUp,
+        topIconDescription = R.string.brightness_up,
         bottomButtonTouchDown = brightnessDownButtonTouchDown,
-        bottomIcon = AppIcons.BrightnessDecrease,
-        bottomIconDescription = R.string.brightness_decrease,
+        bottomIcon = AppIcons.BrightnessDown,
+        bottomIconDescription = R.string.brightness_down,
         buttonTouchUp = buttonTouchUp,
         modifier = modifier,
         shape = shape

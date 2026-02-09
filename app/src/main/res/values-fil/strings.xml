@@ -9,9 +9,6 @@
     <string name="pause">I-pause</string>
     <string name="previous">Nakaraan</string>
     <string name="next">Susunod</string>
-    <string name="volume_increase">Itaas ang volume</string>
-    <string name="volume_decrease">Ibaba ang volume</string>
-    <string name="brightness_decrease">Ibaba ang brightness</string>
     <string name="mute">I-mute</string>
     <string name="home">Home</string>
     <string name="back">Bumalik</string>
@@ -33,7 +30,6 @@
     <string name="unpair_device">I-unpair ang device</string>
     <string name="keyboard_language_info">Siguraduhin na ang piniling wika ng keyboard ay tumutugma sa naka-configure sa remote device.</string>
     <string name="right">Kanan</string>
-    <string name="brightness_increase">Itass ang brightness</string>
     <string name="help_device_failed_connection_message_1">Kung hindi ka makakonekta sa remote device, mangyaring siguraduhin na sundan mo ang mga tagubilin sa ibaba:</string>
     <string name="help_pairing_missing_device_check_location_for_android_11_or_less">• Siguraduhin na naka-enable ang mga serbisyo ng lokasyon sa iyong device.</string>
     <string name="help_pairing_device_failed_connection_message_1">Kung matagumpay mong mapares ang parehong device ngunit hindi makakonekta sa remote device, mangyaring siguraduhing sundan ang mga tagubilin sa ibaba:</string>

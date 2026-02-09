@@ -95,6 +95,7 @@
     <string name="more">More</string>
     <string name="disconnect">Disconnect</string>
     <string name="direction_arrows">Direction arrows</string>
+    <string name="more_buttons">More Buttons</string>
 
     <!-- Widgets -->
     <string name="connect">Connect</string>
@@ -177,12 +178,18 @@
     <string name="right">Right</string>
     <string name="play">Play</string>
     <string name="pause">Pause</string>
+    <string name="stop">Stop</string>
+    <string name="repeat">Repeat</string>
     <string name="previous">Previous</string>
     <string name="next">Next</string>
-    <string name="volume_increase">Volume increase</string>
-    <string name="volume_decrease">Volume decrease</string>
-    <string name="brightness_increase">Brightness increase</string>
-    <string name="brightness_decrease">Brightness decrease</string>
+    <string name="previous_track">Previous Track</string>
+    <string name="next_track">Next Track</string>
+    <string name="rewind">Rewind</string>
+    <string name="forward">Forward</string>
+    <string name="volume_up">Volume +</string>
+    <string name="volume_down">Volume -</string>
+    <string name="brightness_up">Brightness +</string>
+    <string name="brightness_down">Brightness -</string>
     <string name="mute">Mute</string>
     <string name="home">Home</string>
     <string name="back">Back</string>
@@ -192,7 +199,12 @@
     <string name="power">Power</string>
     <string name="menu">Menu</string>
     <string name="closed_captions">Closed captions</string>
+    <string name="screenshot">Screenshot</string>
     <string name="tv">TV</string>
+    <string name="red_menu_button">Red</string>
+    <string name="green_menu_button">Green</string>
+    <string name="blue_menu_button">Blue</string>
+    <string name="yellow_menu_button">Yellow</string>
 
     <!-- Mouse -->
     <string name="mouse">Mouse</string>

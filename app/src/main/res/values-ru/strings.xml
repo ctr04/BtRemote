@@ -88,10 +88,6 @@
     <string name="pause">Пауза</string>
     <string name="previous">Предыдущий</string>
     <string name="next">Следующий</string>
-    <string name="volume_increase">Увеличение громкости</string>
-    <string name="volume_decrease">Уменьшение громкости</string>
-    <string name="brightness_increase">Увеличение яркости</string>
-    <string name="brightness_decrease">Уменьшение яркости</string>
     <string name="mute">Заглушить</string>
     <string name="home">Домой</string>
     <string name="back">Назад</string>

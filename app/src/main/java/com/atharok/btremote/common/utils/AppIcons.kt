@@ -23,12 +23,15 @@ import androidx.compose.material.icons.rounded.Bluetooth
 import androidx.compose.material.icons.rounded.BluetoothDisabled
 import androidx.compose.material.icons.rounded.BrightnessHigh
 import androidx.compose.material.icons.rounded.BrightnessLow
+import androidx.compose.material.icons.rounded.Circle
 import androidx.compose.material.icons.rounded.ClosedCaption
 import androidx.compose.material.icons.rounded.Computer
 import androidx.compose.material.icons.rounded.ControlCamera
 import androidx.compose.material.icons.rounded.Delete
 import androidx.compose.material.icons.rounded.DeviceUnknown
 import androidx.compose.material.icons.rounded.Dialpad
+import androidx.compose.material.icons.rounded.FastForward
+import androidx.compose.material.icons.rounded.FastRewind
 import androidx.compose.material.icons.rounded.Favorite
 import androidx.compose.material.icons.rounded.HealthAndSafety
 import androidx.compose.material.icons.rounded.Home
@@ -39,6 +42,7 @@ import androidx.compose.material.icons.rounded.KeyboardArrowUp
 import androidx.compose.material.icons.rounded.Link
 import androidx.compose.material.icons.rounded.LinkOff
 import androidx.compose.material.icons.rounded.Lock
+import androidx.compose.material.icons.rounded.MoreHoriz
 import androidx.compose.material.icons.rounded.MoreVert
 import androidx.compose.material.icons.rounded.Mouse
 import androidx.compose.material.icons.rounded.MusicVideo
@@ -51,6 +55,7 @@ import androidx.compose.material.icons.rounded.PowerSettingsNew
 import androidx.compose.material.icons.rounded.Print
 import androidx.compose.material.icons.rounded.Refresh
 import androidx.compose.material.icons.rounded.Remove
+import androidx.compose.material.icons.rounded.Repeat
 import androidx.compose.material.icons.rounded.Router
 import androidx.compose.material.icons.rounded.ScreenshotMonitor
 import androidx.compose.material.icons.rounded.Settings
@@ -59,6 +64,7 @@ import androidx.compose.material.icons.rounded.SkipNext
 import androidx.compose.material.icons.rounded.SkipPrevious
 import androidx.compose.material.icons.rounded.Smartphone
 import androidx.compose.material.icons.rounded.SpaceBar
+import androidx.compose.material.icons.rounded.Stop
 import androidx.compose.material.icons.rounded.Toys
 import androidx.compose.material.icons.rounded.Usb
 import androidx.compose.material.icons.rounded.Visibility
@@ -75,6 +81,7 @@ object AppIcons: KoinComponent {
     val Info get() = Icons.Outlined.Info
     val Refresh get() = Icons.Rounded.Refresh
     val MoreVert get() = Icons.Rounded.MoreVert
+    val MoreHoriz get() = Icons.Rounded.MoreHoriz
     val Visibility get() = Icons.Rounded.Visibility
     //val Done get() = Icons.Rounded.Done
     val Appearance get() = Icons.Rounded.Palette
@@ -92,22 +99,27 @@ object AppIcons: KoinComponent {
     val Power get() = Icons.Rounded.PowerSettingsNew
     val ClosedCaption get() = Icons.Rounded.ClosedCaption
     val TVChannel get() = Icons.Rounded.Dialpad
-    val TVChannelIncrease get() = Icons.Rounded.Add
-    val TVChannelDecrease get() = Icons.Rounded.Remove
+    val TVChannelUp get() = Icons.Rounded.Add
+    val TVChannelDown get() = Icons.Rounded.Remove
     val Mute get() = Icons.AutoMirrored.Rounded.VolumeOff
-    val VolumeIncrease get() = Icons.AutoMirrored.Rounded.VolumeUp
-    val VolumeDecrease get() = Icons.AutoMirrored.Rounded.VolumeDown
-    val BrightnessIncrease get() = Icons.Rounded.BrightnessHigh
-    val BrightnessDecrease get() = Icons.Rounded.BrightnessLow
-    val MultimediaPrevious get() = Icons.Rounded.SkipPrevious
-    val MultimediaNext get() = Icons.Rounded.SkipNext
+    val VolumeUp get() = Icons.AutoMirrored.Rounded.VolumeUp
+    val VolumeDown get() = Icons.AutoMirrored.Rounded.VolumeDown
+    val BrightnessUp get() = Icons.Rounded.BrightnessHigh
+    val BrightnessDown get() = Icons.Rounded.BrightnessLow
+    val MultimediaPreviousTrack get() = Icons.Rounded.SkipPrevious
+    val MultimediaNextTrack get() = Icons.Rounded.SkipNext
+    val MultimediaRewind get() = Icons.Rounded.FastRewind
+    val MultimediaForward get() = Icons.Rounded.FastForward
     val MultimediaPlay get() = Icons.Rounded.PlayArrow
     val MultimediaPause get() = Icons.Rounded.Pause
+    val MultimediaStop get() = Icons.Rounded.Stop
+    val MultimediaRepeat get() = Icons.Rounded.Repeat
     val Up get() = Icons.Rounded.KeyboardArrowUp
     val Left get() = Icons.AutoMirrored.Rounded.KeyboardArrowLeft
     val Right get() = Icons.AutoMirrored.Rounded.KeyboardArrowRight
     val Down get() = Icons.Rounded.KeyboardArrowDown
     val Pick get() = Icons.Outlined.Circle
+    val Round get() = Icons.Rounded.Circle
 
     val Controller get() = Icons.Rounded.ControlCamera
     val Gesture get() = Icons.Rounded.OpenWith

@@ -108,12 +108,10 @@
     <string name="pause">Призупинити</string>
     <string name="previous">Попередній</string>
     <string name="next">Наступний</string>
-    <string name="volume_increase">Збільшити гучність</string>
     <string name="meta">Meta</string>
     <string name="shift">Shift</string>
     <string name="print_screen">Знімок екрана</string>
     <string name="escape">Esc</string>
-    <string name="brightness_decrease">Зменшити яскравість</string>
     <string name="mute">Обезвучити</string>
     <string name="home">Головна</string>
     <string name="back">Назад</string>
@@ -166,8 +164,6 @@
     <string name="pairing_from_a_remote_device_step_2_content_2">- Відкрийте налаштування Bluetooth.\n- Виберіть опцію створення пари з новим пристроєм.\n- Пристрій \"%1$s\" має з\'явитися у списку доступних пристроїв.\n- Виберіть пристрій \"%1$s\", щоб ініціювати створення пари.</string>
     <string name="keyboard_greek">Грецька</string>
     <string name="keyboard_bulgarian">Болгарська</string>
-    <string name="volume_decrease">Зменшити гучність</string>
-    <string name="brightness_increase">Збільшити яскравість</string>
     <string name="mouse_click_middle">Клацніть середньою</string>
     <string name="connected_off">Немає під\'єднаних пристроїв</string>
     <string name="keyboard_hebrew">Іврит</string>

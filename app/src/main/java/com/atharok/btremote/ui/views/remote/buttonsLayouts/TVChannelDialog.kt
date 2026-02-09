@@ -5,10 +5,10 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.Dp
@@ -19,8 +19,8 @@ import com.atharok.btremote.ui.theme.surfaceElevationHigh
 
 @Composable
 fun TVChannelDialog(
-    tvChannelIncTouchDown: () -> Unit,
-    tvChannelDecTouchDown: () -> Unit,
+    tvChannelUpTouchDown: () -> Unit,
+    tvChannelDownTouchDown: () -> Unit,
     tvChannel1TouchDown: () -> Unit,
     tvChannel2TouchDown: () -> Unit,
     tvChannel3TouchDown: () -> Unit,
@@ -42,8 +42,8 @@ fun TVChannelDialog(
         },
         content = {
             TVChannelLayout(
-                tvChannelIncTouchDown = tvChannelIncTouchDown,
-                tvChannelDecTouchDown = tvChannelDecTouchDown,
+                tvChannelIncTouchDown = tvChannelUpTouchDown,
+                tvChannelDecTouchDown = tvChannelDownTouchDown,
                 tvChannel1TouchDown = tvChannel1TouchDown,
                 tvChannel2TouchDown = tvChannel2TouchDown,
                 tvChannel3TouchDown = tvChannel3TouchDown,
@@ -81,140 +81,117 @@ private fun TVChannelLayout(
     tvChannel0TouchDown: () -> Unit,
     remoteTouchUp: () -> Unit,
     keyboardTouchUp: () -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    buttonShape: Shape = CircleShape,
+    buttonElevation: Dp = surfaceElevationHigh(),
+    padding: Dp = dimensionResource(id = R.dimen.padding_large)
 ) {
-    val shape = CircleShape
-    val elevation = surfaceElevationHigh()
-    val padding: Dp = dimensionResource(id = R.dimen.padding_normal)
-
     Column(
-        modifier = modifier
+        modifier = modifier,
+        verticalArrangement = Arrangement.Absolute.spacedBy(padding)
     ) {
         Row(
             modifier = Modifier.fillMaxWidth().weight(1f),
-            horizontalArrangement = Arrangement.Absolute.Left
+            horizontalArrangement = Arrangement.Absolute.spacedBy(padding)
         ) {
             TVChannelButton1(
                 touchDown = tvChannel1TouchDown,
                 touchUp = keyboardTouchUp,
-                modifier = Modifier
-                    .weight(1f)
-                    .padding(padding),
-                shape = shape,
-                elevation = elevation
+                modifier = Modifier.weight(1f),
+                shape = buttonShape,
+                elevation = buttonElevation
             )
             TVChannelButton2(
                 touchDown = tvChannel2TouchDown,
                 touchUp = keyboardTouchUp,
-                modifier = Modifier
-                    .weight(1f)
-                    .padding(padding),
-                shape = shape,
-                elevation = elevation
+                modifier = Modifier.weight(1f),
+                shape = buttonShape,
+                elevation = buttonElevation
             )
             TVChannelButton3(
                 touchDown = tvChannel3TouchDown,
                 touchUp = keyboardTouchUp,
-                modifier = Modifier
-                    .weight(1f)
-                    .padding(padding),
-                shape = shape,
-                elevation = elevation
+                modifier = Modifier.weight(1f),
+                shape = buttonShape,
+                elevation = buttonElevation
             )
         }
         Row(
             modifier = Modifier.fillMaxWidth().weight(1f),
-            horizontalArrangement = Arrangement.Absolute.Left
+            horizontalArrangement = Arrangement.Absolute.spacedBy(padding)
         ) {
             TVChannelButton4(
                 touchDown = tvChannel4TouchDown,
                 touchUp = keyboardTouchUp,
-                modifier = Modifier
-                    .weight(1f)
-                    .padding(padding),
-                shape = shape,
-                elevation = elevation
+                modifier = Modifier.weight(1f),
+                shape = buttonShape,
+                elevation = buttonElevation
             )
             TVChannelButton5(
                 touchDown = tvChannel5TouchDown,
                 touchUp = keyboardTouchUp,
-                modifier = Modifier
-                    .weight(1f)
-                    .padding(padding),
-                shape = shape,
-                elevation = elevation
+                modifier = Modifier.weight(1f),
+                shape = buttonShape,
+                elevation = buttonElevation
             )
             TVChannelButton6(
                 touchDown = tvChannel6TouchDown,
                 touchUp = keyboardTouchUp,
-                modifier = Modifier
-                    .weight(1f)
-                    .padding(padding),
-                shape = shape,
-                elevation = elevation
+                modifier = Modifier.weight(1f),
+                shape = buttonShape,
+                elevation = buttonElevation
             )
         }
         Row(
             modifier = Modifier.fillMaxWidth().weight(1f),
-            horizontalArrangement = Arrangement.Absolute.Left
+            horizontalArrangement = Arrangement.Absolute.spacedBy(padding)
         ) {
             TVChannelButton7(
                 touchDown = tvChannel7TouchDown,
                 touchUp = keyboardTouchUp,
-                modifier = Modifier
-                    .weight(1f)
-                    .padding(padding),
-                shape = shape,
-                elevation = elevation
+                modifier = Modifier.weight(1f),
+                shape = buttonShape,
+                elevation = buttonElevation
             )
             TVChannelButton8(
                 touchDown = tvChannel8TouchDown,
                 touchUp = keyboardTouchUp,
-                modifier = Modifier
-                    .weight(1f)
-                    .padding(padding),
-                shape = shape,
-                elevation = elevation
+                modifier = Modifier.weight(1f),
+                shape = buttonShape,
+                elevation = buttonElevation
             )
             TVChannelButton9(
                 touchDown = tvChannel9TouchDown,
                 touchUp = keyboardTouchUp,
-                modifier = Modifier
-                    .weight(1f)
-                    .padding(padding),
-                shape = shape,
-                elevation = elevation
+                modifier = Modifier.weight(1f),
+                shape = buttonShape,
+                elevation = buttonElevation
             )
         }
         Row(
-            modifier = Modifier.fillMaxWidth().weight(1f)
+            modifier = Modifier.fillMaxWidth().weight(1f),
+            Arrangement.spacedBy(padding)
         ) {
             TVChannelPreviousButton(
                 touchDown = tvChannelDecTouchDown,
                 touchUp = remoteTouchUp,
-                modifier = Modifier
-                    .weight(1f)
-                    .padding(padding),
-                shape = shape,
-                elevation = elevation
+                modifier = Modifier.weight(1f),
+                shape = buttonShape,
+                elevation = buttonElevation
             )
             TVChannelButton0(
                 touchDown = tvChannel0TouchDown,
                 touchUp = keyboardTouchUp,
-                modifier = Modifier
-                    .weight(1f)
-                    .padding(padding),
-                shape = shape,
-                elevation = elevation
+                modifier = Modifier.weight(1f),
+                shape = buttonShape,
+                elevation = buttonElevation
             )
             TVChannelNextButton(
                 touchDown = tvChannelIncTouchDown,
                 touchUp = remoteTouchUp,
-                modifier = Modifier
-                    .weight(1f)
-                    .padding(padding),
-                shape = shape,
-                elevation = elevation
+                modifier = Modifier.weight(1f),
+                shape = buttonShape,
+                elevation = buttonElevation
             )
         }
     }

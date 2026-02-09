@@ -83,10 +83,6 @@
     <string name="pause">הפסק</string>
     <string name="previous">הקודם</string>
     <string name="next">הבא</string>
-    <string name="volume_increase">הגברת עוצמת הקול</string>
-    <string name="volume_decrease">הפחתת עוצמת הקול</string>
-    <string name="brightness_increase">הגברת בהירות</string>
-    <string name="brightness_decrease">הפחתת בהירות</string>
     <string name="mute">השתק</string>
     <string name="home">בית</string>
     <string name="back">חזרה</string>

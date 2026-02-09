@@ -21,6 +21,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.TextUnit
+import androidx.compose.ui.unit.sp
 import androidx.compose.ui.unit.toSize
 import com.atharok.btremote.ui.theme.Typography
 
@@ -152,6 +153,28 @@ fun TextNormalSecondary(
         modifier = modifier,
         color = color,
         style = Typography.bodyMedium,
+        textAlign = textAlign,
+        overflow = overflow,
+        maxLines = maxLines
+    )
+}
+
+// ---- Small ----
+
+@Composable
+fun TextSmall(
+    text: String,
+    modifier: Modifier = Modifier,
+    textAlign: TextAlign? = null,
+    overflow: TextOverflow = TextOverflow.Ellipsis,
+    maxLines: Int = Int.MAX_VALUE
+) {
+    TextNormal(
+        text = text,
+        modifier = modifier,
+        color = MaterialTheme.colorScheme.onSurfaceVariant,
+        fontSize = 9.sp,
+        style = Typography.bodySmall,
         textAlign = textAlign,
         overflow = overflow,
         maxLines = maxLines

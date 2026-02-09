@@ -153,8 +153,8 @@ class MediaControlWidget : GlanceAppWidget(), KoinComponent {
                 // Multimedia
 
                 GlanceCustomIconButton(
-                    imageProvider = ImageProvider(R.drawable.round_skip_previous_24),
-                    contentDescription = context.getString(R.string.previous),
+                    imageProvider = ImageProvider(R.drawable.round_fast_rewind_24),
+                    contentDescription = context.getString(R.string.rewind),
                     onClick = mediaControlAction(context, ACTION_MULTIMEDIA_PREVIOUS),
                     rippleOverride = R.drawable.glance_button_ripple_left,
                     backgroundDrawable = R.drawable.glance_button_shape_left,
@@ -171,8 +171,8 @@ class MediaControlWidget : GlanceAppWidget(), KoinComponent {
                 )
                 Spacer(GlanceModifier.width(2.dp))
                 GlanceCustomIconButton(
-                    imageProvider = ImageProvider(R.drawable.round_skip_next_24),
-                    contentDescription = context.getString(R.string.next),
+                    imageProvider = ImageProvider(R.drawable.round_fast_forward_24),
+                    contentDescription = context.getString(R.string.forward),
                     onClick = mediaControlAction(context, ACTION_MULTIMEDIA_NEXT),
                     rippleOverride = R.drawable.glance_button_ripple_right,
                     backgroundDrawable = R.drawable.glance_button_shape_right,
@@ -187,7 +187,7 @@ class MediaControlWidget : GlanceAppWidget(), KoinComponent {
 
                 GlanceCustomIconButton(
                     imageProvider = ImageProvider(R.drawable.round_volume_down_24),
-                    contentDescription = context.getString(R.string.volume_decrease),
+                    contentDescription = context.getString(R.string.volume_down),
                     onClick = mediaControlAction(context, ACTION_VOLUME_DEC),
                     rippleOverride = R.drawable.glance_button_ripple_left,
                     backgroundDrawable = R.drawable.glance_button_shape_left,
@@ -198,7 +198,7 @@ class MediaControlWidget : GlanceAppWidget(), KoinComponent {
                 Spacer(GlanceModifier.width(2.dp))
                 GlanceCustomIconButton(
                     imageProvider = ImageProvider(R.drawable.round_volume_up_24),
-                    contentDescription = context.getString(R.string.volume_increase),
+                    contentDescription = context.getString(R.string.volume_up),
                     onClick = mediaControlAction(context, ACTION_VOLUME_INC),
                     rippleOverride = R.drawable.glance_button_ripple_right,
                     backgroundDrawable = R.drawable.glance_button_shape_right,

@@ -1,186 +1,325 @@
 package com.atharok.btremote.ui.views.remote.buttonsLayouts
 
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.Icon
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
 import com.atharok.btremote.R
-import com.atharok.btremote.common.extensions.autoMirroredIcon
 import com.atharok.btremote.common.utils.AppIcons
-import com.atharok.btremote.ui.components.AdaptiveText
-import com.atharok.btremote.ui.components.ButtonContentTemplate
-import com.atharok.btremote.ui.components.RemoteButtonSurface
+import com.atharok.btremote.common.utils.REMOTE_INPUT_NONE
+import com.atharok.btremote.domain.entities.remoteInput.RemoteInput
+import com.atharok.btremote.ui.components.TextSmall
 import com.atharok.btremote.ui.theme.surfaceElevationMedium
 
-@Composable
-private fun SingleRemoteButton(
-    touchDown: () -> Unit,
-    touchUp: () -> Unit,
-    modifier: Modifier = Modifier,
-    shape: Shape = RectangleShape,
-    elevation: Dp = surfaceElevationMedium(),
-    content: @Composable () -> Unit
-) {
-    RemoteButtonSurface(
-        modifier = modifier,
-        shape = shape,
-        elevation = elevation
-    ) {
-        ButtonContentTemplate(
-            touchDown = touchDown,
-            touchUp = touchUp,
-            shape = shape,
-            content = content
-        )
-    }
-}
+
+// ---- More Buttons ----
 
 @Composable
-fun IconRemoteButton(
+private fun MoreButtonLayout(
     touchDown: () -> Unit,
     touchUp: () -> Unit,
     image: ImageVector,
-    contentDescription: String,
+    text: String,
     modifier: Modifier = Modifier,
     shape: Shape = RectangleShape,
     elevation: Dp = surfaceElevationMedium(),
     iconTint: Color = LocalContentColor.current
 ) {
-    SingleRemoteButton(
-        touchDown = touchDown,
-        touchUp = touchUp,
+    Column(
         modifier = modifier,
-        shape = shape,
-        elevation = elevation
+        verticalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.padding_small)),
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Icon(
-            imageVector = image,
-            contentDescription = contentDescription,
-            modifier = Modifier.autoMirroredIcon(image).fillMaxSize(0.5f),
-            tint = iconTint
+        IconRemoteButton(
+            touchDown = touchDown,
+            touchUp = touchUp,
+            image = image,
+            contentDescription = text,
+            modifier = Modifier.aspectRatio(1f),
+            shape = shape,
+            elevation = elevation,
+            iconTint = iconTint
         )
+        TextSmall(text = text)
     }
 }
 
 @Composable
-fun TextRemoteButton(
-    text: String,
+fun PlayButton(
+    sendRemoteKeyReport: (ByteArray) -> Unit,
+    modifier: Modifier = Modifier,
+    shape: Shape = RectangleShape,
+    elevation: Dp = surfaceElevationMedium()
+) {
+    MoreButtonLayout(
+        touchDown = { sendRemoteKeyReport(RemoteInput.REMOTE_INPUT_PLAY) },
+        touchUp = { sendRemoteKeyReport(REMOTE_INPUT_NONE) },
+        image = AppIcons.MultimediaPlay,
+        text = stringResource(id = R.string.play),
+        modifier = modifier,
+        shape = shape,
+        elevation = elevation
+    )
+}
+
+@Composable
+fun PauseButton(
     touchDown: () -> Unit,
     touchUp: () -> Unit,
     modifier: Modifier = Modifier,
     shape: Shape = RectangleShape,
     elevation: Dp = surfaceElevationMedium()
 ) {
-    SingleRemoteButton(
+    MoreButtonLayout(
         touchDown = touchDown,
         touchUp = touchUp,
+        image = AppIcons.MultimediaPause,
+        text = stringResource(id = R.string.pause),
         modifier = modifier,
         shape = shape,
         elevation = elevation
-    ) {
-        AdaptiveText(
-            text = text,
-            percent = 0.45f,
-            modifier = Modifier.fillMaxSize(),
-            fontWeight = FontWeight.SemiBold,
-            textAlign = TextAlign.Center
-        )
-    }
-}
-
-// ---- Specific ----
-
-@Composable
-fun BackButton(
-    touchDown: () -> Unit,
-    touchUp: () -> Unit,
-    modifier: Modifier = Modifier,
-    shape: Shape = RectangleShape
-) {
-    IconRemoteButton(
-        touchDown = touchDown,
-        touchUp = touchUp,
-        image = AppIcons.Back,
-        contentDescription = stringResource(id = R.string.back),
-        modifier = modifier,
-        shape = shape
     )
 }
 
 @Composable
-fun HomeButton(
+fun StopButton(
     touchDown: () -> Unit,
     touchUp: () -> Unit,
     modifier: Modifier = Modifier,
-    shape: Shape = RectangleShape
+    shape: Shape = RectangleShape,
+    elevation: Dp = surfaceElevationMedium()
 ) {
-    IconRemoteButton(
+    MoreButtonLayout(
         touchDown = touchDown,
         touchUp = touchUp,
-        image = AppIcons.Home,
-        contentDescription = stringResource(id = R.string.home),
+        image = AppIcons.MultimediaStop,
+        text = stringResource(id = R.string.stop),
         modifier = modifier,
-        shape = shape
+        shape = shape,
+        elevation = elevation
     )
 }
 
 @Composable
-fun MenuButton(
+fun RepeatButton(
     touchDown: () -> Unit,
     touchUp: () -> Unit,
     modifier: Modifier = Modifier,
-    shape: Shape = RectangleShape
+    shape: Shape = RectangleShape,
+    elevation: Dp = surfaceElevationMedium()
 ) {
-    IconRemoteButton(
+    MoreButtonLayout(
         touchDown = touchDown,
         touchUp = touchUp,
-        image = AppIcons.Menu,
-        contentDescription = stringResource(id = R.string.menu),
+        image = AppIcons.MultimediaRepeat,
+        text = stringResource(id = R.string.repeat),
         modifier = modifier,
-        shape = shape
+        shape = shape,
+        elevation = elevation
     )
 }
 
 @Composable
-fun PowerButton(
+fun PreviousTrackButton(
     touchDown: () -> Unit,
     touchUp: () -> Unit,
     modifier: Modifier = Modifier,
-    shape: Shape = RectangleShape
+    shape: Shape = RectangleShape,
+    elevation: Dp = surfaceElevationMedium()
 ) {
-    IconRemoteButton(
+    MoreButtonLayout(
         touchDown = touchDown,
         touchUp = touchUp,
-        image = AppIcons.Power,
-        contentDescription = stringResource(id = R.string.power),
+        image = AppIcons.MultimediaPreviousTrack,
+        text = stringResource(id = R.string.previous_track),
         modifier = modifier,
-        shape = shape
+        shape = shape,
+        elevation = elevation
     )
 }
 
 @Composable
-fun VolumeMuteButton(
+fun NextTrackButton(
     touchDown: () -> Unit,
     touchUp: () -> Unit,
     modifier: Modifier = Modifier,
-    shape: Shape = RectangleShape
+    shape: Shape = RectangleShape,
+    elevation: Dp = surfaceElevationMedium()
 ) {
-    IconRemoteButton(
+    MoreButtonLayout(
         touchDown = touchDown,
         touchUp = touchUp,
-        image = AppIcons.Mute,
-        contentDescription = stringResource(id = R.string.mute),
+        image = AppIcons.MultimediaNextTrack,
+        text = stringResource(id = R.string.next_track),
         modifier = modifier,
-        shape = shape
+        shape = shape,
+        elevation = elevation
+    )
+}
+
+@Composable
+fun RewindButton(
+    touchDown: () -> Unit,
+    touchUp: () -> Unit,
+    modifier: Modifier = Modifier,
+    shape: Shape = RectangleShape,
+    elevation: Dp = surfaceElevationMedium()
+) {
+    MoreButtonLayout(
+        touchDown = touchDown,
+        touchUp = touchUp,
+        image = AppIcons.MultimediaRewind,
+        text = stringResource(id = R.string.rewind),
+        modifier = modifier,
+        shape = shape,
+        elevation = elevation
+    )
+}
+
+@Composable
+fun ForwardButton(
+    touchDown: () -> Unit,
+    touchUp: () -> Unit,
+    modifier: Modifier = Modifier,
+    shape: Shape = RectangleShape,
+    elevation: Dp = surfaceElevationMedium()
+) {
+    MoreButtonLayout(
+        touchDown = touchDown,
+        touchUp = touchUp,
+        image = AppIcons.MultimediaForward,
+        text = stringResource(id = R.string.forward),
+        modifier = modifier,
+        shape = shape,
+        elevation = elevation
+    )
+}
+
+@Composable
+fun RedMenuButton(
+    touchDown: () -> Unit,
+    touchUp: () -> Unit,
+    modifier: Modifier = Modifier,
+    shape: Shape = RectangleShape,
+    elevation: Dp = surfaceElevationMedium()
+) {
+    MoreButtonLayout(
+        touchDown = touchDown,
+        touchUp = touchUp,
+        image = AppIcons.Round,
+        text = stringResource(id = R.string.red_menu_button),
+        modifier = modifier,
+        shape = shape,
+        elevation = elevation,
+        iconTint = Color.Red.copy(alpha = 0.5f)
+    )
+}
+
+@Composable
+fun GreenMenuButton(
+    touchDown: () -> Unit,
+    touchUp: () -> Unit,
+    modifier: Modifier = Modifier,
+    shape: Shape = RectangleShape,
+    elevation: Dp = surfaceElevationMedium()
+) {
+    MoreButtonLayout(
+        touchDown = touchDown,
+        touchUp = touchUp,
+        image = AppIcons.Round,
+        text = stringResource(id = R.string.green_menu_button),
+        modifier = modifier,
+        shape = shape,
+        elevation = elevation,
+        iconTint = Color.Green.copy(alpha = 0.5f)
+    )
+}
+
+@Composable
+fun BlueMenuButton(
+    touchDown: () -> Unit,
+    touchUp: () -> Unit,
+    modifier: Modifier = Modifier,
+    shape: Shape = RectangleShape,
+    elevation: Dp = surfaceElevationMedium()
+) {
+    MoreButtonLayout(
+        touchDown = touchDown,
+        touchUp = touchUp,
+        image = AppIcons.Round,
+        text = stringResource(id = R.string.blue_menu_button),
+        modifier = modifier,
+        shape = shape,
+        elevation = elevation,
+        iconTint = Color.Blue.copy(alpha = 0.5f)
+    )
+}
+
+@Composable
+fun YellowMenuButton(
+    touchDown: () -> Unit,
+    touchUp: () -> Unit,
+    modifier: Modifier = Modifier,
+    shape: Shape = RectangleShape,
+    elevation: Dp = surfaceElevationMedium()
+) {
+    MoreButtonLayout(
+        touchDown = touchDown,
+        touchUp = touchUp,
+        image = AppIcons.Round,
+        text = stringResource(id = R.string.yellow_menu_button),
+        modifier = modifier,
+        shape = shape,
+        elevation = elevation,
+        iconTint = Color.Yellow.copy(alpha = 0.5f)
+    )
+}
+
+@Composable
+fun BrightnessUpButton(
+    touchDown: () -> Unit,
+    touchUp: () -> Unit,
+    modifier: Modifier = Modifier,
+    shape: Shape = RectangleShape,
+    elevation: Dp = surfaceElevationMedium()
+) {
+    MoreButtonLayout(
+        touchDown = touchDown,
+        touchUp = touchUp,
+        image = AppIcons.BrightnessUp,
+        text = stringResource(id = R.string.brightness_up),
+        modifier = modifier,
+        shape = shape,
+        elevation = elevation
+    )
+}
+
+@Composable
+fun BrightnessDownButton(
+    touchDown: () -> Unit,
+    touchUp: () -> Unit,
+    modifier: Modifier = Modifier,
+    shape: Shape = RectangleShape,
+    elevation: Dp = surfaceElevationMedium()
+) {
+    MoreButtonLayout(
+        touchDown = touchDown,
+        touchUp = touchUp,
+        image = AppIcons.BrightnessDown,
+        text = stringResource(id = R.string.brightness_down),
+        modifier = modifier,
+        shape = shape,
+        elevation = elevation
     )
 }
 
@@ -189,58 +328,14 @@ fun ClosedCaptionsButton(
     touchDown: () -> Unit,
     touchUp: () -> Unit,
     modifier: Modifier = Modifier,
-    shape: Shape = RectangleShape
+    shape: Shape = RectangleShape,
+    elevation: Dp = surfaceElevationMedium()
 ) {
-    IconRemoteButton(
+    MoreButtonLayout(
         touchDown = touchDown,
         touchUp = touchUp,
         image = AppIcons.ClosedCaption,
-        contentDescription = stringResource(id = R.string.closed_captions),
-        modifier = modifier,
-        shape = shape
-    )
-}
-
-@Composable
-fun TVChannelButton(
-    touchDown: () -> Unit,
-    touchUp: () -> Unit,
-    modifier: Modifier = Modifier,
-    shape: Shape = RectangleShape
-) {
-    RemoteButtonSurface(
-        modifier = modifier,
-        shape = shape
-    ) {
-        ButtonContentTemplate(
-            touchDown = touchDown,
-            touchUp = touchUp,
-            shape = shape,
-            content = {
-                Icon(
-                    imageVector = AppIcons.TVChannel,
-                    contentDescription = stringResource(id = R.string.tv),
-                    modifier = Modifier.fillMaxSize(0.5f)
-                )
-            }
-        )
-    }
-}
-
-// ---- Channel ----
-
-@Composable
-fun TVChannelButton1(
-    touchDown: () -> Unit,
-    touchUp: () -> Unit,
-    modifier: Modifier = Modifier,
-    shape: Shape = RectangleShape,
-    elevation: Dp = surfaceElevationMedium()
-) {
-    TextRemoteButton(
-        text = "1",
-        touchDown = touchDown,
-        touchUp = touchUp,
+        text = stringResource(id = R.string.closed_captions),
         modifier = modifier,
         shape = shape,
         elevation = elevation
@@ -248,199 +343,18 @@ fun TVChannelButton1(
 }
 
 @Composable
-fun TVChannelButton2(
+fun ScreenshotButton(
     touchDown: () -> Unit,
     touchUp: () -> Unit,
     modifier: Modifier = Modifier,
     shape: Shape = RectangleShape,
     elevation: Dp = surfaceElevationMedium()
 ) {
-    TextRemoteButton(
-        text = "2",
+    MoreButtonLayout(
         touchDown = touchDown,
         touchUp = touchUp,
-        modifier = modifier,
-        shape = shape,
-        elevation = elevation
-    )
-}
-
-@Composable
-fun TVChannelButton3(
-    touchDown: () -> Unit,
-    touchUp: () -> Unit,
-    modifier: Modifier = Modifier,
-    shape: Shape = RectangleShape,
-    elevation: Dp = surfaceElevationMedium()
-) {
-    TextRemoteButton(
-        text = "3",
-        touchDown = touchDown,
-        touchUp = touchUp,
-        modifier = modifier,
-        shape = shape,
-        elevation = elevation
-    )
-}
-
-@Composable
-fun TVChannelButton4(
-    touchDown: () -> Unit,
-    touchUp: () -> Unit,
-    modifier: Modifier = Modifier,
-    shape: Shape = RectangleShape,
-    elevation: Dp = surfaceElevationMedium()
-) {
-    TextRemoteButton(
-        text = "4",
-        touchDown = touchDown,
-        touchUp = touchUp,
-        modifier = modifier,
-        shape = shape,
-        elevation = elevation
-    )
-}
-
-@Composable
-fun TVChannelButton5(
-    touchDown: () -> Unit,
-    touchUp: () -> Unit,
-    modifier: Modifier = Modifier,
-    shape: Shape = RectangleShape,
-    elevation: Dp = surfaceElevationMedium()
-) {
-    TextRemoteButton(
-        text = "5",
-        touchDown = touchDown,
-        touchUp = touchUp,
-        modifier = modifier,
-        shape = shape,
-        elevation = elevation
-    )
-}
-
-@Composable
-fun TVChannelButton6(
-    touchDown: () -> Unit,
-    touchUp: () -> Unit,
-    modifier: Modifier = Modifier,
-    shape: Shape = RectangleShape,
-    elevation: Dp = surfaceElevationMedium()
-) {
-    TextRemoteButton(
-        text = "6",
-        touchDown = touchDown,
-        touchUp = touchUp,
-        modifier = modifier,
-        shape = shape,
-        elevation = elevation
-    )
-}
-
-@Composable
-fun TVChannelButton7(
-    touchDown: () -> Unit,
-    touchUp: () -> Unit,
-    modifier: Modifier = Modifier,
-    shape: Shape = RectangleShape,
-    elevation: Dp = surfaceElevationMedium()
-) {
-    TextRemoteButton(
-        text = "7",
-        touchDown = touchDown,
-        touchUp = touchUp,
-        modifier = modifier,
-        shape = shape,
-        elevation = elevation
-    )
-}
-
-@Composable
-fun TVChannelButton8(
-    touchDown: () -> Unit,
-    touchUp: () -> Unit,
-    modifier: Modifier = Modifier,
-    shape: Shape = RectangleShape,
-    elevation: Dp = surfaceElevationMedium()
-) {
-    TextRemoteButton(
-        text = "8",
-        touchDown = touchDown,
-        touchUp = touchUp,
-        modifier = modifier,
-        shape = shape,
-        elevation = elevation
-    )
-}
-
-@Composable
-fun TVChannelButton9(
-    touchDown: () -> Unit,
-    touchUp: () -> Unit,
-    modifier: Modifier = Modifier,
-    shape: Shape = RectangleShape,
-    elevation: Dp = surfaceElevationMedium()
-) {
-    TextRemoteButton(
-        text = "9",
-        touchDown = touchDown,
-        touchUp = touchUp,
-        modifier = modifier,
-        shape = shape,
-        elevation = elevation
-    )
-}
-
-@Composable
-fun TVChannelButton0(
-    touchDown: () -> Unit,
-    touchUp: () -> Unit,
-    modifier: Modifier = Modifier,
-    shape: Shape = RectangleShape,
-    elevation: Dp = surfaceElevationMedium()
-) {
-    TextRemoteButton(
-        text = "0",
-        touchDown = touchDown,
-        touchUp = touchUp,
-        modifier = modifier,
-        shape = shape,
-        elevation = elevation
-    )
-}
-
-@Composable
-fun TVChannelPreviousButton(
-    touchDown: () -> Unit,
-    touchUp: () -> Unit,
-    modifier: Modifier = Modifier,
-    shape: Shape = RectangleShape,
-    elevation: Dp = surfaceElevationMedium()
-) {
-    IconRemoteButton(
-        touchDown = touchDown,
-        touchUp = touchUp,
-        image = AppIcons.TVChannelDown,
-        contentDescription = stringResource(id = R.string.previous_channel),
-        modifier = modifier,
-        shape = shape,
-        elevation = elevation
-    )
-}
-
-@Composable
-fun TVChannelNextButton(
-    touchDown: () -> Unit,
-    touchUp: () -> Unit,
-    modifier: Modifier = Modifier,
-    shape: Shape = RectangleShape,
-    elevation: Dp = surfaceElevationMedium()
-) {
-    IconRemoteButton(
-        touchDown = touchDown,
-        touchUp = touchUp,
-        image = AppIcons.TVChannelUp,
-        contentDescription = stringResource(id = R.string.next_channel),
+        image = AppIcons.KeyboardScreenshot,
+        text = stringResource(id = R.string.screenshot),
         modifier = modifier,
         shape = shape,
         elevation = elevation

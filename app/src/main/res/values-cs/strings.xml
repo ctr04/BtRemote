@@ -89,10 +89,6 @@
     <string name="pause">Pozastavit</string>
     <string name="previous">Předchozí</string>
     <string name="next">Další</string>
-    <string name="volume_increase">Zasílit</string>
-    <string name="volume_decrease">Zeslabit</string>
-    <string name="brightness_increase">Zvýšit jas</string>
-    <string name="brightness_decrease">Snížit jas</string>
     <string name="mute">Ztišit</string>
     <string name="home">Domů</string>
     <string name="back">Zpět</string>

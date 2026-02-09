@@ -39,16 +39,16 @@ fun RemoteView(
     multimediaPlayPauseTouchDown: () -> Unit,
     multimediaPreviousTouchDown: () -> Unit,
     multimediaNextTouchDown: () -> Unit,
-    volumeIncTouchDown: () -> Unit,
-    volumeDecTouchDown: () -> Unit,
+    volumeUpTouchDown: () -> Unit,
+    volumeDownTouchDown: () -> Unit,
     volumeMuteTouchDown: () -> Unit,
     closedCaptionsTouchDown: () -> Unit,
     backTouchDown: () -> Unit,
     homeTouchDown: () -> Unit,
     menuTouchDown: () -> Unit,
     powerTouchDown: () -> Unit,
-    tvChannelIncTouchDown: () -> Unit,
-    tvChannelDecTouchDown: () -> Unit,
+    tvChannelUpTouchDown: () -> Unit,
+    tvChannelDownTouchDown: () -> Unit,
     tvChannel1TouchDown: () -> Unit,
     tvChannel2TouchDown: () -> Unit,
     tvChannel3TouchDown: () -> Unit,
@@ -90,8 +90,8 @@ fun RemoteView(
                 modifier = Modifier.weight(1f)
             ) {
                 VolumeVerticalButtons(
-                    volumeUpButtonTouchDown = volumeIncTouchDown,
-                    volumeDownButtonTouchDown = volumeDecTouchDown,
+                    volumeUpButtonTouchDown = volumeUpTouchDown,
+                    volumeDownButtonTouchDown = volumeDownTouchDown,
                     buttonTouchUp = remoteTouchUp,
                     modifier = Modifier
                         .weight(2f)
@@ -243,8 +243,8 @@ fun RemoteView(
                 modifier = Modifier.weight(1f)
             ) {
                 TVChannelVerticalButtons(
-                    tvChannelUpButtonTouchDown = tvChannelIncTouchDown,
-                    tvChannelDownButtonTouchDown = tvChannelDecTouchDown,
+                    tvChannelUpButtonTouchDown = tvChannelUpTouchDown,
+                    tvChannelDownButtonTouchDown = tvChannelDownTouchDown,
                     buttonTouchUp = remoteTouchUp,
                     modifier = Modifier
                         .weight(2f)
@@ -280,16 +280,16 @@ fun MinimalistRemoteView(
     multimediaPlayPauseTouchDown: () -> Unit,
     multimediaPreviousTouchDown: () -> Unit,
     multimediaNextTouchDown: () -> Unit,
-    volumeIncTouchDown: () -> Unit,
-    volumeDecTouchDown: () -> Unit,
+    volumeUpTouchDown: () -> Unit,
+    volumeDownTouchDown: () -> Unit,
     volumeMuteTouchDown: () -> Unit,
     closedCaptionsTouchDown: () -> Unit,
     backTouchDown: () -> Unit,
     homeTouchDown: () -> Unit,
     menuTouchDown: () -> Unit,
     powerTouchDown: () -> Unit,
-    brightnessIncTouchDown: () -> Unit,
-    brightnessDecTouchDown: () -> Unit,
+    brightnessUpTouchDown: () -> Unit,
+    brightnessDownTouchDown: () -> Unit,
     remoteTouchUp: () -> Unit,
     showTVChannelButtons: () -> Unit,
     modifier: Modifier = Modifier
@@ -318,8 +318,8 @@ fun MinimalistRemoteView(
         ) {
             Column(modifier = Modifier.weight(1f).padding(padding)) {
                 VolumeVerticalButtons(
-                    volumeUpButtonTouchDown = volumeIncTouchDown,
-                    volumeDownButtonTouchDown = volumeDecTouchDown,
+                    volumeUpButtonTouchDown = volumeUpTouchDown,
+                    volumeDownButtonTouchDown = volumeDownTouchDown,
                     buttonTouchUp = remoteTouchUp,
                     modifier = Modifier.align(Alignment.Start),
                     shape = shape
@@ -362,8 +362,8 @@ fun MinimalistRemoteView(
 
             Column(modifier = Modifier.weight(1f).padding(padding)) {
                 BrightnessVerticalButtons(
-                    brightnessUpButtonTouchDown = brightnessIncTouchDown,
-                    brightnessDownButtonTouchDown = brightnessDecTouchDown,
+                    brightnessUpButtonTouchDown = brightnessUpTouchDown,
+                    brightnessDownButtonTouchDown = brightnessDownTouchDown,
                     buttonTouchUp = remoteTouchUp,
                     modifier = Modifier.align(Alignment.End),
                     shape = shape

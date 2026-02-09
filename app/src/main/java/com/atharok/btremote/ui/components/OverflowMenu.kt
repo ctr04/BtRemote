@@ -131,6 +131,19 @@ private fun DropdownMenuItemTemplate(
 }
 
 @Composable
+fun ShowMoreButtonsDropdownMenuItem(
+    showMoreButtons: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+    DropdownMenuItemTemplate(
+        onClick = showMoreButtons,
+        image = AppIcons.MoreHoriz,
+        title = stringResource(id = R.string.more_buttons),
+        modifier = modifier
+    )
+}
+
+@Composable
 fun BrightnessIncDropdownMenuItem(
     touchDown: () -> Unit,
     touchUp: () -> Unit,
@@ -139,8 +152,8 @@ fun BrightnessIncDropdownMenuItem(
     DropdownMenuItemTemplate(
         touchDown = touchDown,
         touchUp = touchUp,
-        image = AppIcons.BrightnessIncrease,
-        title = stringResource(id = R.string.brightness_increase),
+        image = AppIcons.BrightnessUp,
+        title = stringResource(id = R.string.brightness_up),
         modifier = modifier
     )
 }
@@ -154,8 +167,8 @@ fun BrightnessDecDropdownMenuItem(
     DropdownMenuItemTemplate(
         touchDown = touchDown,
         touchUp = touchUp,
-        image = AppIcons.BrightnessDecrease,
-        title = stringResource(id = R.string.brightness_decrease),
+        image = AppIcons.BrightnessDown,
+        title = stringResource(id = R.string.brightness_down),
         modifier = modifier
     )
 }

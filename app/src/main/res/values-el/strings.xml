@@ -106,10 +106,6 @@
     <string name="pause">Παύση</string>
     <string name="previous">Προηγούμενο</string>
     <string name="next">Επόμενο</string>
-    <string name="volume_increase">Αύξηση έντασης</string>
-    <string name="volume_decrease">Μείωση έντασης</string>
-    <string name="brightness_increase">Αύξηση φωτεινότητας</string>
-    <string name="brightness_decrease">Μείωση φωτεινότητας</string>
     <string name="mute">Σίγαση</string>
     <string name="home">Αρχική</string>
     <string name="back">Πίσω</string>

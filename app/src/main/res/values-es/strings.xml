@@ -67,10 +67,6 @@
     <string name="bluetooth_pairing_device_not_found">No se ha detectado ningún dispositivo.</string>
     <string name="app_name">BT Remoto</string>
     <string name="theme_black">El tema oscuro usa negro puro</string>
-    <string name="volume_increase">Subir volumen</string>
-    <string name="volume_decrease">Bajar volumen</string>
-    <string name="brightness_increase">Subir brillo</string>
-    <string name="brightness_decrease">Bajar brillo</string>
     <string name="mute">Silenciar</string>
     <string name="home">Inicio</string>
     <string name="back">Atrás</string>

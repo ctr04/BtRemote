@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="bluetooth_disabled_message">Schakel bluetooth in om verbinding te kunnen maken.</string>
-    <string name="previous">Vorige</string>
     <string name="help_missing_device_message">Als het apparaat niet op de lijst met gekoppelde apparaten staat, koppel het dan door op het overeenkomende pictogram op de werkbalk te drukken.</string>
     <string name="help_device_failed_connection_check_2">• Zorg ervoor dat bluetooth is ingeschakeld op het externe apparaat.</string>
     <string name="help_keyboard_wrong_character_sent_message">Als er verkeerde tekens worden verstuurd, controleer dan in de instellingen of de toetsenbordtaal overeenkomt met die op het externe apparaat.</string>
@@ -81,11 +80,8 @@
     <string name="right">Naar rechts</string>
     <string name="play">Afspelen</string>
     <string name="pause">Pauzeren</string>
+    <string name="previous">Vorige</string>
     <string name="next">Volgende</string>
-    <string name="volume_increase">Volumeniveau verhogen</string>
-    <string name="volume_decrease">Volumeniveau verlagen</string>
-    <string name="brightness_increase">Helderheid verhogen</string>
-    <string name="brightness_decrease">Helderheid verlagen</string>
     <string name="mute">Dempen</string>
     <string name="home">Startscherm</string>
     <string name="back">Terug</string>

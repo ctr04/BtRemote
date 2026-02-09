@@ -76,9 +76,6 @@
     <string name="pause">Pause</string>
     <string name="previous">Vorher</string>
     <string name="next">Weiter</string>
-    <string name="volume_increase">Erhöhung der Lautstärke</string>
-    <string name="volume_decrease">Verringerung der Lautstärke</string>
-    <string name="brightness_decrease">Verringerung der Helligkeit</string>
     <string name="mute">Stummschalten</string>
     <string name="home">Zuhause</string>
     <string name="back">Zurück</string>
@@ -89,7 +86,6 @@
     <string name="theme_black_oled_info">Verbraucht weniger Energie auf OLED-Bildschirmen</string>
     <string name="third_party_library">Bibliotheken von Drittanbietern</string>
     <string name="keyboard_language_info">Stelle sicher, dass die ausgewählte Tastatursprache mit der auf dem entfernten Gerät konfigurierten Sprache übereinstimmt.</string>
-    <string name="brightness_increase">Erhöhung der Helligkeit</string>
     <string name="help_select_device_from_list">Wähle das Gerät, mit dem du eine Verbindung herstellen möchtest, aus der Liste der gekoppelten Geräte aus.</string>
     <string name="help_missing_device_message">Wenn das entfernte Gerät nicht in der Liste der gekoppelten Geräte erscheint, musst du es koppeln, indem du auf das Symbol in der oberen Leiste drückst.</string>
     <string name="help_device_failed_connection_message_1">Falls du dich nicht zur Gegenstelle verbinden kannst, stelle sicher, dass du der unten stehenden Anleitung folgst:</string>

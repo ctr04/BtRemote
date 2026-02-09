@@ -74,9 +74,6 @@
     <string name="pause">暂停</string>
     <string name="previous">上一个</string>
     <string name="next">下一个</string>
-    <string name="volume_increase">音量加</string>
-    <string name="brightness_increase">亮度加</string>
-    <string name="brightness_decrease">亮度减</string>
     <string name="mute">静音</string>
     <string name="home">主页</string>
     <string name="back">返回</string>
@@ -120,7 +117,6 @@
     <string name="help_device_failed_connection_message_1">如您无法连接远程设备，请遵循以下说明:</string>
     <string name="bluetooth_device_disconnecting_message">正在断开“%1$s”…</string>
     <string name="invert_mouse_scrolling_direction">反转滚动方向</string>
-    <string name="volume_decrease">音量减</string>
     <string name="mouse_wheel_down">向下滚动</string>
     <string name="help_missing_device_message">如果远程设备未出现在配对设备列表中，则需要按下顶部栏中的图标来配对。</string>
     <string name="unpair">取消配对</string>

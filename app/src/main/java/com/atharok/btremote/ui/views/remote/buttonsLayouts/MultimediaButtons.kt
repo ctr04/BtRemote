@@ -105,8 +105,8 @@ private fun MultimediaPreviousButtonContent(
         shape = shape
     ) {
         Icon(
-            imageVector = AppIcons.MultimediaPrevious,
-            contentDescription = stringResource(id = R.string.previous),
+            imageVector = AppIcons.MultimediaRewind,
+            contentDescription = stringResource(id = R.string.rewind),
             modifier = Modifier.fillMaxSize(0.65f)
         )
     }
@@ -124,8 +124,8 @@ private fun MultimediaNextButtonContent(
         shape = shape
     ) {
         Icon(
-            imageVector = AppIcons.MultimediaNext,
-            contentDescription = stringResource(id = R.string.next),
+            imageVector = AppIcons.MultimediaForward,
+            contentDescription = stringResource(id = R.string.forward),
             modifier = Modifier.fillMaxSize(0.65f)
         )
     }
