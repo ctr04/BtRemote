@@ -4,13 +4,13 @@ plugins {
 }
 
 android {
-    namespace = "com.atharok.btremote"
+    namespace = "com.ctr04.btremote"
     compileSdk {
         version = release(36)
     }
 
     defaultConfig {
-        applicationId = "com.atharok.btremote"
+        applicationId = "com.ctr04.btremote"
         minSdk = 28
         targetSdk = 36
         versionCode = 21
