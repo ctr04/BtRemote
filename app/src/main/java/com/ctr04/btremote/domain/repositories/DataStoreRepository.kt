@@ -1,6 +1,5 @@
 package com.ctr04.btremote.domain.repositories
 
-import com.ctr04.btremote.domain.entities.RemoteNavigationEntity
 import com.ctr04.btremote.domain.entities.remoteInput.keyboard.KeyboardLanguage
 import com.ctr04.btremote.domain.entities.settings.AppearanceSettings
 import com.ctr04.btremote.domain.entities.settings.RemoteSettings
@@ -38,21 +37,4 @@ interface DataStoreRepository {
     suspend fun saveUseAdvancedKeyboard(useAdvancedKeyboard: Boolean)
 
     suspend fun saveUseAdvancedKeyboardIntegrated(useAdvancedKeyboardIntegrated: Boolean)
-
-    suspend fun saveUseMinimalistRemote(useMinimalistRemote: Boolean)
-
-    suspend fun saveRemoteNavigation(remoteNavigationEntity: RemoteNavigationEntity)
-
-    suspend fun saveUseEnterForSelection(useEnterForSelection: Boolean)
-
-    // ---- Others ----
-
-    fun getFavoriteDevices(): Flow<List<String>>
-    suspend fun saveFavoriteDevices(macAddresses: List<String>)
-
-    fun getAutoConnectDeviceAddressFlow(): Flow<String>
-    suspend fun saveAutoConnectDeviceAddress(macAddress: String)
-
-    fun hideBluetoothActivationButton(): Flow<Boolean>
-    suspend fun saveHideBluetoothActivationButton(hide: Boolean)
 }

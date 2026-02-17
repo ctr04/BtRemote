@@ -11,7 +11,6 @@ import com.ctr04.btremote.common.extensions.dataStore
 import com.ctr04.btremote.common.utils.DEFAULT_KEYBOARD_LANGUAGE
 import com.ctr04.btremote.common.utils.DEFAULT_MOUSE_SPEED
 import com.ctr04.btremote.common.utils.DEFAULT_MUST_CLEAR_INPUT_FIELD
-import com.ctr04.btremote.common.utils.DEFAULT_REMOTE_NAVIGATION
 import com.ctr04.btremote.common.utils.DEFAULT_SHOULD_INVERT_MOUSE_SCROLLING_DIRECTION
 import com.ctr04.btremote.common.utils.DEFAULT_THEME
 import com.ctr04.btremote.common.utils.DEFAULT_USE_ADVANCED_KEYBOARD
@@ -20,9 +19,7 @@ import com.ctr04.btremote.common.utils.DEFAULT_USE_BLACK_COLOR_FOR_DARK_THEME
 import com.ctr04.btremote.common.utils.DEFAULT_USE_ENTER_FOR_SELECTION
 import com.ctr04.btremote.common.utils.DEFAULT_USE_FULL_SCREEN
 import com.ctr04.btremote.common.utils.DEFAULT_USE_GYROSCOPE
-import com.ctr04.btremote.common.utils.DEFAULT_USE_MINIMALIST_REMOTE
 import com.ctr04.btremote.common.utils.isDynamicColorsAvailable
-import com.ctr04.btremote.domain.entities.RemoteNavigationEntity
 import com.ctr04.btremote.domain.entities.remoteInput.keyboard.KeyboardLanguage
 import com.ctr04.btremote.domain.entities.settings.AppearanceSettings
 import com.ctr04.btremote.domain.entities.settings.RemoteSettings
@@ -147,12 +144,6 @@ class SettingsDataStore(private val context: Context) {
                 useAdvancedKeyboardIntegrated = preferences[useAdvancedKeyboardIntegratedKey] ?: DEFAULT_USE_ADVANCED_KEYBOARD_INTEGRATED,
 
                 // ---- Remote ----
-                remoteNavigationEntity = try {
-                    RemoteNavigationEntity.valueOf(preferences[remoteNavigationKey] ?: DEFAULT_REMOTE_NAVIGATION.name)
-                } catch (_: IllegalArgumentException) {
-                    DEFAULT_REMOTE_NAVIGATION
-                },
-                useMinimalistRemote = preferences[useMinimalistRemoteKey] ?: DEFAULT_USE_MINIMALIST_REMOTE,
                 useEnterForSelection = preferences[useEnterForSelectionKey] ?: DEFAULT_USE_ENTER_FOR_SELECTION
             )
         }
@@ -211,12 +202,6 @@ class SettingsDataStore(private val context: Context) {
         }
     }
 
-    suspend fun saveRemoteNavigation(remoteNavigationEntity: RemoteNavigationEntity) {
-        context.dataStore.edit {
-            it[remoteNavigationKey] = remoteNavigationEntity.name
-        }
-    }
-
     suspend fun saveUseEnterForSelection(useEnterForSelection: Boolean) {
         context.dataStore.edit {
             it[useEnterForSelectionKey] = useEnterForSelection
@@ -252,22 +237,6 @@ class SettingsDataStore(private val context: Context) {
     suspend fun saveAutoConnectDeviceAddress(macAddress: String) {
         context.dataStore.edit {
             it[autoConnectDeviceAddressKey] = macAddress
-        }
-    }
-
-    // ---- Advanced Options ----
-
-    val hideBluetoothActivationButtonFlow: Flow<Boolean> by lazy {
-        context.dataStore.data
-            .catchException()
-            .map { preferences ->
-                preferences[hideBluetoothActivationButtonKey] == true
-            }
-    }
-
-    suspend fun saveHideBluetoothActivationButton(hide: Boolean) {
-        context.dataStore.edit {
-            it[hideBluetoothActivationButtonKey] = hide
         }
     }
 }

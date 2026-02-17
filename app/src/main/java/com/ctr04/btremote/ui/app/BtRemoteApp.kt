@@ -78,7 +78,6 @@ fun BtRemoteApp(
                 remoteScreen = {
                     RemoteScreen(
                         closeApp = { context.getActivity()?.moveTaskToBack(true) },
-                        navigateUp = { navController.navigateUp() },
                         navigateToSettings = navigateToSettings,
                         modifier = Modifier
                     )

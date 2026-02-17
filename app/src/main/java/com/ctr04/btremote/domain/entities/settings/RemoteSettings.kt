@@ -3,14 +3,11 @@ package com.ctr04.btremote.domain.entities.settings
 import com.ctr04.btremote.common.utils.DEFAULT_KEYBOARD_LANGUAGE
 import com.ctr04.btremote.common.utils.DEFAULT_MOUSE_SPEED
 import com.ctr04.btremote.common.utils.DEFAULT_MUST_CLEAR_INPUT_FIELD
-import com.ctr04.btremote.common.utils.DEFAULT_REMOTE_NAVIGATION
 import com.ctr04.btremote.common.utils.DEFAULT_SHOULD_INVERT_MOUSE_SCROLLING_DIRECTION
 import com.ctr04.btremote.common.utils.DEFAULT_USE_ADVANCED_KEYBOARD
 import com.ctr04.btremote.common.utils.DEFAULT_USE_ADVANCED_KEYBOARD_INTEGRATED
 import com.ctr04.btremote.common.utils.DEFAULT_USE_ENTER_FOR_SELECTION
 import com.ctr04.btremote.common.utils.DEFAULT_USE_GYROSCOPE
-import com.ctr04.btremote.common.utils.DEFAULT_USE_MINIMALIST_REMOTE
-import com.ctr04.btremote.domain.entities.RemoteNavigationEntity
 import com.ctr04.btremote.domain.entities.remoteInput.keyboard.KeyboardLanguage
 
 data class RemoteSettings(
@@ -26,7 +23,5 @@ data class RemoteSettings(
     val useAdvancedKeyboardIntegrated: Boolean = DEFAULT_USE_ADVANCED_KEYBOARD_INTEGRATED,
 
     // ---- Remote ----
-    val remoteNavigationEntity: RemoteNavigationEntity = DEFAULT_REMOTE_NAVIGATION,
-    val useMinimalistRemote: Boolean = DEFAULT_USE_MINIMALIST_REMOTE,
     val useEnterForSelection: Boolean = DEFAULT_USE_ENTER_FOR_SELECTION
 )

@@ -1,6 +1,5 @@
 package com.ctr04.btremote.domain.usecases
 
-import com.ctr04.btremote.domain.entities.DeviceHidConnectionState
 import com.ctr04.btremote.domain.entities.settings.AppearanceSettings
 import com.ctr04.btremote.domain.repositories.DataStoreRepository
 import kotlinx.coroutines.flow.Flow

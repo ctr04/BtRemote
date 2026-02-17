@@ -2,7 +2,6 @@ package com.ctr04.btremote.presentation.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.ctr04.btremote.domain.entities.RemoteNavigationEntity
 import com.ctr04.btremote.domain.entities.remoteInput.keyboard.KeyboardLanguage
 import com.ctr04.btremote.domain.entities.settings.AppearanceSettings
 import com.ctr04.btremote.domain.entities.settings.RemoteSettings
@@ -65,24 +64,5 @@ class SettingsViewModel(
 
     fun saveUseAdvancedKeyboardIntegrated(useAdvancedKeyboardIntegrated: Boolean) = viewModelScope.launch {
         useCase.saveUseAdvancedKeyboardIntegrated(useAdvancedKeyboardIntegrated)
-    }
-
-    fun saveUseMinimalistRemote(useMinimalistRemote: Boolean) = viewModelScope.launch {
-        useCase.saveUseMinimalistRemote(useMinimalistRemote)
-    }
-
-    fun saveRemoteNavigation(remoteNavigationEntity: RemoteNavigationEntity) = viewModelScope.launch {
-        useCase.saveRemoteNavigation(remoteNavigationEntity)
-    }
-
-    fun saveUseEnterForSelection(useEnterForSelection: Boolean) = viewModelScope.launch {
-        useCase.saveUseEnterForSelection(useEnterForSelection)
-    }
-
-    // ---- Others ----
-
-    val hideBluetoothActivationButtonFlow: Flow<Boolean> get() = useCase.hideBluetoothActivationButton()
-    fun saveHideBluetoothActivationButton(hide: Boolean) = viewModelScope.launch {
-        useCase.saveHideBluetoothActivationButton(hide)
     }
 }

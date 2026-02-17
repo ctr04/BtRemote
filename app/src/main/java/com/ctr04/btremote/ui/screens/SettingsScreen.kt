@@ -18,12 +18,9 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.MultiChoiceSegmentedButtonRow
-import androidx.compose.material3.SegmentedButton
 import androidx.compose.material3.Slider
 import androidx.compose.material3.Switch
 import androidx.compose.runtime.Composable
@@ -47,7 +44,6 @@ import com.ctr04.btremote.common.utils.AppIcons
 import com.ctr04.btremote.common.utils.SOURCE_CODE_LINK
 import com.ctr04.btremote.common.utils.WEB_SITE_LINK
 import com.ctr04.btremote.common.utils.isDynamicColorsAvailable
-import com.ctr04.btremote.domain.entities.RemoteNavigationEntity
 import com.ctr04.btremote.domain.entities.remoteInput.keyboard.KeyboardLanguage
 import com.ctr04.btremote.domain.entities.settings.AppearanceSettings
 import com.ctr04.btremote.domain.entities.settings.RemoteSettings
@@ -75,9 +71,6 @@ fun SettingsScreen(
 
     val remoteSettings by settingsViewModel
         .remoteSettingsFlow.collectAsStateWithLifecycle(RemoteSettings())
-
-    // Advanced Options
-    val hideBluetoothActivationButton: Boolean by settingsViewModel.hideBluetoothActivationButtonFlow.collectAsStateWithLifecycle(initialValue = false)
 
     AppScaffold(
         title = stringResource(id = R.string.settings),
@@ -157,63 +150,6 @@ fun SettingsScreen(
                 secondaryText = null,
                 checked = appearanceSettings.useFullScreen,
                 onCheckedChange = { settingsViewModel.saveUseFullScreen(it) },
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(
-                        horizontal = horizontalPadding,
-                        vertical = verticalPadding
-                    )
-            )
-
-            HorizontalDivider(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(vertical = verticalPadding)
-            )
-
-            // ---- Remote ----
-
-            SettingsTitle(
-                text = stringResource(id = R.string.remote),
-                icon = AppIcons.RemoteControl,
-                iconDescription = stringResource(id = R.string.remote),
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(
-                        horizontal = horizontalPadding,
-                        vertical = verticalPadding
-                    )
-            )
-
-            SettingsSwitch(
-                primaryText = stringResource(id = R.string.use_minimalist_interface),
-                secondaryText = stringResource(id = R.string.minimalist_interface_info),
-                checked = remoteSettings.useMinimalistRemote,
-                onCheckedChange = { settingsViewModel.saveUseMinimalistRemote(it) },
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(
-                        horizontal = horizontalPadding,
-                        vertical = verticalPadding
-                    )
-            )
-
-            SettingsRemoteNavigationSelector(
-                remoteNavigation = remoteSettings.remoteNavigationEntity,
-                onRemoteNavigationChange = { settingsViewModel.saveRemoteNavigation(it) },
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(
-                        horizontal = horizontalPadding,
-                        vertical = verticalPadding
-                    )
-            )
-
-            SettingsSwitch(
-                primaryText = stringResource(id = R.string.use_enter_for_selection_title),
-                secondaryText = stringResource(id = R.string.use_enter_for_selection_summary),
-                checked = remoteSettings.useEnterForSelection,
-                onCheckedChange = { settingsViewModel.saveUseEnterForSelection(it) },
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(
@@ -366,39 +302,6 @@ fun SettingsScreen(
                     .padding(vertical = verticalPadding)
             )
 
-            // ---- Advanced Options ----
-
-            SettingsTitle(
-                text = stringResource(id = R.string.advanced_options),
-                icon = AppIcons.Settings,
-                iconDescription = stringResource(id = R.string.advanced_options),
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(
-                        horizontal = horizontalPadding,
-                        vertical = verticalPadding
-                    )
-            )
-
-            SettingsSwitch(
-                primaryText = stringResource(id = R.string.hide_bluetooth_activation_button),
-                secondaryText = null,
-                checked = hideBluetoothActivationButton,
-                onCheckedChange = { settingsViewModel.saveHideBluetoothActivationButton(it) },
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(
-                        horizontal = horizontalPadding,
-                        vertical = verticalPadding
-                    )
-            )
-
-            HorizontalDivider(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(vertical = verticalPadding)
-            )
-
             // ---- About ----
 
             SettingsTitle(
@@ -477,61 +380,6 @@ fun SettingsScreen(
             }
         }
     }
-}
-
-
-
-@Composable
-private fun SettingsRemoteNavigationSelector(
-    remoteNavigation: RemoteNavigationEntity,
-    onRemoteNavigationChange: (RemoteNavigationEntity) -> Unit,
-    modifier: Modifier = Modifier
-) {
-    Column(
-        modifier = modifier,
-        verticalArrangement = Arrangement.spacedBy(dimensionResource(id = R.dimen.padding_min))
-    ) {
-        TextNormal(
-            text = stringResource(id = R.string.navigation_mode),
-            modifier = Modifier.fillMaxSize()
-        )
-
-        TextNormalSecondary(
-            text = stringResource(id = remoteNavigation.description),
-            modifier = Modifier.fillMaxSize().padding(bottom = dimensionResource(R.dimen.padding_small))
-        )
-
-        MultiChoiceSegmentedButtonRow(
-            modifier = Modifier.fillMaxWidth()
-        ) {
-            SegmentedButton(
-                checked = remoteNavigation == RemoteNavigationEntity.D_PAD,
-                onCheckedChange = { onRemoteNavigationChange(RemoteNavigationEntity.D_PAD) },
-                shape = RoundedCornerShape(
-                    topStartPercent = 50,
-                    topEndPercent = 0,
-                    bottomEndPercent = 0,
-                    bottomStartPercent = 50,
-                )
-            ) {
-                TextNormal(text = stringResource(id = R.string.d_pad))
-            }
-
-            SegmentedButton(
-                checked = remoteNavigation == RemoteNavigationEntity.TOUCHPAD,
-                onCheckedChange = { onRemoteNavigationChange(RemoteNavigationEntity.TOUCHPAD) },
-                shape = RoundedCornerShape(
-                    topStartPercent = 0,
-                    topEndPercent = 50,
-                    bottomEndPercent = 50,
-                    bottomStartPercent = 0,
-                )
-            ) {
-                TextNormal(text = stringResource(id = R.string.touchpad))
-            }
-        }
-    }
-
 }
 
 // --- Reusable components ----

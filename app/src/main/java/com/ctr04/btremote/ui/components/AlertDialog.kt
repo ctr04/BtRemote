@@ -9,7 +9,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.AlertDialog
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.RadioButton
 import androidx.compose.material3.RadioButtonColors
@@ -46,33 +45,6 @@ fun TemplateDialog(
         },
         containerColor = MaterialTheme.colorScheme.surfaceColorAtElevation(surfaceElevationMedium()),
         modifier = modifier
-    )
-}
-
-@Composable
-fun SimpleDialog(
-    confirmButtonText: String?,
-    dismissButtonText: String?,
-    onConfirmation: () -> Unit,
-    onDismissRequest: () -> Unit,
-    dialogTitle: String,
-    dialogText: String,
-    modifier: Modifier = Modifier
-) {
-    TemplateDialog(
-        title = {
-            TextLarge(text = dialogTitle)
-        },
-        content = {
-            TextNormal(
-                text = dialogText
-            )
-        },
-        modifier = modifier,
-        confirmButtonText = confirmButtonText,
-        onConfirmation = onConfirmation,
-        dismissButtonText = dismissButtonText,
-        onDismissRequest = onDismissRequest
     )
 }
 
@@ -143,29 +115,6 @@ fun ListDialog(
 }
 
 @Composable
-fun LoadingDialog(
-    title: String,
-    message: String,
-    buttonText: String,
-    onButtonClick: () -> Unit
-) {
-    TemplateDialog(
-        title = {
-            TextLarge(text = title)
-        },
-        content = {
-            LoadingView(
-                message = message,
-                modifier = Modifier.padding(top = dimensionResource(id = R.dimen.padding_max))
-            )
-        },
-        confirmButtonText = buttonText,
-        onConfirmation = onButtonClick,
-        onDismissRequest = onButtonClick
-    )
-}
-
-@Composable
 private fun DialogButton(
     text: String?,
     action: () -> Unit,
@@ -181,19 +130,3 @@ private fun DialogButton(
     }
 }
 
-@Composable
-private fun LoadingView(
-    message: String,
-    modifier: Modifier = Modifier
-) {
-    Row(
-        modifier = modifier,
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.spacedBy(dimensionResource(id = R.dimen.padding_max))
-    ) {
-        CircularProgressIndicator()
-        TextNormal(
-            text = message
-        )
-    }
-}

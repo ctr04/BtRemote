@@ -1,6 +1,5 @@
 package com.ctr04.btremote.domain.usecases
 
-import com.ctr04.btremote.domain.entities.RemoteNavigationEntity
 import com.ctr04.btremote.domain.entities.remoteInput.keyboard.KeyboardLanguage
 import com.ctr04.btremote.domain.entities.settings.AppearanceSettings
 import com.ctr04.btremote.domain.entities.settings.RemoteSettings
@@ -62,24 +61,5 @@ class SettingsUseCase(private val dataStoreRepository: DataStoreRepository) {
 
     suspend fun saveUseAdvancedKeyboardIntegrated(useAdvancedKeyboardIntegrated: Boolean) {
         dataStoreRepository.saveUseAdvancedKeyboardIntegrated(useAdvancedKeyboardIntegrated)
-    }
-
-    suspend fun saveUseMinimalistRemote(useMinimalistRemote: Boolean) {
-        dataStoreRepository.saveUseMinimalistRemote(useMinimalistRemote)
-    }
-
-    suspend fun saveRemoteNavigation(remoteNavigationEntity: RemoteNavigationEntity) {
-        dataStoreRepository.saveRemoteNavigation(remoteNavigationEntity)
-    }
-
-    suspend fun saveUseEnterForSelection(useEnterForSelection: Boolean) {
-        dataStoreRepository.saveUseEnterForSelection(useEnterForSelection)
-    }
-
-    // ---- Others ----
-
-    fun hideBluetoothActivationButton(): Flow<Boolean> = dataStoreRepository.hideBluetoothActivationButton()
-    suspend fun saveHideBluetoothActivationButton(hide: Boolean) {
-        dataStoreRepository.saveHideBluetoothActivationButton(hide)
     }
 }

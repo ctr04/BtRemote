@@ -58,45 +58,6 @@ fun SettingsAction(
 }
 
 @Composable
-fun PairingNewDeviceAction(
-    onClick: () -> Unit,
-    modifier: Modifier = Modifier
-) {
-    TopAppBarAction(
-        onClick = onClick,
-        image = AppIcons.BluetoothPairing,
-        contentDescription = stringResource(id = R.string.pairing_a_device),
-        modifier = modifier
-    )
-}
-
-@Composable
-fun HelpAction(
-    showHelp: () -> Unit,
-    modifier: Modifier = Modifier
-) {
-    TopAppBarAction(
-        onClick = showHelp,
-        image = AppIcons.Help,
-        contentDescription = stringResource(id = R.string.help),
-        modifier = modifier
-    )
-}
-
-@Composable
-fun RefreshAction(
-    refresh: () -> Unit,
-    modifier: Modifier = Modifier
-) {
-    TopAppBarAction(
-        onClick = refresh,
-        image = AppIcons.Refresh,
-        contentDescription = stringResource(id = R.string.refresh),
-        modifier = modifier
-    )
-}
-
-@Composable
 fun RemoteAction(
     showRemote: () -> Unit,
     modifier: Modifier = Modifier
@@ -118,45 +79,6 @@ fun KeyboardAction(
         onClick = showKeyboard,
         image = AppIcons.Keyboard,
         contentDescription = stringResource(id = R.string.keyboard),
-        modifier = modifier
-    )
-}
-
-@Composable
-fun DirectionButtonsAction(
-    showDirectionButtons: () -> Unit,
-    modifier: Modifier = Modifier
-) {
-    TopAppBarAction(
-        onClick = showDirectionButtons,
-        image = AppIcons.Controller,
-        contentDescription = stringResource(id = R.string.direction_arrows),
-        modifier = modifier
-    )
-}
-
-@Composable
-fun MouseAction(
-    showMousePad: () -> Unit,
-    modifier: Modifier = Modifier
-) {
-    TopAppBarAction(
-        onClick = showMousePad,
-        image = AppIcons.Mouse,
-        contentDescription = stringResource(id = R.string.mouse),
-        modifier = modifier
-    )
-}
-
-@Composable
-fun MoreAction(
-    showMenu: () -> Unit,
-    modifier: Modifier = Modifier
-) {
-    TopAppBarAction(
-        onClick = showMenu,
-        image = AppIcons.MoreVert,
-        contentDescription = stringResource(id = R.string.more),
         modifier = modifier
     )
 }

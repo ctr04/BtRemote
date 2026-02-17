@@ -2,9 +2,10 @@ package com.ctr04.btremote.presentation.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.ctr04.btremote.MyTouchpadService
+import com.ctr04.btremote.TouchpadEventBus
 import com.ctr04.btremote.common.utils.KEYBOARD_REPORT_ID
 import com.ctr04.btremote.common.utils.MOUSE_REPORT_ID
-import com.ctr04.btremote.common.utils.REMOTE_REPORT_ID
 import com.ctr04.btremote.domain.entities.remoteInput.MouseAction
 import com.ctr04.btremote.domain.entities.remoteInput.keyboard.virtualKeyboard.VirtualKeyboardLayout
 import com.ctr04.btremote.domain.entities.settings.RemoteSettings
@@ -16,21 +17,37 @@ import kotlinx.coroutines.launch
 import kotlin.math.roundToInt
 
 class RemoteViewModel(
-    private val useCase: RemoteUseCase
+    useCase: RemoteUseCase,
 ): ViewModel() {
 
     // ---- Settings ----
 
     val remoteSettingsFlow: Flow<RemoteSettings> = useCase.remoteSettingsFlow
+    private var virtualX = 500f // Track the cursor position
+    private var virtualY = 500f
 
     // ---- Send ----
 
     private fun sendReport(id: Int, bytes: ByteArray): Boolean {
+        if (id != MOUSE_REPORT_ID) return false
+
+        val actionByte = bytes[0]
+        val dx = bytes[1].toInt().toFloat()
+        val dy = bytes[2].toInt().toFloat()
+
+        virtualX += dx
+        virtualY += dy
+
+        TouchpadEventBus.emit(
+            TouchpadEventBus.MouseData(
+                dx = dx,
+                dy = dy,
+                isClick = actionByte
+            )
+        )
+
         return true
     }
-
-    // Remote
-    val sendRemoteReport: (ByteArray) -> Unit = { bytes -> sendReport(REMOTE_REPORT_ID, bytes) }
 
     // Mouse
     val sendMouseReport: (MouseAction, Float, Float, Float) -> Unit = { input, x, y, wheel ->

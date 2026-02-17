@@ -1,7 +1,6 @@
 package com.ctr04.btremote.data.repositories
 
 import com.ctr04.btremote.data.dataStore.SettingsDataStore
-import com.ctr04.btremote.domain.entities.RemoteNavigationEntity
 import com.ctr04.btremote.domain.entities.remoteInput.keyboard.KeyboardLanguage
 import com.ctr04.btremote.domain.entities.settings.AppearanceSettings
 import com.ctr04.btremote.domain.entities.settings.RemoteSettings
@@ -65,34 +64,5 @@ class DataStoreRepositoryImpl(
 
     override suspend fun saveUseAdvancedKeyboardIntegrated(useAdvancedKeyboardIntegrated: Boolean) {
         settingsDataStore.saveUseAdvancedKeyboardIntegrated(useAdvancedKeyboardIntegrated)
-    }
-
-    override suspend fun saveUseMinimalistRemote(useMinimalistRemote: Boolean) {
-        settingsDataStore.saveUseMinimalistRemote(useMinimalistRemote)
-    }
-
-    override suspend fun saveRemoteNavigation(remoteNavigationEntity: RemoteNavigationEntity) {
-        settingsDataStore.saveRemoteNavigation(remoteNavigationEntity)
-    }
-
-    override suspend fun saveUseEnterForSelection(useEnterForSelection: Boolean) {
-        settingsDataStore.saveUseEnterForSelection(useEnterForSelection)
-    }
-
-    // ---- Others ----
-
-    override fun getFavoriteDevices(): Flow<List<String>> = settingsDataStore.favoriteDevicesFlow
-    override suspend fun saveFavoriteDevices(macAddresses: List<String>) {
-        settingsDataStore.saveFavoriteDevices(macAddresses)
-    }
-
-    override fun getAutoConnectDeviceAddressFlow(): Flow<String> = settingsDataStore.autoConnectDeviceAddressFlow
-    override suspend fun saveAutoConnectDeviceAddress(macAddress: String) {
-        settingsDataStore.saveAutoConnectDeviceAddress(macAddress)
-    }
-
-    override fun hideBluetoothActivationButton(): Flow<Boolean> = settingsDataStore.hideBluetoothActivationButtonFlow
-    override suspend fun saveHideBluetoothActivationButton(hide: Boolean) {
-        settingsDataStore.saveHideBluetoothActivationButton(hide)
     }
 }
