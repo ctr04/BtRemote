@@ -4,13 +4,13 @@ plugins {
 }
 
 android {
-    namespace = "com.ctr04.btremote"
+    namespace = "com.ctr04.touchpad"
     compileSdk {
         version = release(36)
     }
 
     defaultConfig {
-        applicationId = "com.ctr04.btremote"
+        applicationId = "com.ctr04.touchpad"
         minSdk = 28
         targetSdk = 36
         versionCode = 21
