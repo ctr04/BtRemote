@@ -13,6 +13,7 @@ import kotlinx.coroutines.*
 
 class MyTouchpadService : AccessibilityService() {
 
+    private lateinit var externalWindowManager: WindowManager
     private lateinit var windowManager: WindowManager
     private lateinit var cursorView: ImageView
     private var virtualX = 500f
@@ -28,24 +29,32 @@ class MyTouchpadService : AccessibilityService() {
     override fun onServiceConnected() {
         super.onServiceConnected()
 
-        windowManager = getSystemService(WINDOW_SERVICE) as WindowManager
-        cursorView = ImageView(this).apply {
-            setImageResource(R.drawable.android_14_cursor)
+        val displayManager = getSystemService(DISPLAY_SERVICE) as android.hardware.display.DisplayManager
+        val displays = displayManager.displays
+
+        val targetDisplay = if (displays.size > 1) displays[1] else displays[0]
+
+        val displayContext = createDisplayContext(targetDisplay)
+        externalWindowManager = displayContext.getSystemService(WINDOW_SERVICE) as WindowManager
+
+        cursorView = ImageView(displayContext).apply {
+            setImageResource(R.drawable.pointer_arrow)
         }
 
         val params = WindowManager.LayoutParams(
             WindowManager.LayoutParams.WRAP_CONTENT,
             WindowManager.LayoutParams.WRAP_CONTENT,
-            WindowManager.LayoutParams.TYPE_ACCESSIBILITY_OVERLAY, // Essential!
-            WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE or WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
+            WindowManager.LayoutParams.TYPE_ACCESSIBILITY_OVERLAY,
+            WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE or
+                    WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE or
+                    WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN or
+                    WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,
             PixelFormat.TRANSLUCENT
         ).apply {
             gravity = Gravity.TOP or Gravity.START
-            x = virtualX.toInt()
-            y = virtualY.toInt()
         }
 
-        windowManager.addView(cursorView, params)
+        externalWindowManager.addView(cursorView, params)
 
         serviceScope.launch {
             TouchpadEventBus.events.collect { data ->
@@ -55,10 +64,13 @@ class MyTouchpadService : AccessibilityService() {
     }
 
     private fun processRemoteInput(dx: Float, dy: Float, isClick: Byte) {
-        val metrics = resources.displayMetrics
+        val display = externalWindowManager.defaultDisplay
+        val metrics = android.util.DisplayMetrics()
+        display.getRealMetrics(metrics)
 
         virtualX = (virtualX + dx).coerceIn(0f, metrics.widthPixels.toFloat())
         virtualY = (virtualY + dy).coerceIn(0f, metrics.heightPixels.toFloat())
+
 
         updateCursorUI(virtualX, virtualY)
 
@@ -80,14 +92,20 @@ class MyTouchpadService : AccessibilityService() {
         val params = cursorView.layoutParams as WindowManager.LayoutParams
         params.x = x.toInt()
         params.y = y.toInt()
-        windowManager.updateViewLayout(cursorView, params)
+        externalWindowManager.updateViewLayout(cursorView, params)
     }
 
     private fun injectClick(x: Float, y: Float) {
         val path = Path().apply { moveTo(x, y) }
         val stroke = GestureDescription.StrokeDescription(path, 0, 100)
-        val gesture = GestureDescription.Builder().addStroke(stroke).build()
-        dispatchGesture(gesture, null, null)
+        val gestureBuilder = GestureDescription.Builder().addStroke(stroke)
+
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.R) {
+            val displayId = externalWindowManager.defaultDisplay.displayId
+            gestureBuilder.setDisplayId(displayId)
+        }
+
+        dispatchGesture(gestureBuilder.build(), null, null)
     }
 
     private fun injectRightClick(x: Float, y: Float) {
@@ -104,7 +122,7 @@ class MyTouchpadService : AccessibilityService() {
     override fun onDestroy() {
         super.onDestroy()
         serviceScope.cancel()
-        if (::cursorView.isInitialized) windowManager.removeView(cursorView)
+        if (::cursorView.isInitialized) externalWindowManager.removeView(cursorView)
     }
 
     override fun onAccessibilityEvent(event: AccessibilityEvent?) {}
