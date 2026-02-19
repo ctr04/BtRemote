@@ -73,7 +73,7 @@ fun BtRemoteApp(
                             permissions = accessibilityPermission
                         ),
                         onPermissionsGranted = {
-                            navController.navigate(AppNavDestination.AccessibilityPermissionsDestination.route) {
+                            navController.navigate(AppNavDestination.RemoteDestination.route) {
                                 popUpTo(0) {
                                     this.saveState = false
                                 }

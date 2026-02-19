@@ -18,14 +18,10 @@ fun isAccessibilityServiceEnabled(context: Context, service: Class<*>): Boolean 
     val am = context.getSystemService(Context.ACCESSIBILITY_SERVICE) as AccessibilityManager
     val enabledServices = am.getEnabledAccessibilityServiceList(AccessibilityServiceInfo.FEEDBACK_ALL_MASK)
 
-    for (enabledService in enabledServices) {
-        val enabledServiceInfo = enabledService.resolveInfo.serviceInfo
-        if (enabledServiceInfo.packageName == context.packageName &&
-            enabledServiceInfo.name == service.name) {
-            return true
-        }
+    return enabledServices.any {
+        it.resolveInfo.serviceInfo.packageName == context.packageName &&
+                it.resolveInfo.serviceInfo.name == service.name
     }
-    return false
 }
 
 fun arePermissionsGranted(context: Context, permissions: Array<String>): Boolean {
