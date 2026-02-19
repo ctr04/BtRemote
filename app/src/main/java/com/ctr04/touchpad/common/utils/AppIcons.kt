@@ -82,6 +82,8 @@ object AppIcons: KoinComponent {
 
     val Appearance get() = Icons.Rounded.Palette
     val OpenInBrowser get() = Icons.Rounded.OpenInBrowser
+    val Lock get() = Icons.Rounded.Lock
+    val Key get() = Icons.Rounded.Key
 
     // ---- Remote ----
 

@@ -3,6 +3,7 @@ package com.ctr04.touchpad.ui.components
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Button
 import androidx.compose.material3.FilledTonalButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LocalContentColor
@@ -14,6 +15,24 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.unit.dp
 import com.ctr04.touchpad.R
+
+@Composable
+fun MaterialButton(
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier,
+    text: String = "",
+    icon: ImageVector? = null
+) {
+    Button(
+        onClick = onClick,
+        modifier = modifier
+    ) {
+        ButtonContent(
+            text = text,
+            icon = icon
+        )
+    }
+}
 
 @Composable
 fun MaterialFilledTonalButton(

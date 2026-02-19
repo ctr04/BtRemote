@@ -134,5 +134,9 @@
     <string name="kotlin_serialization_name" translatable="false">Kotlin Serialization</string>
     <string name="kotlin_serialization_id" translatable="false">org.jetbrains.kotlinx:kotlinx-serialization-json</string>
     <string name="kotlin_serialization_url" translatable="false">https://github.com/Kotlin/kotlinx.serialization</string>
+    <string name="permission">Permission</string>
+    <string name="accessibility_permission_not_granted">Permission not granted</string>
+    <string name="accessibility_permission_message"><![CDATA[You must go to Settings -> Accessibility.]]></string>
+    <string name="accessibility_permission_button">Authorize</string>
 
 </resources>

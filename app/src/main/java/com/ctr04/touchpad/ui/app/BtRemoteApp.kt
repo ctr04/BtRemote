@@ -17,11 +17,14 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.ctr04.touchpad.common.extensions.getActivity
+import com.ctr04.touchpad.common.utils.accessibilityPermission
+import com.ctr04.touchpad.common.utils.arePermissionsGranted
 import com.ctr04.touchpad.domain.entities.settings.AppearanceSettings
 import com.ctr04.touchpad.presentation.viewmodel.AppScopeViewModel
 import com.ctr04.touchpad.ui.navigation.AppNavDestination
 import com.ctr04.touchpad.ui.navigation.AppNavHost
 import com.ctr04.touchpad.ui.navigation.navigateTo
+import com.ctr04.touchpad.ui.screens.AccessibilityPermissionsScreen
 import com.ctr04.touchpad.ui.screens.RemoteScreen
 import com.ctr04.touchpad.ui.screens.SettingsScreen
 import com.ctr04.touchpad.ui.screens.ThirdLibrariesScreen
@@ -55,7 +58,31 @@ fun BtRemoteApp(
                 navController = navController,
 
                 startDestination = remember {
-                    AppNavDestination.RemoteDestination.route
+                    if (arePermissionsGranted(context, accessibilityPermission))
+                        AppNavDestination.RemoteDestination.route
+                    else
+                        AppNavDestination.AccessibilityPermissionsDestination.route
+                },
+
+
+                    accessibilityPermissionsScreen = {
+                    AccessibilityPermissionsScreen(
+                        permissions = accessibilityPermission,
+                        arePermissionsGranted = arePermissionsGranted(
+                            context = context,
+                            permissions = accessibilityPermission
+                        ),
+                        onPermissionsGranted = {
+                            navController.navigate(AppNavDestination.AccessibilityPermissionsDestination.route) {
+                                popUpTo(0) {
+                                    this.saveState = false
+                                }
+                                launchSingleTop = true
+                            }
+                        },
+                        navigateToSettings = navigateToSettings,
+                        modifier = Modifier
+                    )
                 },
 
                 settingsScreen = {

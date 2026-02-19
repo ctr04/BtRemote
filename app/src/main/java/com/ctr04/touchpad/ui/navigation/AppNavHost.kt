@@ -40,6 +40,7 @@ private val popExitTransition: AnimatedContentTransitionScope<NavBackStackEntry>
 fun AppNavHost(
     navController: NavHostController,
     startDestination: String,
+    accessibilityPermissionsScreen: @Composable () -> Unit,
     settingsScreen: @Composable () -> Unit,
     thirdLibrariesScreen: @Composable () -> Unit,
     remoteScreen: @Composable () -> Unit,
@@ -50,6 +51,15 @@ fun AppNavHost(
         startDestination = startDestination,
         modifier = modifier
     ) {
+        composable(
+            route = AppNavDestination.AccessibilityPermissionsDestination.route,
+            enterTransition = enterTransition,
+            exitTransition = exitTransition,
+            popEnterTransition = popEnterTransition,
+            popExitTransition = popExitTransition
+        ) {
+            accessibilityPermissionsScreen()
+        }
 
         composable(
             route = AppNavDestination.SettingsDestination.route,
