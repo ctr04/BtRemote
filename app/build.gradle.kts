@@ -13,8 +13,8 @@ android {
         applicationId = "com.ctr04.touchpad"
         minSdk = 28
         targetSdk = 36
-        versionCode = 21
-        versionName = "1.9.1"
+        versionCode = 1
+        versionName = "1.0.0-alpha"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
