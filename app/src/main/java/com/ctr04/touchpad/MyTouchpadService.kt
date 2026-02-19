@@ -10,6 +10,7 @@ import android.view.accessibility.AccessibilityEvent
 import android.widget.ImageView
 import com.ctr04.touchpad.domain.entities.remoteInput.MouseAction
 import kotlinx.coroutines.*
+import kotlin.math.abs
 
 class MyTouchpadService : AccessibilityService() {
 
@@ -58,31 +59,37 @@ class MyTouchpadService : AccessibilityService() {
 
         serviceScope.launch {
             TouchpadEventBus.events.collect { data ->
-                processRemoteInput(data.dx, data.dy, data.isClick)
+                processRemoteInput(data.dx, data.dy, data.isClick, data.scroll)
             }
         }
     }
 
-    private fun processRemoteInput(dx: Float, dy: Float, isClick: Byte) {
+    private fun processRemoteInput(dx: Float, dy: Float, isClick: Byte, scroll: Float) {
         val display = externalWindowManager.defaultDisplay
         val metrics = android.util.DisplayMetrics()
         display.getRealMetrics(metrics)
 
-        virtualX = (virtualX + dx).coerceIn(0f, metrics.widthPixels.toFloat())
-        virtualY = (virtualY + dy).coerceIn(0f, metrics.heightPixels.toFloat())
+        if (dx != 0f || dy != 0f) {
+            virtualX = (virtualX + dx).coerceIn(0f, metrics.widthPixels.toFloat())
+            virtualY = (virtualY + dy).coerceIn(0f, metrics.heightPixels.toFloat())
+            updateCursorUI(virtualX, virtualY)
+        }
 
+        if (scroll != 0f) {
+            injectScroll(virtualX, virtualY, scroll)
+        } else {
+            when (isClick) {
+                MouseAction.MOUSE_CLICK_LEFT.byte, MouseAction.PAD_TAP.byte -> {
+                    injectClick(virtualX, virtualY)
+                }
 
-        updateCursorUI(virtualX, virtualY)
+                MouseAction.MOUSE_CLICK_RIGHT.byte -> {
+                    injectRightClick(virtualX, virtualY)
+                }
 
-        when (isClick) {
-            MouseAction.MOUSE_CLICK_LEFT.byte, MouseAction.PAD_TAP.byte -> {
-                injectClick(virtualX, virtualY)
-            }
-            MouseAction.MOUSE_CLICK_RIGHT.byte -> {
-                injectRightClick(virtualX, virtualY)
-            }
-            MouseAction.MOUSE_CLICK_MIDDLE.byte -> {
-                performGlobalAction(GLOBAL_ACTION_HOME)
+                MouseAction.MOUSE_CLICK_MIDDLE.byte -> {
+                    performGlobalAction(GLOBAL_ACTION_HOME)
+                }
             }
         }
     }
@@ -115,6 +122,31 @@ class MyTouchpadService : AccessibilityService() {
 
         val gestureBuilder = GestureDescription.Builder()
         gestureBuilder.addStroke(longPressStroke)
+
+        dispatchGesture(gestureBuilder.build(), null, null)
+    }
+
+    private fun injectScroll(x: Float, y: Float, scrollAmount: Float) {
+        val display = externalWindowManager.defaultDisplay
+        val metrics = android.util.DisplayMetrics()
+        display.getRealMetrics(metrics)
+
+        val startY = y.coerceIn(0f, metrics.heightPixels.toFloat())
+        val targetY = (y - (scrollAmount * 100)).coerceIn(0f, metrics.heightPixels.toFloat())
+
+        if (abs(targetY - startY) < 1f) return
+
+        val path = Path().apply {
+            moveTo(x, startY)
+            lineTo(x, targetY)
+        }
+
+        val stroke = GestureDescription.StrokeDescription(path, 0, 200)
+        val gestureBuilder = GestureDescription.Builder().addStroke(stroke)
+
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.R) {
+            gestureBuilder.setDisplayId(externalWindowManager.defaultDisplay.displayId)
+        }
 
         dispatchGesture(gestureBuilder.build(), null, null)
     }

@@ -6,9 +6,6 @@ import android.content.pm.PackageInfo
 import android.content.pm.PackageManager
 import android.os.Build
 import androidx.activity.ComponentActivity
-import androidx.annotation.DimenRes
-import androidx.compose.ui.unit.Dp
-import androidx.compose.ui.unit.dp
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.datastore.core.DataStore
@@ -24,8 +21,6 @@ fun Context.getActivity(): ComponentActivity? = when (this) {
     is ContextWrapper -> baseContext.getActivity()
     else -> null
 }
-
-fun Context.getDimensionDp(@DimenRes res: Int): Dp = (this.resources.getDimension(res) / this.resources.displayMetrics.density).dp
 
 fun Context.setFullScreen(isFullScreen: Boolean) {
     this.getActivity()?.window?.let { window ->

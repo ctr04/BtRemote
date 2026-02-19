@@ -79,72 +79,16 @@ object AppIcons: KoinComponent {
     val Help get() = Icons.AutoMirrored.Rounded.HelpOutline
     val Settings get() = Icons.Rounded.Settings
     val Info get() = Icons.Outlined.Info
-    val Refresh get() = Icons.Rounded.Refresh
-    val MoreVert get() = Icons.Rounded.MoreVert
-    val MoreHoriz get() = Icons.Rounded.MoreHoriz
-    val Visibility get() = Icons.Rounded.Visibility
-    //val Done get() = Icons.Rounded.Done
+
     val Appearance get() = Icons.Rounded.Palette
-    //val UserInterface get() = Icons.Rounded.ViewCompact
     val OpenInBrowser get() = Icons.Rounded.OpenInBrowser
-    val Lock get() = Icons.Rounded.Lock
-    val Key get() = Icons.Rounded.Key
-    val Favorite get() = Icons.Rounded.Favorite
 
     // ---- Remote ----
 
     val RemoteControl get() = Icons.Rounded.SettingsRemote
-    val Home get() = Icons.Rounded.Home
-    val Menu get() = Icons.AutoMirrored.Rounded.List
-    val Power get() = Icons.Rounded.PowerSettingsNew
-    val ClosedCaption get() = Icons.Rounded.ClosedCaption
-    val TVChannel get() = Icons.Rounded.Dialpad
-    val TVChannelUp get() = Icons.Rounded.Add
-    val TVChannelDown get() = Icons.Rounded.Remove
     val Mute get() = Icons.AutoMirrored.Rounded.VolumeOff
     val VolumeUp get() = Icons.AutoMirrored.Rounded.VolumeUp
     val VolumeDown get() = Icons.AutoMirrored.Rounded.VolumeDown
-    val BrightnessUp get() = Icons.Rounded.BrightnessHigh
-    val BrightnessDown get() = Icons.Rounded.BrightnessLow
-    val MultimediaPreviousTrack get() = Icons.Rounded.SkipPrevious
-    val MultimediaNextTrack get() = Icons.Rounded.SkipNext
-    val MultimediaRewind get() = Icons.Rounded.FastRewind
-    val MultimediaForward get() = Icons.Rounded.FastForward
-    val MultimediaPlay get() = Icons.Rounded.PlayArrow
-    val MultimediaPause get() = Icons.Rounded.Pause
-    val MultimediaStop get() = Icons.Rounded.Stop
-    val MultimediaRepeat get() = Icons.Rounded.Repeat
-    val Up get() = Icons.Rounded.KeyboardArrowUp
-    val Left get() = Icons.AutoMirrored.Rounded.KeyboardArrowLeft
-    val Right get() = Icons.AutoMirrored.Rounded.KeyboardArrowRight
-    val Down get() = Icons.Rounded.KeyboardArrowDown
-    val Pick get() = Icons.Outlined.Circle
-    val Round get() = Icons.Rounded.Circle
-
-    val Controller get() = Icons.Rounded.ControlCamera
-    val Gesture get() = Icons.Rounded.OpenWith
-    val Disconnect get() = Icons.Rounded.LinkOff
-
-    // ---- Bluetooth ----
-
-    val Bluetooth get() = Icons.Rounded.Bluetooth
-    val BluetoothDisabled get() = Icons.Rounded.BluetoothDisabled
-    val BluetoothPairing get() = Icons.AutoMirrored.Rounded.BluetoothSearching
-    val BluetoothUnpair get() = Icons.Rounded.Delete
-    val EnabledAutoConnect get() = Icons.Rounded.Link
-
-    // ---- BT Category ----
-
-    val Computer get() = Icons.Rounded.Computer
-    val Phone get() = Icons.Rounded.Smartphone
-    val Networking get() = Icons.Rounded.Router
-    val AudioVideo get() = Icons.Rounded.MusicVideo
-    val Peripheral get() = Icons.Rounded.Usb
-    val Imaging get() = Icons.Rounded.Print
-    val Wearable get() = Icons.Rounded.Watch
-    val Toy get() = Icons.Rounded.Toys
-    val Health get() = Icons.Rounded.HealthAndSafety
-    val Uncategorized get() = Icons.Rounded.DeviceUnknown
 
     // ---- Keyboard ----
 

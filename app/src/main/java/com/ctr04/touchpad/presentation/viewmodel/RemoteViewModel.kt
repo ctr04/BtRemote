@@ -33,6 +33,7 @@ class RemoteViewModel(
         val actionByte = bytes[0]
         val dx = bytes[1].toInt().toFloat()
         val dy = bytes[2].toInt().toFloat()
+        val scroll = if (bytes.size > 3) bytes[3].toInt().toFloat() else 0f
 
         virtualX += dx
         virtualY += dy
@@ -41,7 +42,8 @@ class RemoteViewModel(
             TouchpadEventBus.MouseData(
                 dx = dx,
                 dy = dy,
-                isClick = actionByte
+                isClick = actionByte,
+                scroll = scroll
             )
         )
 

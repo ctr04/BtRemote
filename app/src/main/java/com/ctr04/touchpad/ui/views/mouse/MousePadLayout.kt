@@ -53,6 +53,9 @@ fun MousePadLayout(
         if (mouseAction.value == MouseAction.PAD_TAP) {
             mouseAction.value = MouseAction.NONE
         }
+        if (mouseScrolling.value.mouseWheel != 0f || mouseScrolling.value.mouseX != 0f || mouseScrolling.value.mouseY != 0f) {
+            mouseScrolling.value = MouseScrolling(mouseX = 0f, mouseY = 0f, mouseWheel = 0f)
+        }
     }
 
     if(useGyroscope) {
@@ -76,10 +79,13 @@ fun MousePadLayout(
                     mouseAction.value = it
                 },
                 updateTouchPosition = { x: Float, y: Float ->
-                    mouseScrolling.value = MouseScrolling(mouseX = x, mouseY = y)
+                    mouseScrolling.value = mouseScrolling.value.copy(
+                        mouseX = x,
+                        mouseY = y
+                    )
                 },
                 updateWheel = { wheel: Float ->
-                    mouseScrolling.value = MouseScrolling(
+                    mouseScrolling.value = mouseScrolling.value.copy(
                         mouseWheel = wheel * if(shouldInvertMouseScrollingDirectionRef.element) -1f else 1f
                     )
                 },
