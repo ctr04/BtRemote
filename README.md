@@ -8,7 +8,7 @@
 
 ## Description
 
-Turn your smartphone into a Touchpad to navigate and interact with your Android 16's Desktop Mode.
+This is a fork of [BT Remote](https://gitlab.com/Atharok/BtRemote) in very early development. Turn your smartphone into a Touchpad to navigate and interact with Android 16's Desktop Mode.
 
 Features:
 
