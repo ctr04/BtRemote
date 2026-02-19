@@ -2,7 +2,6 @@
 <resources>
     <string name="third_party_library">Externe bibliotheken</string>
     <string name="keyboard_language_info">Let op: zorg ervoor dat de gekozen toetsenbordtaal overeenkomt met die van het externe apparaat.</string>
-    <string name="app_name">BT-afstandsbediening</string>
     <string name="remote">Extern apparaat</string>
     <string name="settings">Instellingen</string>
     <string name="appearance">Vormgeving</string>

@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">بلوتوثی ریموت</string>
     <string name="use_the_gyroscope_to_control_the_mouse">چرخش‌سنج(ژیروسکوپ) برای هدایت موشواره</string>
     <string name="unknown">ناشناخته</string>
     <string name="remote">دستگاه راه دور</string>

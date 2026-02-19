@@ -33,7 +33,6 @@
     <string name="delete">Supr</string>
     <string name="invert_mouse_scrolling_direction">Invertir la dirección de desplazamiento</string>
     <string name="keyboard_language_info">Asegúrate de que el idioma del teclado seleccionado coincida con el idioma configurado en el dispositivo remoto.</string>
-    <string name="app_name">BT Remoto</string>
     <string name="theme_black">El tema oscuro usa negro puro</string>
     <string name="back">Atrás</string>
     <string name="mouse">Mouse</string>

@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Controle BT</string>
     <string name="theme_system">Sistema</string>
     <string name="clear_input_field">Limpar o campo de digitação após enviar o texto</string>
     <string name="keyboard_english_uk">Inglês (Reino Unido)</string>

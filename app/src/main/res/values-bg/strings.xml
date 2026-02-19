@@ -46,7 +46,6 @@
     <string name="mouse">Мишка</string>
     <string name="mouse_wheel_up">Плъзнете нагоре</string>
     <string name="mouse_wheel_down">Плъзнете надолу</string>
-    <string name="app_name">BT Дистанционно</string>
     <string name="theme_black">Истинско черно за тъмната тема</string>
     <string name="mouse_pointer_speed">Скорост на показалеца</string>
     <string name="use_the_gyroscope_to_control_the_mouse">Използвайте жироскопа, за да управлявате мишката</string>

@@ -38,7 +38,6 @@
     <string name="keyboard_hebrew">hebreu</string>
     <string name="keyboard_bulgarian">búlgar</string>
     <string name="keyboard">Teclat</string>
-    <string name="app_name">Telecomanda BT</string>
     <string name="website">Lloc web</string>
     <string name="keyboard_language_info">Assegureu-vos que la llengua del teclat seleccionada coincideixi amb la que s’ha configurada al dispositiu remot.</string>
     <string name="shift">Maj</string>

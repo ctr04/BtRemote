@@ -8,7 +8,6 @@
         If you choose to translate it, ensure that the name is 11 characters or fewer if possible.
         If the text exceeds 11 characters, it's not a problem, but it may not display entirely in all launchers.
     -->
-    <string name="app_name">Χειριστήριο BT</string>
     <!-- Bluetooth Support -->
     <!-- Bluetooth Permission -->
     <!-- Bluetooth Activation -->

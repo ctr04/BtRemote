@@ -22,5 +22,5 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "BT Remote"
+rootProject.name = "Touchpad for Android Desktop Mode"
 include(":app")

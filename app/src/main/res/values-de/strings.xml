@@ -38,7 +38,6 @@
     <string name="up">Hoch</string>
     <string name="down">Herunter</string>
     <string name="back">Zurück</string>
-    <string name="app_name">BT-Fernbedienung</string>
     <string name="theme_black_oled_info">Verbraucht weniger Energie auf OLED-Bildschirmen</string>
     <string name="third_party_library">Bibliotheken von Drittanbietern</string>
     <string name="keyboard_language_info">Stelle sicher, dass die ausgewählte Tastatursprache mit der auf dem entfernten Gerät konfigurierten Sprache übereinstimmt.</string>
