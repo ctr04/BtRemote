@@ -21,8 +21,6 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.ctr04.touchpad.MyTouchpadService
 import com.ctr04.touchpad.common.extensions.getActivity
-import com.ctr04.touchpad.common.utils.accessibilityPermission
-import com.ctr04.touchpad.common.utils.arePermissionsGranted
 import com.ctr04.touchpad.common.utils.isAccessibilityServiceEnabled
 import com.ctr04.touchpad.domain.entities.settings.AppearanceSettings
 import com.ctr04.touchpad.presentation.viewmodel.AppScopeViewModel
@@ -58,6 +56,10 @@ fun BtRemoteApp(
         onPauseOrDispose {}
     }
 
+    val isInitiallyEnabled = remember { isAccessibilityServiceEnabled(context, MyTouchpadService::class.java) }
+    val startDest = if (isInitiallyEnabled) AppNavDestination.RemoteDestination.route
+    else AppNavDestination.AccessibilityPermissionsDestination.route
+
     BtRemoteTheme(
         appearance = appearance
     ) {
@@ -67,66 +69,58 @@ fun BtRemoteApp(
         ) {
 
             // ---- NavHost ----
-            if (!isServiceEnabled) {
-                AccessibilityPermissionsScreen(
-                    onPermissionsGranted = {
-                        isServiceEnabled = true // This triggers recomposition to show NavHost
-                    },
-                    navigateToSettings = navigateToSettings
-                )
-            } else {
 
-                AppNavHost(
-                    navController = navController,
 
-                    startDestination = AppNavDestination.RemoteDestination.route,
+            AppNavHost(
+                navController = navController,
 
-                    accessibilityPermissionsScreen = {
-                        AccessibilityPermissionsScreen(
-                            onPermissionsGranted = {
-                                navController.navigate(AppNavDestination.RemoteDestination.route) {
-                                    popUpTo(0) {
-                                        this.saveState = false
-                                    }
-                                    launchSingleTop = true
+                startDestination = startDest,
+
+                accessibilityPermissionsScreen = {
+                    AccessibilityPermissionsScreen(
+                        onPermissionsGranted = {
+                            navController.navigate(AppNavDestination.RemoteDestination.route) {
+                                popUpTo(0) {
+                                    this.saveState = false
                                 }
-                            },
-                            navigateToSettings = navigateToSettings,
-                            modifier = Modifier
-                        )
-                    },
+                                launchSingleTop = true
+                            }
+                        },
+                        navigateToSettings = navigateToSettings,
+                        modifier = Modifier
+                    )
+                },
 
-                    settingsScreen = {
-                        SettingsScreen(
-                            navigateUp = { navController.navigateUp() },
-                            navigateToThirdLibrariesScreen = {
-                                navController.navigateTo(AppNavDestination.ThirdLibrariesDestination.route)
-                            },
-                            modifier = Modifier
-                        )
-                    },
+                settingsScreen = {
+                    SettingsScreen(
+                        navigateUp = { navController.navigateUp() },
+                        navigateToThirdLibrariesScreen = {
+                            navController.navigateTo(AppNavDestination.ThirdLibrariesDestination.route)
+                        },
+                        modifier = Modifier
+                    )
+                },
 
-                    thirdLibrariesScreen = {
-                        ThirdLibrariesScreen(
-                            navigateUp = { navController.navigateUp() },
-                            modifier = Modifier
-                        )
-                    },
+                thirdLibrariesScreen = {
+                    ThirdLibrariesScreen(
+                        navigateUp = { navController.navigateUp() },
+                        modifier = Modifier
+                    )
+                },
 
-                    remoteScreen = {
-                        RemoteScreen(
-                            closeApp = { context.getActivity()?.moveTaskToBack(true) },
-                            navigateToSettings = navigateToSettings,
-                            modifier = Modifier
-                        )
-                    },
-                    modifier = Modifier.windowInsetsPadding(
-                        WindowInsets.displayCutout.exclude(
-                            WindowInsets.systemBars
-                        )
+                remoteScreen = {
+                    RemoteScreen(
+                        closeApp = { context.getActivity()?.moveTaskToBack(true) },
+                        navigateToSettings = navigateToSettings,
+                        modifier = Modifier
+                    )
+                },
+                modifier = Modifier.windowInsetsPadding(
+                    WindowInsets.displayCutout.exclude(
+                        WindowInsets.systemBars
                     )
                 )
-            }
+            )
         }
     }
 }
