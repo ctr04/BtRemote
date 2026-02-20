@@ -13,9 +13,13 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.compose.LifecycleEventEffect
+import com.ctr04.touchpad.MyTouchpadService
 import com.ctr04.touchpad.R
 import com.ctr04.touchpad.common.utils.AppIcons
 import com.ctr04.touchpad.common.utils.arePermissionsGranted
+import com.ctr04.touchpad.common.utils.isAccessibilityServiceEnabled
 import com.ctr04.touchpad.ui.views.ActivationView
 
 @Composable
@@ -28,6 +32,12 @@ fun AccessibilityPermissionsScreen(
 ) {
     val permissionState = remember { mutableStateOf(arePermissionsGranted) }
     val context = LocalContext.current
+
+    LifecycleEventEffect(Lifecycle.Event.ON_RESUME) {
+        if (isAccessibilityServiceEnabled(context, MyTouchpadService::class.java)) {
+            onPermissionsGranted()
+        }
+    }
 
     if(permissionState.value) {
         LaunchedEffect(Unit) {
