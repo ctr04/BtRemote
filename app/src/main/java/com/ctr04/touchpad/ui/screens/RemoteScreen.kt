@@ -1,5 +1,6 @@
 package com.ctr04.touchpad.ui.screens
 
+import android.content.Context.DISPLAY_SERVICE
 import android.content.res.Configuration
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.Arrangement
@@ -29,8 +30,11 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.toSize
+import android.hardware.display.DisplayManager
+import androidx.core.content.ContextCompat.getSystemService
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.ctr04.touchpad.R
+import com.ctr04.touchpad.common.utils.TouchpadEventBus
 import com.ctr04.touchpad.common.utils.getKeyboardLayout
 import com.ctr04.touchpad.domain.entities.remoteInput.MouseAction
 import com.ctr04.touchpad.domain.entities.remoteInput.keyboard.KeyboardLanguage
@@ -118,8 +122,10 @@ private fun StatelessRemoteScreen(
     overlayView: @Composable () -> Unit,
     modifier: Modifier = Modifier
 ) {
+    val displayName by TouchpadEventBus.displayName.collectAsStateWithLifecycle()
+
     AppScaffold(
-        title = "TODO",
+        title = displayName,
         modifier = modifier,
         scrollBehavior = null,
         topBarActions = topBarActions

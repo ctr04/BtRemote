@@ -51,6 +51,8 @@ class MyTouchpadService : AccessibilityService() {
         val targetDisplay = if (displays.size > 1) displays[1] else displays[0]
         targetDisplayId = targetDisplay.displayId
 
+        TouchpadEventBus.updateDisplayName(targetDisplay.name)
+
         val displayContext = createDisplayContext(targetDisplay)
         externalWindowManager = displayContext.getSystemService(WINDOW_SERVICE) as WindowManager
 
