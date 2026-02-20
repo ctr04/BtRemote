@@ -26,8 +26,14 @@ class MyTouchpadService : AccessibilityService() {
     private lateinit var externalWindowManager: WindowManager
     private lateinit var windowManager: WindowManager
     private lateinit var cursorView: ImageView
-    private var virtualX = 500f
-    private var virtualY = 500f
+
+    private var targetDisplayId: Int = 0
+
+    private var virtualX = 0f
+    private var virtualY = 0f
+
+    private val hotSpotX = 4.5f
+    private val hotSpotY = 3.5f
 
     private val serviceScope = CoroutineScope(Dispatchers.Main + Job())
 
@@ -43,6 +49,7 @@ class MyTouchpadService : AccessibilityService() {
         val displays = displayManager.displays
 
         val targetDisplay = if (displays.size > 1) displays[1] else displays[0]
+        targetDisplayId = targetDisplay.displayId
 
         val displayContext = createDisplayContext(targetDisplay)
         externalWindowManager = displayContext.getSystemService(WINDOW_SERVICE) as WindowManager
@@ -64,7 +71,10 @@ class MyTouchpadService : AccessibilityService() {
             gravity = Gravity.TOP or Gravity.START
         }
 
-        externalWindowManager.addView(cursorView, params)
+        try {
+            externalWindowManager.addView(cursorView, params)
+        } catch (_: Exception) {
+        }
 
         serviceScope.launch {
             TouchpadEventBus.events.collect { data ->
@@ -74,7 +84,8 @@ class MyTouchpadService : AccessibilityService() {
     }
 
     private fun processRemoteInput(dx: Float, dy: Float, isClick: Byte, scroll: Float) {
-        val display = externalWindowManager.defaultDisplay
+        val displayManager = getSystemService(DISPLAY_SERVICE) as DisplayManager
+        val display = displayManager.getDisplay(targetDisplayId) ?: return
         val metrics = DisplayMetrics()
         display.getRealMetrics(metrics)
 
@@ -106,8 +117,8 @@ class MyTouchpadService : AccessibilityService() {
     private fun updateCursorUI(x: Float, y: Float) {
         if (!::cursorView.isInitialized) return
         val params = cursorView.layoutParams as WindowManager.LayoutParams
-        params.x = x.toInt()
-        params.y = y.toInt()
+        params.x = (x - hotSpotX).toInt()
+        params.y = (y - hotSpotY).toInt()
         externalWindowManager.updateViewLayout(cursorView, params)
     }
 
@@ -117,8 +128,7 @@ class MyTouchpadService : AccessibilityService() {
         val gestureBuilder = GestureDescription.Builder().addStroke(stroke)
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-            val displayId = externalWindowManager.defaultDisplay.displayId
-            gestureBuilder.setDisplayId(displayId)
+            gestureBuilder.setDisplayId(targetDisplayId)
         }
 
         dispatchGesture(gestureBuilder.build(), null, null)
@@ -132,11 +142,16 @@ class MyTouchpadService : AccessibilityService() {
         val gestureBuilder = GestureDescription.Builder()
         gestureBuilder.addStroke(longPressStroke)
 
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            gestureBuilder.setDisplayId(targetDisplayId)
+        }
+
         dispatchGesture(gestureBuilder.build(), null, null)
     }
 
     private fun injectScroll(x: Float, y: Float, scrollAmount: Float) {
-        val display = externalWindowManager.defaultDisplay
+        val displayManager = getSystemService(DISPLAY_SERVICE) as DisplayManager
+        val display = displayManager.getDisplay(targetDisplayId) ?: return
         val metrics = DisplayMetrics()
         display.getRealMetrics(metrics)
 
@@ -154,7 +169,7 @@ class MyTouchpadService : AccessibilityService() {
         val gestureBuilder = GestureDescription.Builder().addStroke(stroke)
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-            gestureBuilder.setDisplayId(externalWindowManager.defaultDisplay.displayId)
+            gestureBuilder.setDisplayId(targetDisplayId)
         }
 
         dispatchGesture(gestureBuilder.build(), null, null)
