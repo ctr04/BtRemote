@@ -1,4 +1,4 @@
-package com.ctr04.touchpad
+package com.ctr04.touchpad.common.utils
 
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow

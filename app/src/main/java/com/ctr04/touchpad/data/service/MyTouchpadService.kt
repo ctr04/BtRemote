@@ -1,15 +1,24 @@
-package com.ctr04.touchpad
+package com.ctr04.touchpad.data.service
 
 import android.accessibilityservice.AccessibilityService
 import android.accessibilityservice.GestureDescription
 import android.graphics.Path
 import android.graphics.PixelFormat
+import android.hardware.display.DisplayManager
+import android.os.Build
+import android.util.DisplayMetrics
 import android.view.Gravity
 import android.view.WindowManager
 import android.view.accessibility.AccessibilityEvent
 import android.widget.ImageView
+import com.ctr04.touchpad.R
+import com.ctr04.touchpad.common.utils.TouchpadEventBus
 import com.ctr04.touchpad.domain.entities.remoteInput.MouseAction
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.cancel
+import kotlinx.coroutines.launch
 import kotlin.math.abs
 
 class MyTouchpadService : AccessibilityService() {
@@ -30,7 +39,7 @@ class MyTouchpadService : AccessibilityService() {
     override fun onServiceConnected() {
         super.onServiceConnected()
 
-        val displayManager = getSystemService(DISPLAY_SERVICE) as android.hardware.display.DisplayManager
+        val displayManager = getSystemService(DISPLAY_SERVICE) as DisplayManager
         val displays = displayManager.displays
 
         val targetDisplay = if (displays.size > 1) displays[1] else displays[0]
@@ -66,7 +75,7 @@ class MyTouchpadService : AccessibilityService() {
 
     private fun processRemoteInput(dx: Float, dy: Float, isClick: Byte, scroll: Float) {
         val display = externalWindowManager.defaultDisplay
-        val metrics = android.util.DisplayMetrics()
+        val metrics = DisplayMetrics()
         display.getRealMetrics(metrics)
 
         if (dx != 0f || dy != 0f) {
@@ -107,7 +116,7 @@ class MyTouchpadService : AccessibilityService() {
         val stroke = GestureDescription.StrokeDescription(path, 0, 100)
         val gestureBuilder = GestureDescription.Builder().addStroke(stroke)
 
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.R) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
             val displayId = externalWindowManager.defaultDisplay.displayId
             gestureBuilder.setDisplayId(displayId)
         }
@@ -128,7 +137,7 @@ class MyTouchpadService : AccessibilityService() {
 
     private fun injectScroll(x: Float, y: Float, scrollAmount: Float) {
         val display = externalWindowManager.defaultDisplay
-        val metrics = android.util.DisplayMetrics()
+        val metrics = DisplayMetrics()
         display.getRealMetrics(metrics)
 
         val startY = y.coerceIn(0f, metrics.heightPixels.toFloat())
@@ -144,7 +153,7 @@ class MyTouchpadService : AccessibilityService() {
         val stroke = GestureDescription.StrokeDescription(path, 0, 200)
         val gestureBuilder = GestureDescription.Builder().addStroke(stroke)
 
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.R) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
             gestureBuilder.setDisplayId(externalWindowManager.defaultDisplay.displayId)
         }
 

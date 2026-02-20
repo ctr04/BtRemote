@@ -19,7 +19,7 @@ import androidx.lifecycle.compose.LifecycleResumeEffect
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
-import com.ctr04.touchpad.MyTouchpadService
+import com.ctr04.touchpad.data.service.MyTouchpadService
 import com.ctr04.touchpad.common.extensions.getActivity
 import com.ctr04.touchpad.common.utils.isAccessibilityServiceEnabled
 import com.ctr04.touchpad.domain.entities.settings.AppearanceSettings

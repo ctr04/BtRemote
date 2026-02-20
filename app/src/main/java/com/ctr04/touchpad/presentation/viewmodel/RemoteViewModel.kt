@@ -2,7 +2,7 @@ package com.ctr04.touchpad.presentation.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.ctr04.touchpad.TouchpadEventBus
+import com.ctr04.touchpad.common.utils.TouchpadEventBus
 import com.ctr04.touchpad.common.utils.KEYBOARD_REPORT_ID
 import com.ctr04.touchpad.common.utils.MOUSE_REPORT_ID
 import com.ctr04.touchpad.domain.entities.remoteInput.MouseAction

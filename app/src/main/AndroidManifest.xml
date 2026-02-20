@@ -19,7 +19,7 @@
         tools:targetApi="33">
 
         <service
-            android:name=".MyTouchpadService"
+            android:name=".data.service.MyTouchpadService"
             android:foregroundServiceType="specialUse"
             android:permission="android.permission.BIND_ACCESSIBILITY_SERVICE"
             android:exported="true">

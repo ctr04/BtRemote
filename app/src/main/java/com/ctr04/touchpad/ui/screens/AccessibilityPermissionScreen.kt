@@ -12,7 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.compose.LifecycleResumeEffect
-import com.ctr04.touchpad.MyTouchpadService
+import com.ctr04.touchpad.data.service.MyTouchpadService
 import com.ctr04.touchpad.R
 import com.ctr04.touchpad.common.utils.AppIcons
 import com.ctr04.touchpad.common.utils.isAccessibilityServiceEnabled
