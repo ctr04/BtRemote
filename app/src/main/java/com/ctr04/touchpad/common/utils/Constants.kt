@@ -6,8 +6,7 @@ import com.ctr04.touchpad.domain.entities.settings.ThemeEntity
 const val NOTIFICATION_ID = 1
 const val NOTIFICATION_CHANNEL_ID = "notificationChannelId"
 
-const val SOURCE_CODE_LINK = "https://gitlab.com/Atharok/BtRemote"
-const val WEB_SITE_LINK = "https://atharok.gitlab.io/site/projects/bt-remote/"
+const val SOURCE_CODE_LINK = "https://github.com/ctr04/Touchpad-for-Android-Desktop-Mode"
 
 const val DATA_STORE_PREFERENCES_SETTINGS_NAME = "dataStoreSettings"
 

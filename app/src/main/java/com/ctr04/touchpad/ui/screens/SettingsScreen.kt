@@ -42,7 +42,6 @@ import com.ctr04.touchpad.R
 import com.ctr04.touchpad.common.extensions.getAppVersion
 import com.ctr04.touchpad.common.utils.AppIcons
 import com.ctr04.touchpad.common.utils.SOURCE_CODE_LINK
-import com.ctr04.touchpad.common.utils.WEB_SITE_LINK
 import com.ctr04.touchpad.common.utils.isDynamicColorsAvailable
 import com.ctr04.touchpad.domain.entities.remoteInput.keyboard.KeyboardLanguage
 import com.ctr04.touchpad.domain.entities.settings.AppearanceSettings
@@ -342,19 +341,6 @@ fun SettingsScreen(
                 modifier = Modifier
                     .clickable {
                         navigateToThirdLibrariesScreen()
-                    }
-                    .fillMaxWidth()
-                    .padding(
-                        horizontal = horizontalPadding,
-                        vertical = verticalPadding
-                    )
-            )
-
-            SettingsText(
-                text = stringResource(id = R.string.website),
-                modifier = Modifier
-                    .clickable {
-                        uriHandler.openUri(WEB_SITE_LINK)
                     }
                     .fillMaxWidth()
                     .padding(
