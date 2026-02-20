@@ -56,8 +56,7 @@ fun BtRemoteApp(
         onPauseOrDispose {}
     }
 
-    val isInitiallyEnabled = remember { isAccessibilityServiceEnabled(context, MyTouchpadService::class.java) }
-    val startDest = if (isInitiallyEnabled) AppNavDestination.RemoteDestination.route
+    val startDest = if (isServiceEnabled) AppNavDestination.RemoteDestination.route
     else AppNavDestination.AccessibilityPermissionsDestination.route
 
     BtRemoteTheme(
